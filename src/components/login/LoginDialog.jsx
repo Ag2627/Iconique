@@ -1,8 +1,13 @@
 import { Box, Button, Checkbox, Dialog, Link, styled, TextField, Typography } from "@mui/material"
 import LoginImage from "../../assets/LoginImage.png"
 import GoogleLogo from "../../assets/GoogleLogo.png"
-import { authenticateSignup } from "../../service/api"
-import { useState } from "react"
+import { authenticateGoogleLogin, authenticateLogin, authenticateSignup } from "../../service/api"
+import { useState, useContext} from "react"
+import { DataContext } from "../../context/DataProvider"
+
+import { GoogleLogin } from '@react-oauth/google';
+import {jwtDecode} from 'jwt-decode';
+
 
 const Component=styled(Box)`
   height:90vh;
@@ -78,13 +83,21 @@ const signupInitialValues={
   address:'',
   agree:'false'
 }
+const loginInitialValues={
+  email:'',
+  password:''
+}
 const LoginDialog = ({open,setOpen}) => {
   const [account,toggleAccount]=useState(accountInitialValues.login);
   const [signup,setSignup]=useState(signupInitialValues);
+  const[login,setLogin]=useState(loginInitialValues);
+  const [error,setError]=useState(false);
+  const {setAccount}=useContext(DataContext);
 
   const handleClose=()=>{
     setOpen(false);
     toggleAccount(accountInitialValues.login)
+    setError(false);
   }
   const toggleSignup=()=>{
     toggleAccount(accountInitialValues.signup);
@@ -101,14 +114,48 @@ const LoginDialog = ({open,setOpen}) => {
     console.log(response);
     if(!response) return;
     handleClose();
+    setAccount(signup.name);
   }
+
+  const onValueChange=(e)=>{
+    setLogin({...login,[e.target.name]:e.target.value});
+  }
+  const loginUser=async ()=>{
+    let response=await authenticateLogin(login);
+    console.log(response);
+    if(response.status===200){
+      handleClose();
+      setAccount(response.data.data.name);
+    }else{
+      setError(true);
+    }
+  }
+  const handleGoogleLogin = async (googleUser) => {
+    try {
+        const decoded = jwtDecode(googleUser.credential); 
+        const response = await authenticateGoogleLogin(decoded);
+
+        if (response.status === 200) {
+            console.log(response);
+            setAccount(response.data.data.name);
+            handleClose();
+        }
+        else {
+          console.log("Google login failed: Account not found. Please sign up first.");
+      }
+    } catch (error) {
+        console.log("Google login failed:", error);
+    }
+};
+
+
+
   return (
     <Dialog open={open} onClose={handleClose}  PaperProps={{
       style: {
           maxWidth: 'unset',
-           // Responsive width
-    maxHeight: '90vh',
-    overflow: 'hidden',
+          maxHeight: '90vh',
+          overflow: 'hidden',
       }
   }}>
         <Component>
@@ -122,12 +169,24 @@ const LoginDialog = ({open,setOpen}) => {
           <Wrapper>
              {account.view==='login'?
               <>
-                <TextField variant="standard" label="Enter email"/>
-                <TextField variant="standard" label="Enter password"/>
+                {error && <Typography style={{color:'#ff6161',fontSize:14, fontWeight:600}}>Please enter valid email or password</Typography>}
+                <TextField variant="standard" onChange={(e)=>onValueChange(e)} name='email' label="Enter email"/>
+                <TextField variant="standard" onChange={(e)=>onValueChange(e)} name='password' label="Enter password"/>
                 <Text>By continuing, you agree to the Iconique's Terms of use and <Link to=""> privacy policies</Link></Text>
-                <LoginButton variant="contained">Login</LoginButton>
+                <LoginButton onClick={()=>loginUser()} variant="contained">Login</LoginButton>
                 <Typography style={{textAlign:"center"}}>OR</Typography>
-                <Google variant="contained"><img src={GoogleLogo} style={{width:25 ,height:25}}></img>Continue with google</Google>
+                <Google variant="contained">
+                <GoogleLogin
+                   onSuccess={(credentialResponse) => {
+                    handleGoogleLogin(credentialResponse);
+                   console.log(credentialResponse);
+                   }}
+                   onError={() => {
+                        console.log('Login Failed');
+                      }}
+                />;
+</Google>
+
                 <CreateAccount onClick={()=>toggleSignup()}>New to Iconique? Create an account</CreateAccount>
               </>
               :
@@ -139,8 +198,7 @@ const LoginDialog = ({open,setOpen}) => {
                 <TextField variant="standard" onChange={(e)=>onInputChange(e)} name='address' label="Enter Address"/>
                 <Checkbox onChange={(e)=>onInputChange(e)} name='agree' /> <Text>By continuing, you agree to the Iconique's Terms of use and <Link to=""> privacy policies</Link></Text>
                 <LoginButton onClick={()=>signupUser()} variant="contained">Sign Up</LoginButton>
-                <Typography style={{textAlign:"center"}}>OR</Typography>
-                <Google variant="contained"><img src={GoogleLogo} style={{width:25 ,height:25}}></img>Continue with google</Google>
+              
                 <CreateAccount onClick={()=>toggleLogin()}>Already have an Account? Login</CreateAccount>
               </>
 } </Wrapper>

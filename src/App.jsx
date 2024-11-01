@@ -1,13 +1,12 @@
 import Header from "./components/Header/Header"
-import LoginDialog from "./components/login/LoginDialog"
-
+import DataProvider from "./context/DataProvider"
 
 function App() {
 
   return (
-    <>
+    <DataProvider>
     <Header/>
-    </>
+    </DataProvider>
   )
 }
 

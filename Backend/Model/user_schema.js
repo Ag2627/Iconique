@@ -1,6 +1,7 @@
 import mongoose, { trusted } from "mongoose";
 
 const userSchema=new mongoose.Schema({
+    _id:mongoose.Schema.Types.ObjectId,
     name:{
         type:String,
         required:true,
@@ -27,7 +28,10 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    agree:String
+    agree:{
+        type:String,
+        required:true
+    },
 })
 
 const User=mongoose.model('user',userSchema);
