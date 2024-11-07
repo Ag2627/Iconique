@@ -6,6 +6,7 @@ import LoginDialog from "../login/LoginDialog";
 import { useState,useContext } from "react";
 import { DataContext } from "../../context/DataProvider";
 import Profile from "./Profile";
+import SellerLogin from "../login/SellerLogin";
 
 const Wrapper=styled(Box)`
   display:flex;
@@ -39,8 +40,8 @@ const LoginButton=styled(Button)`
 const CustomButton = () => {
 
   const [open,setOpen]=useState(false);
+  const [sellerOpen,setSellerOpen]=useState(false);
   const {account,setAccount}=useContext(DataContext);
-
   const [openMenu,setMenu]=useState(false);
 
   const handleClick=(event)=>{
@@ -53,6 +54,9 @@ const CustomButton = () => {
   const openDialog=()=>{
     setOpen(true);
     }
+  const openSellerDialog=()=>{
+    setSellerOpen(true);
+  }
     return (
     <Wrapper>
       {
@@ -60,7 +64,7 @@ const CustomButton = () => {
         <LoginButton variant="contained" onClick={()=>openDialog()} >Login</LoginButton>
       }
         
-        <Typography style={{marginTop: 5,width:135,alignSelf:'center' }}>Become a Seller</Typography>
+        <Typography style={{marginTop: 5,width:135,alignSelf:'center' }} onClick={()=>openSellerDialog()}>Become a Seller</Typography>
         <Typography style={{marginTop: 5,alignSelf:'center'}}>More</Typography>
         <Container>
             <ShoppingCartIcon/>
@@ -71,6 +75,7 @@ const CustomButton = () => {
             <Typography>Wishlist</Typography>
         </Container>
         <LoginDialog open={open} setOpen={setOpen}/>
+        <SellerLogin open={sellerOpen} setOpen={setSellerOpen}/>
         <MoreVertIcon onClick={handleClick} style={{alignSelf:'center'}}/>
         <Component
         anchorEl={openMenu}
