@@ -1,0 +1,101 @@
+/* Main container */
+.about-us {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #ffffff;
+    padding: 20px;
+  }
+  
+  /* Header */
+  .header-section {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .header-section h1 {
+    color: #F33A6A;
+    font-size: 2.5em;
+  }
+  
+  .header-section p {
+    font-size: 1.2em;
+  }
+  
+  /* Sections styling */
+  .story-section, .mission-section, .team-section, .cta-section {
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  /* Section Headers */
+  .story-section h2, .mission-section h2, .team-section h2, .cta-section h2 {
+    color: #F33A6A;
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+  
+  /* Team Carousel */
+  .team-carousel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .team-member {
+    max-width: 150px;
+    text-align: center;
+  }
+  
+  .team-member img {
+    width: 100%;
+    border-radius: 50%;
+    border: 2px solid #F33A6A;
+  }
+  
+  .team-member h3 {
+    color: #F33A6A;
+    font-size: 1.2em;
+    margin-top: 10px;
+  }
+  
+  .team-member p {
+    font-size: 0.9em;
+  }
+  
+  /* Call to Action */
+  .cta-section {
+    background-color: #F33A6A;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .cta-button {
+    background-color: white;
+    color: #F33A6A;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s;
+  }
+  
+  .cta-button:hover {
+    background-color: #F33A6A;
+    color: white;
+    border: 2px solid white;
+  }
+  
+  /* Responsive Styling */
+  @media (max-width: 768px) {
+    .header-section h1 {
+      font-size: 2em;
+    }
+    .team-carousel {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  

@@ -1,13 +1,11 @@
 import { Box, Button, Checkbox, Dialog, Link, styled, TextField, Typography } from "@mui/material"
+import axios from "axios"
 import LoginImage from "../../assets/LoginImage.png"
-
-import { authenticateGoogleLogin, authenticateLogin, authenticateSignup } from "../../service/api"
 import { useState, useContext} from "react"
 import { DataContext } from "../../context/DataProvider"
-
 import { GoogleLogin } from '@react-oauth/google';
 import {jwtDecode} from 'jwt-decode';
-
+import { authenticateSellerGoogleLogin, authenticateSellerLogin, authenticateSellerSignup } from "../../service/api";
 
 const Component=styled(Box)`
   height:90vh;
@@ -66,34 +64,49 @@ const accountInitialValues={
   login:{
     view:'login',
     heading:'Login',
-    subHeading:'Get access to your orders,Wishlist and cart!'
+    subHeading:'Get access to your products,users and more!'
   },
   signup:{
     view:'signup',
-    heading: 'New here? Sign up to be part of the community!',
-    subHeading:'Create your account to unlock the full experience'
+    heading: 'New here? Sign up to be a seller!',
+    subHeading:'Create your account to sell products.'
   }
 }
-
 const signupInitialValues={
-  name:'',
-  email:'',
-  password:'',
-  phone:'',
-  address:'',
-  agree:'false'
-}
+    name:'',
+    email:'',
+    password:'',
+    phone:'',
+    address:'',
+    storeName:'',
+    Description:'',
+    socialLink:'',
+    logo:'',
+    agree:'false'
+  }
 const loginInitialValues={
-  email:'',
-  password:''
+    email:'',
+    password:''
 }
-const LoginDialog = ({open,setOpen}) => {
+const SellerLogin = ({open,setOpen}) => {
+  
   const [account,toggleAccount]=useState(accountInitialValues.login);
   const [signup,setSignup]=useState(signupInitialValues);
   const[login,setLogin]=useState(loginInitialValues);
   const [error,setError]=useState(false);
   const {setAccount}=useContext(DataContext);
-
+  const formData = new FormData();
+  formData.append("name", signup.name);
+  formData.append("email", signup.email);
+  formData.append("password", signup.password);
+  formData.append("phone", signup.phone);
+  formData.append("address", signup.address);
+  formData.append("storeName", signup.storeName);
+  formData.append("description", signup.Description);
+  formData.append("socialLink", signup.socialLink);
+  formData.append("logo", signup.logo);
+  formData.append("agree",signup.agree);
+  
   const handleClose=()=>{
     setOpen(false);
     toggleAccount(accountInitialValues.login)
@@ -109,8 +122,11 @@ const LoginDialog = ({open,setOpen}) => {
     setSignup({...signup,[e.target.name]:e.target.value})
     console.log(signup);
   }
-  const signupUser=async ()=>{
-    let response=await authenticateSignup(signup);
+  const onImageChange=(e)=>{
+    setSignup({...signup,logo: e.target.files[0]})
+  }
+  const signupSeller=async ()=>{
+    let response=await authenticateSellerSignup(formData);
     console.log(response);
     if(!response) return;
     handleClose();
@@ -121,7 +137,7 @@ const LoginDialog = ({open,setOpen}) => {
     setLogin({...login,[e.target.name]:e.target.value});
   }
   const loginUser=async ()=>{
-    let response=await authenticateLogin(login);
+    let response=await authenticateSellerLogin(login);
     console.log(response);
     if(response.status===200){
       handleClose();
@@ -133,7 +149,7 @@ const LoginDialog = ({open,setOpen}) => {
   const handleGoogleLogin = async (googleUser) => {
     try {
         const decoded = jwtDecode(googleUser.credential); 
-        const response = await authenticateGoogleLogin(decoded);
+        const response = await authenticateSellerGoogleLogin(decoded);
 
         if (response.status === 200) {
             console.log(response);
@@ -147,7 +163,6 @@ const LoginDialog = ({open,setOpen}) => {
         console.log("Google login failed:", error);
     }
 };
-
 
 
   return (
@@ -185,7 +200,7 @@ const LoginDialog = ({open,setOpen}) => {
                         console.log('Login Failed');
                       }}
                 />;
-</Google>
+                </Google>
 
                 <CreateAccount onClick={()=>toggleSignup()}>New to Iconique? Create an account</CreateAccount>
               </>
@@ -196,8 +211,14 @@ const LoginDialog = ({open,setOpen}) => {
                 <TextField variant="standard" onChange={(e)=>onInputChange(e)} name='password' label="Enter Password"/>
                 <TextField variant="standard" onChange={(e)=>onInputChange(e)}  name='phone' label="Enter Phone"/>
                 <TextField variant="standard" onChange={(e)=>onInputChange(e)} name='address' label="Enter Address"/>
+                <TextField variant="standard" onChange={(e)=>onInputChange(e)} name='storeName' label="Enter Brand name"/>
+                <TextField variant="standard" multiline
+  rows={4} fullWidth onChange={(e)=>onInputChange(e)} name='description' label="Enter Description"/>
+                <TextField variant="standard" onChange={(e)=>onInputChange(e)} name='socialLink' label="Enter your instagram account"/>
+                <Typography>Upload Logo</Typography>
+                <input type="file" onChange={(e)=>onImageChange(e)} name="logo" accept="image/*"/>
                 <Box style={{display:'flex'}}><Checkbox onChange={(e)=>onInputChange(e)} name='agree' /> <Text>By continuing, you agree to the Iconique's Terms of use and <Link to=""> privacy policies</Link></Text></Box>
-                <LoginButton onClick={()=>signupUser()} variant="contained">Sign Up</LoginButton>
+                <LoginButton onClick={()=>signupSeller()} variant="contained">Sign Up</LoginButton>
               
                 <CreateAccount onClick={()=>toggleLogin()}>Already have an Account? Login</CreateAccount>
               </>
@@ -208,4 +229,4 @@ const LoginDialog = ({open,setOpen}) => {
   )
 }
 
-export default LoginDialog
+export default SellerLogin
