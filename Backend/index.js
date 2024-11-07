@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import Connection from "./Database/db.js"
 import router from "./Routes/route.js"
 import bodyParser from "body-parser"
+import DefaultData from './default.js';
 const app = express()
 
 dotenv.config()
@@ -25,3 +26,4 @@ Connection(USERNAME,PASSWORD)
 app.listen(port, () =>{
     console.log(`server running at http://localhost:${port}`)
 })
+DefaultData();
