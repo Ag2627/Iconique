@@ -13,7 +13,21 @@ app.use(express.json())
 //     origin: 'http://localhost:5000', 
 //     credentials: true 
 // }));
-app.use(cors());
+app.use(cors({
+    origin:"http://localhost:5173/",
+    methods:['GET','POST','DELETE','PUT'],
+    allowedHeaders:[
+        "Content-type",
+        "Authorization",
+        "Cache-Control",
+        "Exppires",
+        "Pragma"
+    ],
+    credentials:true
+}));
+
+
+
 app.use(bodyParser.json({extended:true}));
 app.use(bodyParser.urlencoded({extended:true}));
 

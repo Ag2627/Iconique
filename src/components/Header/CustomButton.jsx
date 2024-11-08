@@ -1,5 +1,6 @@
 import { Box, Button,Menu, MenuItem, styled, Typography } from "@mui/material"
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LoginDialog from "../login/LoginDialog";
@@ -7,6 +8,7 @@ import { useState,useContext } from "react";
 import { DataContext } from "../../context/DataProvider";
 import Profile from "./Profile";
 import SellerLogin from "../login/SellerLogin";
+import { Link } from "react-router-dom";
 
 const Wrapper=styled(Box)`
   display:flex;
@@ -76,13 +78,14 @@ const CustomButton = () => {
         </Container>
         <LoginDialog open={open} setOpen={setOpen}/>
         <SellerLogin open={sellerOpen} setOpen={setSellerOpen}/>
+        {/* Three dots icon */}
         <MoreVertIcon onClick={handleClick} style={{alignSelf:'center'}}/>
         <Component
         anchorEl={openMenu}
         open={Boolean(openMenu)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}><Text>About us</Text></MenuItem>
+        <MenuItem component={Link} to="/about"><Text>About us</Text></MenuItem>
         <MenuItem onClick={handleClose}><Text>Contact us</Text></MenuItem>
       </Component>
 

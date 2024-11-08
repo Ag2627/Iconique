@@ -1,6 +1,8 @@
 import { Box, Button, Checkbox, Dialog, Link, styled, TextField, Typography } from "@mui/material"
 import LoginImage from "../../assets/LoginImage.png"
 
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { authenticateGoogleLogin, authenticateLogin, authenticateSignup } from "../../service/api"
 import { useState, useContext} from "react"
 import { DataContext } from "../../context/DataProvider"
@@ -91,6 +93,7 @@ const LoginDialog = ({open,setOpen}) => {
   const [account,toggleAccount]=useState(accountInitialValues.login);
   const [signup,setSignup]=useState(signupInitialValues);
   const[login,setLogin]=useState(loginInitialValues);
+  const [visible,setvisible]=useState(false);
   const [error,setError]=useState(false);
   const {setAccount}=useContext(DataContext);
 
@@ -170,8 +173,8 @@ const LoginDialog = ({open,setOpen}) => {
              {account.view==='login'?
               <>
                 {error && <Typography style={{color:'#ff6161',fontSize:14, fontWeight:600}}>Please enter valid email or password</Typography>}
-                <TextField variant="standard" onChange={(e)=>onValueChange(e)} name='email' label="Enter email"/>
-                <TextField variant="standard" onChange={(e)=>onValueChange(e)} name='password' label="Enter password"/>
+                <span><TextField variant="standard" onChange={(e)=>onValueChange(e)} name='email' label="Enter email"/>
+                <TextField variant="standard" onChange={(e)=>onValueChange(e)} name='password' type={visible? "text":"password"} label="Enter password"/> <span onClick={()=>{setvisible(!visible)}}>{visible? <VisibilityIcon/>:<VisibilityOffIcon/>}</span></span>
                 <Text>By continuing, you agree to the Iconique's Terms of use and <Link to=""> privacy policies</Link></Text>
                 <LoginButton onClick={()=>loginUser()} variant="contained">Login</LoginButton>
                 <Typography style={{textAlign:"center"}}>OR</Typography>
@@ -193,7 +196,7 @@ const LoginDialog = ({open,setOpen}) => {
               <>
                 <TextField variant="standard" onChange={(e)=>onInputChange(e)} name='name' label="Enter Name"/>
                 <TextField variant="standard" onChange={(e)=>onInputChange(e)} name='email' label="Enter Email"/>
-                <TextField variant="standard" onChange={(e)=>onInputChange(e)} name='password' label="Enter Password"/>
+                <span><TextField variant="standard" onChange={(e)=>onInputChange(e)} name='password' type={visible? "text":"password"} label="Enter Password"/><span onClick={()=>{setvisible(!visible)}}>{visible? <VisibilityIcon/>:<VisibilityOffIcon/>}</span></span>
                 <TextField variant="standard" onChange={(e)=>onInputChange(e)}  name='phone' label="Enter Phone"/>
                 <TextField variant="standard" onChange={(e)=>onInputChange(e)} name='address' label="Enter Address"/>
                 <Box style={{display:'flex'}}><Checkbox onChange={(e)=>onInputChange(e)} name='agree' /> <Text>By continuing, you agree to the Iconique's Terms of use and <Link to=""> privacy policies</Link></Text></Box>
