@@ -1,18 +1,21 @@
-import Header from "./components/Header/Header"
-import DataProvider from "./context/DataProvider"
 import Home from "./components/Home/Home"
-import {Box} from '@mui/material';
+import AboutUs from "./components/AboutUs/AboutUs"
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import UserDashboard from "./components/User/UserDashboard";
+import SellerDashboard from "./components/Seller/SellerDashboard";
+
+const router=createBrowserRouter([
+  {path:'',element:<UserDashboard/>,children:[
+    {path:'',element:<Home/>},
+    {path:'about', element:<AboutUs/>},
+  ]},
+  {path:'seller',element:<SellerDashboard/>},
+])
 function App() {
 
   return (
-
-     <>
-      <DataProvider>
-      <Header/>
-      </DataProvider>
-      <Box style={{marginTop : 54}}>
-      <Home/>
-      </Box>
+    <>
+    <RouterProvider router={router}></RouterProvider>
     </>
   )
 }
