@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Dialog, Link, styled, TextField, Typography } from "@mui/material"
-import axios from "axios"
+import { toast } from "@/hooks/use-toast";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LoginImage from "../../assets/LoginImage.png"
@@ -8,6 +8,7 @@ import { DataContext } from "../../context/DataProvider"
 import { GoogleLogin } from '@react-oauth/google';
 import {jwtDecode} from 'jwt-decode';
 import { authenticateSellerGoogleLogin, authenticateSellerLogin, authenticateSellerSignup } from "../../service/api";
+import { useNavigate } from "react-router-dom";
 
 const Component=styled(Box)`
   height:90vh;
@@ -91,13 +92,16 @@ const loginInitialValues={
     password:''
 }
 const SellerLogin = ({open,setOpen}) => {
-  
+
+  const navigate=useNavigate(); //to navigate
   const [account,toggleAccount]=useState(accountInitialValues.login);
   const [signup,setSignup]=useState(signupInitialValues);
   const[login,setLogin]=useState(loginInitialValues);
   const [visible,setvisible]=useState(false);
   const [error,setError]=useState(false);
   const {setAccount}=useContext(DataContext);
+
+  //form data setup
   const formData = new FormData();
   formData.append("name", signup.name);
   formData.append("email", signup.email);
@@ -110,6 +114,18 @@ const SellerLogin = ({open,setOpen}) => {
   formData.append("logo", signup.logo);
   formData.append("agree",signup.agree);
   
+  //toast for errors 
+  const showToast = 
+  (message) => {
+    console.log("Toast message:", message);
+    toast({
+      title: message,
+      duration: 3000,
+      position: 'top-center',
+      style: { backgroundColor: '#f33a6a', color: '#fff' ,alignSelf:"top-center"}
+    });
+  };
+
   const handleClose=()=>{
     setOpen(false);
     toggleAccount(accountInitialValues.login)
@@ -129,11 +145,19 @@ const SellerLogin = ({open,setOpen}) => {
     setSignup({...signup,logo: e.target.files[0]})
   }
   const signupSeller=async ()=>{
+    try{
     let response=await authenticateSellerSignup(formData);
-    console.log(response);
-    if(!response) return;
-    handleClose();
-    setAccount(signup.name);
+    //console.log(response);
+    if(!response) showToast("Signup failed.Please check your details.");
+    else{
+      handleClose();
+      setAccount(signup.name);
+      navigate('/seller');
+    }
+  }catch(error){
+    showToast(`An error occurred during signup. Please try again.${error.message}`);
+  }
+    
   }
 
   const onValueChange=(e)=>{
@@ -145,6 +169,7 @@ const SellerLogin = ({open,setOpen}) => {
     if(response.status===200){
       handleClose();
       setAccount(response.data.data.name);
+      navigate('/seller')
     }else{
       setError(true);
     }
@@ -156,14 +181,18 @@ const SellerLogin = ({open,setOpen}) => {
 
         if (response.status === 200) {
             console.log(response);
-            setAccount(response.data.data.name);
+           // setAccount(response.data.data.name);
             handleClose();
+            navigate('/seller')
         }
         else {
           console.log("Google login failed: Account not found. Please sign up first.");
+          showToast("Google login failed: Account not found. Please sign up first.");         
       }
     } catch (error) {
         console.log("Google login failed:", error);
+        showToast("Google login failed. Please try again.");
+        window.alert("Google login failed. Please try again.")
     }
 };
 

@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
-const JWT_SECRET = 'This is token'
+import dotenv from 'dotenv';
+dotenv.config();
+import Seller from 'Backend/Model/seller_schema';
 module.exports = (req,res,next)=>{
   try{
     const token = req.headers.authorization.split(" ")[1];
@@ -22,3 +24,18 @@ module.exports = (req,res,next)=>{
     })
   }
 }
+
+const authenticateSeller = async (req, res, next) => {
+  const token = req.header('Authorization').replace('Bearer ', '');
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const seller = await Seller.findOne({ _id: decoded.id, 'tokens.token': token });
+    if (!seller) throw new Error();
+    req.seller = seller;
+    next();
+  } catch (error) {
+    res.status(401).send({ error: 'Please authenticate as seller.' });
+  }
+};
+
+module.exports = authenticateSeller;

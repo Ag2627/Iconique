@@ -1,25 +1,70 @@
-import FactCheckIcon from '@mui/icons-material/FactCheck';
-import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
-import InventoryIcon from '@mui/icons-material/Inventory';
-
-export const sellerSidebarMenuitems=[
+export const addProductFormElements = [
     {
-        id:'dashboard',
-        label:'Dashboard',
-        path:'/seller/dashboard',
-        icons:<DashboardTwoToneIcon/>
+      label: "Title",
+      name: "title",
+      componentType: "input",
+      type: "text",
+      placeholder: "Enter product title",
     },
     {
-        id:'products',
-        label:'Products',
-        path:'/seller/products',
-        icons:<InventoryIcon/>
+      label: "Description",
+      name: "description",
+      componentType: "textarea",
+      placeholder: "Enter product description",
     },
     {
-        id:'orders',
-        label:'Orders',
-        path:'/seller/orders',
-        icons:<FactCheckIcon/>
+      label: "Category",
+      name: "category",
+      componentType: "select",
+      options: [
+        { id: "men", label: "Men" },
+        { id: "women", label: "Women" },
+        { id: "kids", label: "Kids" },
+        { id: "accessories", label: "Accessories" },
+        { id: "footwear", label: "Footwear" },
+      ],
     },
-
-]
+    {
+        label: "Size",
+        name: "Size",
+        componentType: "select",
+        options: [
+            { id: "small", label: "S (small)" },
+            { id: "medium", label: "M (Medium)" },
+            { id: "large", label: "L (Large)" },
+            { id: "extralarge", label: "XL (extra large)" }
+          ],
+    },
+    {
+      label: "Sustainable",
+      name: "Sustainable",
+      componentType: "select",
+      options: [
+        { id: "yes", label: "YES" },
+        { id: "no", label: "NO" },
+      ],
+    },
+    {
+      label: "Price",
+      name: "price",
+      componentType: "input",
+      type: "number",
+      placeholder: "Enter product price",
+    },
+    {
+      label: "Sale Price",
+      name: "salePrice",
+      componentType: "input",
+      type: "number",
+      placeholder: "Enter sale price (optional)",
+    },
+    {
+      label: "Total Stock",
+      name: "totalStock",
+      componentType: "input",
+      type: "number",
+      placeholder: "Enter total stock",
+    },
+  ];
+  
+  
