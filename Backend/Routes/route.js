@@ -1,4 +1,5 @@
 import express from "express";
+import { getProducts } from "../controller/product-controller.js";
 import { userSignUp,userLogin,googleLogin,sellerSignup,googleSellerLogin, sellerLogin } from "../controller/user_controller.js";
 import upload from "../config/cloudinary.js";
 const router=express.Router();
@@ -9,4 +10,5 @@ router.post('/seller-signup',upload.single('logo'),sellerSignup);
 router.post('seller-login',sellerLogin);
 router.post('/google-login',googleLogin)
 router.post('/google-sellerlogin',googleSellerLogin)
+router.get('/products',getProducts);
 export default router

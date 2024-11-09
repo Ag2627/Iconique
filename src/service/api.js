@@ -47,3 +47,4 @@ export const authenticateSellerGoogleLogin = async (googleUser) => {
       name: googleUser.name,
     });
 };
+//redux is the database of the frontend
