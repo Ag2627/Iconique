@@ -4,7 +4,7 @@ import NavBar from "./NavBar";
 import Banner from "./Banner";
 import { Fragment } from "react";
 import { Box,styled } from "@mui/material";
-import { getProducts } from "../../redux/actions/productAction";
+import { fetchProducts } from "@/redux/actions/productAction";
 import { useDispatch ,useSelector} from "react-redux";
 const component = styled(Box)`
     padding :10px
@@ -16,7 +16,7 @@ const Home = () =>{
     const { products } =getProducts;//object destructuring
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getProducts())
+        dispatch(fetchProducts())
     },[dispatch])
     return(
         <>
