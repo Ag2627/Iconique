@@ -1,7 +1,7 @@
 //is store ko hum web k redux se connect karenge
 import { createStore , combineReducers, applyMiddleware} from "redux";
 import { thunk } from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { composeWithDevTools } from "@redux-devtools/extension"; 
 import { getProductReducer } from "./reducers/productReducer";
 //we will pass two argumnets to the create store reducer(action item) and middleware
 const reducer = combineReducers({

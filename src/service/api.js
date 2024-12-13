@@ -48,3 +48,8 @@ export const authenticateSellerGoogleLogin = async (googleUser) => {
     });
 };
 //redux is the database of the frontend
+
+
+export const fetchProductById = (id) => axios.get(`/seller/products/${id}`);
+export const addProduct = (product) => axios.post('/seller/products', product);
+export const updateProduct = (id, updatedProduct) => axios.put(`/seller/products/${id}`, updatedProduct);

@@ -9,6 +9,7 @@ const sellerSchema=new mongoose.Schema({
         min:2,
         max:30
     },
+    
     email:{
         type:String,
         required:true,

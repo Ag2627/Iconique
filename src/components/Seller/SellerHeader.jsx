@@ -1,6 +1,8 @@
 import { AlignJustify, LogOut } from "lucide-react";
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button, styled } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { DataContext } from "@/context/DataProvider";
 
 
 const LogoutButton=styled(Button)`
@@ -39,7 +41,14 @@ const EditProfileButton = styled(Button)`
 `;
 
 const SellerHeader = ({setOpen}) => {
-  
+  const navigate=useNavigate();
+  const {setAccount}=useContext(DataContext);
+  const handleLogout=()=>{
+    localStorage.removeItem('token');
+    setAccount('');
+    navigate('/');
+
+  }
   return (
     <header className="flex items-center justify-between px-4 py-3 bg-background border-b">
     <Button onClick={() => setOpen(true)} className="lg:hidden sm:block">
@@ -50,18 +59,18 @@ const SellerHeader = ({setOpen}) => {
     <div className="flex flex-1 justify-end">
 
     <ProfileButton
-          className="inline-flex gap-2 items-center rounded-md px-4 py-2 text-sm font-medium shadow"
+          className="inline-flex gap-2 items-center rounded-md px-4 py-2 text-sm font-medium shadow" onClick={()=>navigate('profile')}
         >
           Profile
         </ProfileButton>
         
-        <EditProfileButton
+        <EditProfileButton onClick={()=>navigate('edit-profile')}
           className="inline-flex gap-2 items-center rounded-md px-4 py-2 text-sm font-medium shadow"
         >
           Edit Profile
         </EditProfileButton>
 
-      <LogoutButton
+      <LogoutButton onClick={handleLogout}
         className="inline-flex gap-2 items-center rounded-md px-4 py-2 text-sm font-medium shadow"
       >
         {/*From lucid react */}
