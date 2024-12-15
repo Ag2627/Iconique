@@ -11,11 +11,15 @@ import SellerOverview from "./components/Seller/SellerOverview";
 import EditProfile from "./components/Profile/EditProfile";
 import Profile from "./components/Profile/Profile";
 import DataProvider from "./context/DataProvider";
-
+import DetailView from "./components/Details/DetailView";
+import ContactUs from './components/ContactUs/ContactForm'
 const router=createBrowserRouter([
   {path:'',element:<UserDashboard/>,children:[
     {path:'',element:<Home/>},
+    
+    {path:'product/:id',element:<DetailView/>},
     {path:'about', element:<AboutUs/>},
+    {path:'contact',element:<ContactUs/>},
   ]},
   {path:'/seller',element:<SellerDashboard/>,children:[
     {path:'products',element:<SellerProducts/>},
