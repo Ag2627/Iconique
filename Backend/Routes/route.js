@@ -1,7 +1,9 @@
 import express from "express";
-import { addProduct, getProducts } from "../controller/product-controller.js";
+import { addProduct } from "../controller/product-controller.js";
 import { userSignUp,userLogin,googleLogin,sellerSignup,googleSellerLogin, sellerLogin } from "../controller/user_controller.js";
 import upload from "../config/cloudinary.js";
+import { fetchProducts,fetchProductDetails } from "../../src/redux/actions/productAction.js";
+
 const router=express.Router();
 
 router.post('/signup',userSignUp);
@@ -10,6 +12,8 @@ router.post('/seller-signup',upload.single('logo'),sellerSignup);
 router.post('seller-login',sellerLogin);
 router.post('/google-login',googleLogin)
 router.post('/google-sellerlogin',googleSellerLogin)
-router.get('/products',getProducts);
+router.get('/products',fetchProducts);
 router.post('/products', upload.single('image'), addProduct); // New route for adding product
+router.get('/products',fetchProducts);
+router.get('/product/:id',fetchProductDetails)
 export default router

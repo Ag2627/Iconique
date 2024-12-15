@@ -5,12 +5,12 @@ const initialState = {
     error: null,
 };
 
-export const getProductReducer = (state={ products : []},action) =>{
+export const fetchProductReducer = (state={ products : []},action) =>{
     //we are calling dispatch twice so to differentiate we will call switch method
     switch(action.type){
-        case actionType.GET_PRODUCTS_SUCCESS :
+        case actionType.FETCH_PRODUCT_SUCCESS :
             return {products : action.payload }
-        case actionType.Get_PRODUCTS_FAIL :
+        case actionType.FETCH_PRODUCT_FAIL :
             return {error :action.payload}
             case actionType.FETCH_PRODUCT_BY_ID:
                 return { ...state, product: action.payload, error: null };
@@ -23,4 +23,20 @@ export const getProductReducer = (state={ products : []},action) =>{
         default:
             return state
     }
+
 };
+export const fetchProductDetailsReducer=(state={product:{}},action)=>{
+  switch(action.type){
+  
+    case actionType.FETCH_PRODUCT_DETAILS_REQUEST:
+      return {loading:true}
+    case actionType.FETCH_PRODUCT_DETAILS_SUCCESS:
+      return {loading:false,product:action.payload}
+    case actionType.FETCH_PRODUCT_DETAILS_FAIL:
+      return {loading:false, error:action.payload}
+    case actionType.FETCH_PRODUCT_DETAILS_RESET:
+      return {product:{}}
+    default:
+      return state
+  }
+}

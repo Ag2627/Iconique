@@ -1,6 +1,6 @@
 import product from "../Model/product-schema.js"
 
-export const getProducts = async(request,response) =>{
+export const fetchProducts = async(request,response) =>{
     try{
         const products = await product.find({});
 
@@ -37,3 +37,14 @@ export const addProduct = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+export const fetchProductById=async(request,response)=>{
+  try {
+    const id=request.params.id;
+    const prod=await product.findOne({'id':id})
+
+    response.status(200).json(prod);
+
+  } catch (error) {
+    response.status(500).json({message:error.message})
+  }
+}
