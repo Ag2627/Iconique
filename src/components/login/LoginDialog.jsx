@@ -117,7 +117,7 @@ const LoginDialog = ({open,setOpen}) => {
     console.log(response);
     if(!response) return;
     const token = response.data.token;
-    sessionStorage.setItem('authToken', token);
+    localStorage.setItem('authToken', token);
     handleClose();
     setAccount(signup.name);
   }
@@ -130,7 +130,7 @@ const LoginDialog = ({open,setOpen}) => {
     console.log(response);
     if(response.status===200){
       const token = response.data.token;
-      sessionStorage.setItem('authToken', token);
+      localStorage.setItem('authToken', token);
       handleClose();
       setAccount(response.data.data.name);
     }else{
@@ -145,7 +145,7 @@ const LoginDialog = ({open,setOpen}) => {
         if (response.status === 200) {
             console.log(response);
             const token = response.data.token;
-            sessionStorage.setItem('authToken', token);
+            localStorage.setItem('authToken', token);
             
             setAccount(response.data.data.name);
             handleClose();

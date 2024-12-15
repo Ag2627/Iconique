@@ -4,36 +4,16 @@ import Seller from '../Model/seller_schema.js';
 
 dotenv.config(); // Make sure you load environment variables from .env
 
-export const verifyToken = (req, res, next) => {
-  const token = req.headers['authorization']; // Get the Authorization header
-  console.log('Incoming Token Header:', token); // Log the token for debugging
-
-  if (!token) {
-      return res.status(403).json({ message: 'No token provided.' });
-  }
-
-  const accessToken = token.split(' ')[1]; // Split "Bearer <token>"
-  console.log('Extracted Token:', accessToken); // Check if token extraction is working
-
-  jwt.verify(accessToken, process.env.JWT_SECRET, (err, decoded) => {
-      if (err) {
-          console.log('Token verification failed:', err.message);
-          return res.status(401).json({ message: 'Unauthorized!' });
-      }
-
-      console.log('Decoded Token:', decoded); // Log the decoded token for debugging
-      req.sellerId = decoded.id; // Assign the seller ID to request
-      next(); // Move to the next middleware or route
-  });
-};
-
 
 export const authenticateSeller = async (req, res, next) => {
   try {
     console.log('Middleware triggered'); // Log when the middleware is called
 
     // Extract token from the Authorization header
+
     const token = req.headers.authorization?.split(" ")[1];
+    console.log("headers",req.headers.authorization);
+    
     console.log('Token',token);
     
     if (!token) {

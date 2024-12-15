@@ -8,7 +8,7 @@ const AdminProductRouter=express.Router();
 
 
 
-AdminProductRouter.post('/upload-image',upload.single('image'),authenticateSeller,handleImageUpload);
+AdminProductRouter.post('/upload-image',upload.single('image'),handleImageUpload);
 AdminProductRouter.post('/add',authenticateSeller,addProduct);
 AdminProductRouter.put('/edit/:id',authenticateSeller,editProduct);
 AdminProductRouter.delete('/delete/:id',deleteProduct);

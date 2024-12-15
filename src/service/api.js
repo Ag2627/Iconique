@@ -1,13 +1,13 @@
 import axios from "axios";
 const URL="http://localhost:5000"
 
-const token = sessionStorage.getItem('token');  // Get the token
+const token = localStorage.getItem('token');  // Get the token
 
 export const authenticateSignup=async (data)=>{
     try{
         return await axios.post(`${URL}/signup`,data, {
             headers: {
-              Authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+              authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
             }
           })
     }
@@ -19,7 +19,7 @@ export const authenticateSellerSignup=async (data)=>{
     try{
         return await axios.post(`${URL}/seller-signup`,data, {
             headers: {
-              Authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+              authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
             }
           })
     }
@@ -31,7 +31,7 @@ export const authenticateLogin=async (data)=>{
     try{
         return await axios.post(`${URL}/login`,data, {
             headers: {
-              Authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+              authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
             }
           })
     }
@@ -42,7 +42,11 @@ export const authenticateLogin=async (data)=>{
 }
 export const authenticateSellerLogin=async (data)=>{
     try{
-        return await axios.post(`${URL}/seller-login`,data)
+        return await axios.post(`${URL}/seller-login`,data,{
+            headers: {
+              authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+            }
+          })
     }
     catch(error){
         console.log("Error while calling login api",error);
@@ -56,7 +60,7 @@ export const authenticateGoogleLogin = async (googleUser) => {
       name: googleUser.name,
     }, {
         headers: {
-          Authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+          authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
         }
       });
 };
@@ -66,7 +70,7 @@ export const authenticateSellerGoogleLogin = async (googleUser) => {
       name: googleUser.name,
     }, {
         headers: {
-          Authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+          authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
         }
       });
 };
