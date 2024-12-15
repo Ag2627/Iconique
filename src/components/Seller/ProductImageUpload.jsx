@@ -48,9 +48,11 @@ const ProductImageUpload = ({
   async function uploadImageToCloudinary() {
     setImageLoadingState(true);
     const data = new FormData();
-    data.append("my_file", imageFile);
+    data.append("image", imageFile);
+
+    try{
     const response = await axios.post(
-      "http://localhost:5000/api/admin/products/upload-image",
+      "http://localhost:5000/seller/products/upload-image",
       data
     );
     console.log(response, "response");
@@ -58,7 +60,15 @@ const ProductImageUpload = ({
     if (response?.data?.success) {
       setUploadedImageUrl(response.data.result.url);
       setImageLoadingState(false);
-    }
+    } else {
+      console.error("Image upload failed:", response.data.message);
+  }
+} catch (error) {
+  console.error("Error during image upload:", error.message);
+} finally {
+  setImageLoadingState(false);
+}
+
   }
 
   useEffect(() => {

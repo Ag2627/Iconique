@@ -10,6 +10,6 @@ router.post('/seller-signup',upload.single('logo'),sellerSignup);
 router.post('seller-login',sellerLogin);
 router.post('/google-login',googleLogin)
 router.post('/google-sellerlogin',googleSellerLogin)
-router.get('/products',getProducts);
-router.post('/products', upload.single('image'), addProduct); // New route for adding product
+// router.get('/products',getProducts);
+// router.post('/products', upload.single('image'), addProduct); // New route for adding product
 export default router

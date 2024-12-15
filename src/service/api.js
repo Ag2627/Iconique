@@ -1,8 +1,15 @@
 import axios from "axios";
 const URL="http://localhost:5000"
+
+const token = sessionStorage.getItem('token');  // Get the token
+
 export const authenticateSignup=async (data)=>{
     try{
-        return await axios.post(`${URL}/signup`,data)
+        return await axios.post(`${URL}/signup`,data, {
+            headers: {
+              Authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+            }
+          })
     }
     catch(error){
         console.log("Error while calling signup api",error);
@@ -10,7 +17,11 @@ export const authenticateSignup=async (data)=>{
 }
 export const authenticateSellerSignup=async (data)=>{
     try{
-        return await axios.post(`${URL}/seller-signup`,data)
+        return await axios.post(`${URL}/seller-signup`,data, {
+            headers: {
+              Authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+            }
+          })
     }
     catch(error){
         console.log("Error while calling signup api",error);
@@ -18,7 +29,11 @@ export const authenticateSellerSignup=async (data)=>{
 }
 export const authenticateLogin=async (data)=>{
     try{
-        return await axios.post(`${URL}/login`,data)
+        return await axios.post(`${URL}/login`,data, {
+            headers: {
+              Authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+            }
+          })
     }
     catch(error){
         console.log("Error while calling login api",error);
@@ -39,13 +54,21 @@ export const authenticateGoogleLogin = async (googleUser) => {
     return axios.post(`${URL}/google-login`,{
       email: googleUser.email,
       name: googleUser.name,
-    });
+    }, {
+        headers: {
+          Authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+        }
+      });
 };
 export const authenticateSellerGoogleLogin = async (googleUser) => {
     return axios.post(`${URL}/google-sellerlogin`,{
       email: googleUser.email,
       name: googleUser.name,
-    });
+    }, {
+        headers: {
+          Authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+        }
+      });
 };
 //redux is the database of the frontend
 

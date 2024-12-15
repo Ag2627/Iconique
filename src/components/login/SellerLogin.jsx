@@ -150,6 +150,8 @@ const SellerLogin = ({open,setOpen}) => {
     //console.log(response);
     if(!response) showToast("Signup failed.Please check your details.");
     else{
+      const token = response.data.token;
+      sessionStorage.setItem('authToken', token);
       handleClose();
       setAccount(signup.name);
       navigate('/seller');
@@ -168,6 +170,8 @@ const SellerLogin = ({open,setOpen}) => {
     console.log(response);
     if(response.status===200){
       handleClose();
+      const token = response.data.token;
+      sessionStorage.setItem('authToken', token);
       setAccount(response.data.data.name);
       navigate('/seller')
     }else{
@@ -182,6 +186,8 @@ const SellerLogin = ({open,setOpen}) => {
         if (response.status === 200) {
             console.log(response);
            // setAccount(response.data.data.name);
+           const token = response.data.token;
+           sessionStorage.setItem('authToken', token);
             handleClose();
             navigate('/seller')
         }

@@ -116,6 +116,8 @@ const LoginDialog = ({open,setOpen}) => {
     let response=await authenticateSignup(signup);
     console.log(response);
     if(!response) return;
+    const token = response.data.token;
+    sessionStorage.setItem('authToken', token);
     handleClose();
     setAccount(signup.name);
   }
@@ -127,6 +129,8 @@ const LoginDialog = ({open,setOpen}) => {
     let response=await authenticateLogin(login);
     console.log(response);
     if(response.status===200){
+      const token = response.data.token;
+      sessionStorage.setItem('authToken', token);
       handleClose();
       setAccount(response.data.data.name);
     }else{
@@ -140,6 +144,9 @@ const LoginDialog = ({open,setOpen}) => {
 
         if (response.status === 200) {
             console.log(response);
+            const token = response.data.token;
+            sessionStorage.setItem('authToken', token);
+            
             setAccount(response.data.data.name);
             handleClose();
         }

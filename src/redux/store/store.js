@@ -2,10 +2,14 @@
 import { createStore , combineReducers, applyMiddleware} from "redux";
 import { thunk } from "redux-thunk";
 import { composeWithDevTools } from "@redux-devtools/extension"; 
-import { getProductReducer } from "./reducers/productReducer";
+import { getProductReducer } from "../reducers/productReducer";
+
+import AdminProductsSlice from './seller/products-slice/index'
+import { configureStore } from "@reduxjs/toolkit";
 //we will pass two argumnets to the create store reducer(action item) and middleware
 const reducer = combineReducers({
-    getProducts : getProductReducer
+    getProducts : getProductReducer,
+    adminProducts:AdminProductsSlice,
 })
 const middleware =[thunk];
 const store = createStore(//... is rest operator
