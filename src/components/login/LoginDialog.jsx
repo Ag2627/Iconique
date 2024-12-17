@@ -116,8 +116,14 @@ const LoginDialog = ({open,setOpen}) => {
     let response=await authenticateSignup(signup);
     console.log(response);
     if(!response) return;
-    const token = response.data.token;
-    localStorage.setItem('authToken', token);
+    const { token, user } = response.data;
+
+    // Save token and role
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', 'user');
+
+    console.log('User Signup Successful:', user);
+    alert('User Signup Successful!');
     handleClose();
     setAccount(signup.name);
   }
@@ -129,10 +135,17 @@ const LoginDialog = ({open,setOpen}) => {
     let response=await authenticateLogin(login);
     console.log(response);
     if(response.status===200){
-      const token = response.data.token;
-      localStorage.setItem('authToken', token);
+      const { token, user } = response.data;
+
+    // Save token and role
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', 'user');
+
+    console.log('User login Successful:', user);
+    alert('User login Successful!');
+  
       handleClose();
-      setAccount(response.data.data.name);
+      setAccount(response.data.user.name);
     }else{
       setError(true);
     }
@@ -144,10 +157,16 @@ const LoginDialog = ({open,setOpen}) => {
 
         if (response.status === 200) {
             console.log(response);
-            const token = response.data.token;
-            localStorage.setItem('authToken', token);
+            const { token, user } = response.data;
+
+    // Save token and role
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', 'user');
+
+    console.log('User login Successful:', user);
+    alert('User login Successful!');
             
-            setAccount(response.data.data.name);
+            setAccount(response.data.user.name);
             handleClose();
         }
         else {

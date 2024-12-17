@@ -113,7 +113,7 @@ const SellerLogin = ({open,setOpen}) => {
   formData.append("socialLink", signup.socialLink);
   formData.append("logo", signup.logo);
   formData.append("agree",signup.agree);
-  
+
   //toast for errors 
   const showToast = 
   (message) => {
@@ -150,12 +150,18 @@ const SellerLogin = ({open,setOpen}) => {
     //console.log(response);
     if(!response) showToast("Signup failed.Please check your details.");
     else{
-      const token = response.data.token;
-      localStorage.setItem('authToken', token);
-      
-      handleClose();
+      const { token, seller } = response.data;
+
+    // Save token and role
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', 'seller');
+
+    console.log('Seller Signup Successful:', seller);
+    alert('Seller Signup Successful!');
+
       setAccount(signup.name);
       navigate('/seller');
+      handleClose();
     }
   }catch(error){
     showToast(`An error occurred during signup. Please try again.${error.message}`);
@@ -171,9 +177,16 @@ const SellerLogin = ({open,setOpen}) => {
     console.log(response);
     if(response.status===200){
       handleClose();
-      const token = response.data.token;
-      localStorage.setItem('authToken', token);
-      setAccount(response.data.data.name);
+      const { token, seller } = response.data;
+
+    // Save token and role
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', 'seller');
+
+    console.log('Seller login Successful:', seller);
+    alert('Seller login Successful!');
+
+     // setAccount(response.data.user.name);
       navigate('/seller')
     }else{
       setError(true);
@@ -187,8 +200,14 @@ const SellerLogin = ({open,setOpen}) => {
         if (response.status === 200) {
             console.log(response);
            // setAccount(response.data.data.name);
-           const token = response.data.token;
-           localStorage.setItem('authToken', token);
+           const { token, seller } = response.data;
+
+           // Save token and role
+           localStorage.setItem('token', token);
+           localStorage.setItem('role', 'seller');
+       
+           console.log('Seller login Successful:', seller);
+           alert('Seller login Successful!');
             handleClose();
             navigate('/seller')
         }

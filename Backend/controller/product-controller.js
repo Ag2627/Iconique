@@ -1,5 +1,10 @@
-import * as jwt_decode from 'jwt-decode'
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 import product from "../Model/product-schema.js"
+
+dotenv.config();
+const JWT_SECRET = process.env.JWT_SECRET;
+
 
 export const fetchProducts = async(request,response) =>{
     try{
@@ -57,10 +62,15 @@ export const addProduct = async (req, res) => {
     const { title, description, category, sustainable, price, size, discount, quantity } = req.body;
     const image = req.file ? req.file.path : '';
      // Save image path if uploaded
-     const token = sessionStorage.getItem('token');  // extract token
-     const decodedToken = jwt_decode(token);
+     const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized, no token provided" });
+    }
 
-     const sellerId = decodedToken.sellerId;
+    const decoded = jwt.verify(token, JWT_SECRET); // Decode token to get seller ID
+    const sellerId = decoded.id;
+
+     console.log("Token in controller: ",token);
     console.log(sellerId);
     if (!title || !description || !category || !price) {
       return res.status(400).json({
@@ -68,7 +78,7 @@ export const addProduct = async (req, res) => {
         message: "All required fields must be filled",
       });
     }
-    if (!req.seller || !req.seller.id) {
+    if (!sellerId) {
       return res.status(401).json({
         success: false,
         message: "Unauthorized: Seller ID is missing",

@@ -27,7 +27,7 @@ export const userSignUp=async (request,response)=>{
         const token = jwt.sign(
             { id: newUser._id, email: newUser.email },
             JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '24h' }
         );
         response.status(200).json({
             message: "Signup successful",
@@ -58,7 +58,7 @@ export const sellerSignup=async(request,response)=>{
         const token = jwt.sign(
             { id: newSeller._id, email: newSeller.email },
             JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '24h' }
         );
 
         response.status(200).json({
@@ -86,7 +86,7 @@ export const userLogin=async(request,response)=>{
         const token = jwt.sign(
             { id: user._id, email: user.email },
             JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '24h' }
         );
 
         response.status(200).json({
@@ -119,7 +119,7 @@ export const sellerLogin = async (request, response) => {
         const token = jwt.sign(
             { id: seller._id, email: seller.email },
             JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '24h' }
         );
         console.log("Hey seller token:",token);
         response.status(200).json({
@@ -146,7 +146,7 @@ export const googleLogin = async (req, res) => {
         const token = jwt.sign(
             { id: user._id, email: user.email },
             JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '24h' }
         );
 
         res.status(200).json({
@@ -173,7 +173,7 @@ export const googleSellerLogin = async (req, res) => {
         const token = jwt.sign(
             { id: seller._id, email: seller.email },
             JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '24h' }
         );
 
         res.status(200).json({

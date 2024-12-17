@@ -45,6 +45,9 @@ const SellerHeader = ({setOpen}) => {
   const {setAccount}=useContext(DataContext);
   const handleLogout=()=>{
     localStorage.removeItem('token');
+    localStorage.removeItem('role'); // Optional
+    localStorage.clear();
+    alert('Logged out successfully!');
     setAccount('');
     navigate('/');
 
