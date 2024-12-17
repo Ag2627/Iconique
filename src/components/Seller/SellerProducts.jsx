@@ -6,7 +6,8 @@ import { addProductFormElements } from '@/config';
 import ProductImageUpload from './ProductImageUpload';
 import { Button } from '../ui/button';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewProduct, fetchProducts } from '@/redux/store/seller/products-slice';
+import { addNewProduct, fetchProducts } from '../../redux/store/seller/products-slice/index';
+import { useToast } from '@/hooks/use-toast';
 
 const initialFormData = {
   image: null,
@@ -29,6 +30,7 @@ const SellerProducts = () => {
   const [imageLoadingState,setImageLoadingState]=useState(false);
   const {productList}=useSelector(state=>state.adminProducts)
   const dispatch=useDispatch(); //jo thunk se store me reducers banaye the uske liye
+  const {toast}=useToast();
 
 
   function onSubmit(event){
@@ -40,9 +42,12 @@ const SellerProducts = () => {
       console.log(data);
       if(data?.payload?.success){
         dispatch(fetchProducts());
+        setOpenCreateProductsDialog(false);
         setImageFile(null);
         setFormData(initialFormData);
-
+        toast({
+          title:'Product added successfully'
+        })
       }
     })
   }

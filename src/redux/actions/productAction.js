@@ -4,7 +4,7 @@ const URL ='http://localhost:5000'
 export const fetchProducts = () => async (dispatch) =>{
     try{ 
         //api ko call kiya usse pura response object aaya aur use data wala field fetch kr liya
-        const { data } = await axios.get(`${URL}/seller/products`);
+        const { data } = await axios.get(`${URL}/products`);
         
         dispatch({type :actionTypes.FETCH_PRODUCT_SUCCESS,payload : data });
         //dispatch function calls reducer internally

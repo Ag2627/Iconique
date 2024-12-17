@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 //isse hum object ko validate karenge
 const productSchema = new mongoose.Schema({
+    _id:mongoose.Schema.Types.ObjectId,
     sellerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Seller', // Referencing the Seller model
