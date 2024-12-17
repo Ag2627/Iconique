@@ -23,6 +23,18 @@ const productSchema = new mongoose.Schema({
     tagline : String,
     averageReview:String
 },{timestamps:true});
+
+// Virtual field to calculate the final discounted price
+productSchema.virtual('discountedPrice').get(function () {
+    if (this.discount > 0) {
+        return this.price - (this.price * this.discount / 100);
+    }
+    return this.price; // If no discount, return original price
+});
+
+// Include virtuals in JSON output
+productSchema.set('toJSON', { virtuals: true });
+
 //we have to create a collection in mongoose database
 const product = mongoose.model('product',productSchema);
 export default product;
