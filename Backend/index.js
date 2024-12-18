@@ -19,7 +19,7 @@ app.use(
       methods: ["GET", "POST", "DELETE", "PUT"],
       allowedHeaders: [
         "Content-Type",
-        "Authorization",
+        "authorization",
         "Cache-Control",
         "Expires",
         "Pragma",

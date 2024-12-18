@@ -6,8 +6,9 @@ import { addProductFormElements } from '@/config';
 import ProductImageUpload from './ProductImageUpload';
 import { Button } from '../ui/button';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewProduct, fetchProducts } from '../../redux/store/seller/products-slice/index';
+import { addNewProduct, deleteProduct, editProduct, fetchProducts } from '../../redux/store/seller/products-slice/index';
 import { useToast } from '@/hooks/use-toast';
+import ProductTile from './ProductTile';
 
 const initialFormData = {
   image: null,
@@ -30,11 +31,25 @@ const SellerProducts = () => {
   const [imageLoadingState,setImageLoadingState]=useState(false);
   const {productList}=useSelector(state=>state.adminProducts)
   const dispatch=useDispatch(); //jo thunk se store me reducers banaye the uske liye
+  const [currentEditedId,setCurrentEditedId]=useState(null);
   const {toast}=useToast();
 
 
   function onSubmit(event){
     event.preventDefault();
+
+    currentEditedId!==null?
+    dispatch(editProduct({id:currentEditedId,formData})).then((data)=>{
+      if(data?.payload?.success){
+        dispatch(fetchProducts());
+        setOpenCreateProductsDialog(false);
+        setCurrentEditedId(null);
+        setFormData(initialFormData);
+        toast({
+          title:'Product edited successfully'
+        })
+      }
+    }):
     dispatch(addNewProduct({
       ...formData,
       image:uploadedImageUrl
@@ -52,35 +67,77 @@ const SellerProducts = () => {
     })
   }
 
+  function handleDelete(getCurrentProductId){
+    dispatch(deleteProduct(getCurrentProductId)).then(data=>{
+      if(data?.payload?.success){
+        dispatch(fetchProducts());
+      }
+    })
+    
+  }
+  
+  function isFormValid(){
+    const { title, price, size, sustainable, quantity, category } = formData;
+
+    return (
+        title && 
+        price && 
+        size && 
+        sustainable !== undefined && 
+        quantity && 
+        category
+    );
+  }
+
   useEffect(()=>{
-    dispatch(fetchProducts);
-  },[dispatch]);
+    dispatch(fetchProducts());
+  },[]);
 
+  
 
-  console.log(productList,uploadedImageUrl,"formData");
   return (
     <Fragment>
       <div className="mb-5 w-full flex justify-end">
         <Button onClick={()=>setOpenCreateProductsDialog(true)} >Add New Product</Button>
       </div>
-      <div className='grid gap-4 md:grid-cols-3 lg:grid-cols-4'></div>
+      <div className='grid gap-4 md:grid-cols-3 lg:grid-cols-4'>
+        {
+          
+          productList && productList.length>0?
+          productList.map(productItem=><ProductTile setCurrentEditedId={setCurrentEditedId} 
+            setFormData={setFormData}
+            setOpenCreateProductsDialog={setOpenCreateProductsDialog} product={productItem}
+            handleDelete={handleDelete}
+            />): null
+        }  
+      {/* yaha productlist se agar product aaya  toh prducttile se show*/}
+      </div>
       <Sheet open={openCreateProductsDialog} onOpenChange={()=>{
         setOpenCreateProductsDialog(false);
+        setCurrentEditedId(null); //jo fill kiya vo hatane ke liye;
+        setFormData(initialFormData);
+
       }}>
         <SheetContent side="right" className="overflow-auto">
           <SheetHeader>
-            <SheetTitle>Add New Product</SheetTitle>
+            <SheetTitle>
+              {
+                currentEditedId!==null? 
+                'Edit Product':'Add New Product' 
+              }
+            </SheetTitle>
           </SheetHeader>
           <ProductImageUpload imageFile={imageFile} setImageFile={setImageFile} uploadedImageUrl={uploadedImageUrl} setUploadedImageUrl={setUploadedImageUrl}
           setImageLoadingState={setImageLoadingState}
           imageLoadingState={imageLoadingState}
+          isEditMode={currentEditedId!==null}
           />
           <div className='py-6'>
             <CommonForm 
             onSubmit={onSubmit}
-            formData={formData} setFormData={setFormData} buttonText='Add'
+            formData={formData} setFormData={setFormData} buttonText={currentEditedId!==null? 'Edit':'Add'}
               formControls={addProductFormElements}
-
+              isBtnDisabled={!isFormValid()}
             />
           </div>
         </SheetContent>
