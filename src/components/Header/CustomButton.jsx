@@ -85,8 +85,8 @@ const CustomButton = () => {
         open={Boolean(openMenu)}
         onClose={handleClose}
       >
-        <MenuItem component={Link} to="/about"><Text>About us</Text></MenuItem>
-        <MenuItem onClick={handleClose}><Text>Contact us</Text></MenuItem>
+        <MenuItem component={Link} to="/about" onClick={handleClose}><Text>About us</Text></MenuItem>
+        <MenuItem component={Link} to="/contact" onClick={handleClose}><Text>Contact us</Text></MenuItem>
       </Component>
 
     </Wrapper>
