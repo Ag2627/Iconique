@@ -15,11 +15,12 @@ import DetailView from "./components/Details/DetailView";
 import ContactUs from './components/ContactUs/ContactForm'
 import SellerPrivateRoute from "./components/Seller/SellerPrivateRoute";
 import SellerLogin from "./components/login/SellerLogin";
-
+import Cart from "./components/cart/Cart";
 const router=createBrowserRouter([
   {path:'',element:<UserDashboard/>,children:[
     {path:'',element:<Home/>},
     {path:'product/:id',element:<DetailView/>},
+    {path :'/cart',element :<Cart/>},
     {path:'about', element:<AboutUs/>},
     {path:'contact',element:<ContactUs/>},
   ]},
