@@ -1,6 +1,6 @@
 import * as actionType from '../constants/productConstant'
 //whenever we call dispatch reducer is automatically called
-export const getProductReducer = (state={ products : []},action) =>{
+export const getProductsReducer = (state={ products : []},action) =>{
     //we are calling dispatch twice so to differentiate we will call switch method
     switch(action.type){
         case actionType.GET_PRODUCTS_SUCCESS :

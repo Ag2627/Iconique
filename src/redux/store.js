@@ -1,11 +1,15 @@
-//is store ko hum web k redux se connect karenge
+//is store ko hum web ko redux se connect karenge
 import { createStore , combineReducers, applyMiddleware} from "redux";
 import { thunk } from "redux-thunk";
+//thunk is a middleware when we call our api thunk is used
 import { composeWithDevTools } from "redux-devtools-extension";
-import { getProductReducer } from "./reducers/productReducer";
+import { getProductsReducer } from "./reducers/productReducer";
+import {cartReducer} from './reducers/cartReducer'
+import { fetchProducts } from "./actions/productAction";
 //we will pass two argumnets to the create store reducer(action item) and middleware
 const reducer = combineReducers({
-    getProducts : getProductReducer
+    fetchProducts : getProductsReducer,
+    cart:cartReducer
 })
 const middleware =[thunk];
 const store = createStore(//... is rest operator
