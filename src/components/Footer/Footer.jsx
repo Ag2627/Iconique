@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import IconiqueLogo from "../../assets/Iconique_Fashion_Logo.png";
 
 const Footer = () => {
+  
   return (
-    <footer className="bg-pink-600 text-white">
+    <footer className=" text-white" style={{background:'#F33A6A'}}>
       <div className="max-w-screen-xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo Section */}
