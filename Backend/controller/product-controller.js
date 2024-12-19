@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import product from "../Model/product-schema.js"
+import mongoose from "mongoose";
 
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -26,11 +27,7 @@ export const fetchProducts = async(request,response) =>{
 //handleimage upload
 export const handleImageUpload=async(req,res)=>{
   try{
-    // const b64=Buffer.from(req.file.buffer).toString('base64'); //convert to base64
-    // const url="data:"+req.file.mimetype+";base64,"+b64;
-    // const result=await ImageUploadUtil(url);
-
-    if (!req.file || !req.file.path) {
+   if (!req.file || !req.file.path) {
       return res.status(400).json({
           success: false,
           message: "No file uploaded",
@@ -43,10 +40,7 @@ export const handleImageUpload=async(req,res)=>{
         public_id: req.file.filename, // Cloudinary's file ID
     },
 });
-    // res.json({
-    //   success:true,
-    //   result,
-    // })
+
   }catch(error){
     console.log("Image upload error: ",error);
     res.status(500).json({
@@ -56,11 +50,43 @@ export const handleImageUpload=async(req,res)=>{
   }
 }
 
+// fetch product by seller id
+
+export const fetchSellerProducts = async (req, res) => {
+  try {
+    // Extract token from the request header
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ success: false, message: "Unauthorized, no token provided" });
+    }
+
+    // Verify and decode the token to get sellerId
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const sellerId = decoded.id;
+    console.log("seller ji",sellerId);
+    
+
+    // Fetch products that belong to the seller
+    const products = await product.find({ sellerId });
+   console.log("products",products);
+    res.status(200).json({
+      success: true,
+      data: products,
+    });
+  } catch (error) {
+    console.error("Error fetching seller products:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch seller products",
+      error: error.message,
+    });
+  }
+};
+
 //add new product
 export const addProduct = async (req, res) => {
   try {
-    const { title, description, category, sustainable, price, size, discount, quantity } = req.body;
-    const image = req.file ? req.file.path : '';
+    const { title, description, category, sustainable, price, size, discount, quantity,image } = req.body;
      // Save image path if uploaded
      const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
@@ -86,7 +112,7 @@ export const addProduct = async (req, res) => {
     }
     
     const newProduct = new product({
-      id: new mongoose.Types.ObjectId().toString(), // Generate unique ID
+     // Generate unique ID
       title,
       description,
       category,
@@ -104,6 +130,7 @@ export const addProduct = async (req, res) => {
       success:true,
       message: "Product added successfully!", data: newProduct });
   } catch (error) {
+    console.error('Error adding product:', error); // Log error
     res.status(500).json({ 
       success:false,
       error: error.message });
@@ -115,8 +142,8 @@ export const addProduct = async (req, res) => {
 export const editProduct = async (req, res) => {
   try{
     const {id}=req.params; //jo update karna h uski id
-    const { title, description, category, sustainable, price, size, discount, quantity } = req.body;
-    const image = req.file ? req.file.path : '';
+    const { title, description, category, sustainable, price, size, discount, quantity,image } = req.body;
+ 
      // Save image path if uploaded
     const findProduct=await product.findById(id);
 
@@ -133,15 +160,15 @@ export const editProduct = async (req, res) => {
 
     findProduct.sustainable=sustainable || findProduct.sustainable;
 
-    findProduct.price=price || findProduct.price;
+    findProduct.price=price===''?0:price;
 
     findProduct.size=size || findProduct.size ;
 
-    findProduct.discount=discount || findProduct.discount;
+    findProduct.discount=discount===''?0:discount;
 
-    findProduct.quantity=quantity || findProduct.quantity;
+    findProduct.quantity=quantity===''?0:quantity;
 
-    findProduct.image=image || findProduct.image;
+    findProduct.image=image 
 
     await findProduct.save();
     res.status(200).json({
@@ -160,7 +187,7 @@ export const editProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try{
     const {id}=req.params;
-    const findProduct=await product.findById(id);
+    const findProduct=await product.findByIdAndDelete(id);
 
     if(!findProduct) return res.status(404).json({
       success:false,

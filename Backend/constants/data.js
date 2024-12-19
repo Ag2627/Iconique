@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 // import dress from '../../src/assets/taylor_floral_dress.png';
 export const products = [
   {
-    _id: new mongoose.Types.ObjectId(),
     sellerId: new mongoose.Types.ObjectId(),
     image: '../../src/assets/taylor_floral_dress.png',
     title: 'Taylor Swift Inspired - Vintage Floral Dress',
@@ -16,7 +15,6 @@ export const products = [
     averageReview: 'Stylish and comfortable',  // Renamed from review to averageReview
   },
   {
-    _id: new mongoose.Types.ObjectId(),
     sellerId: new mongoose.Types.ObjectId(),
     image: 'https://example.com/kanye-jacket.jpg',
     title: 'Kanye West Streetwear - Oversized Bomber Jacket',
@@ -30,7 +28,7 @@ export const products = [
     averageReview: 'High-quality material and comfortable',  // Renamed from review to averageReview
   },
   {
-    _id: new mongoose.Types.ObjectId(),
+   
     sellerId: new mongoose.Types.ObjectId(),
     image: 'https://example.com/beyonce-glam-dress.jpg',
     title: 'Beyoncé Glamour - Sequined Bodycon Dress',
@@ -44,7 +42,7 @@ export const products = [
     averageReview: 'Perfect for a glamorous look',  // Renamed from review to averageReview
   },
   {
-    _id: new mongoose.Types.ObjectId(),
+    
     sellerId: new mongoose.Types.ObjectId(),
     image: 'https://example.com/rihanna-jumpsuit.jpg',
     title: 'Rihanna Bold Style - Casual Denim Jumpsuit',
@@ -58,8 +56,7 @@ export const products = [
     averageReview: 'Unique design and comfortable',  // Renamed from review to averageReview
   },
   {
-    _id: new mongoose.Types.ObjectId(),
-    sellerId: new mongoose.Types.ObjectId(),
+        sellerId: new mongoose.Types.ObjectId(),
     image: 'https://example.com/bieber-hoodie.jpg',
     title: 'Justin Bieber Vibes - Casual Oversized Hoodie',
     price: 1799,  // Changed to a number
@@ -72,7 +69,7 @@ export const products = [
     averageReview: 'Very comfortable for everyday wear',  // Renamed from review to averageReview
   },
   {
-    _id: new mongoose.Types.ObjectId(),
+   
     sellerId: new mongoose.Types.ObjectId(),
     image: 'https://example.com/ariana-coat.jpg',
     title: 'Ariana Grande Luxe - Elegant Faux Fur Coat',
@@ -86,7 +83,7 @@ export const products = [
     averageReview: 'Very warm and stylish',  // Renamed from review to averageReview
   },
   {
-    _id: new mongoose.Types.ObjectId(),
+   
     sellerId: new mongoose.Types.ObjectId(),
     image: 'https://example.com/drake-varsity-jacket.jpg',
     title: 'Drake Streetwear - Varsity Jacket',

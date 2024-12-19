@@ -117,12 +117,11 @@ const SellerLogin = ({open,setOpen}) => {
   //toast for errors 
   const showToast = 
   (message) => {
-    console.log("Toast message:", message);
     toast({
       title: message,
       duration: 3000,
       position: 'top-center',
-      style: { backgroundColor: '#f33a6a', color: '#fff' ,alignSelf:"top-center"}
+      style: { backgroundColor: '#f33a6a', color: '#fff' ,zIndex: 1301}
     });
   };
 
@@ -156,8 +155,7 @@ const SellerLogin = ({open,setOpen}) => {
     localStorage.setItem('token', token);
     localStorage.setItem('role', 'seller');
 
-    console.log('Seller Signup Successful:', seller);
-    alert('Seller Signup Successful!');
+    showToast("Seller Signup Successful");
 
       setAccount(signup.name);
       navigate('/seller');
@@ -182,9 +180,7 @@ const SellerLogin = ({open,setOpen}) => {
     // Save token and role
     localStorage.setItem('token', token);
     localStorage.setItem('role', 'seller');
-
-    console.log('Seller login Successful:', seller);
-    alert('Seller login Successful!');
+    showToast("Seller Login Successfull");
 
      // setAccount(response.data.user.name);
       navigate('/seller')
@@ -206,19 +202,27 @@ const SellerLogin = ({open,setOpen}) => {
            localStorage.setItem('token', token);
            localStorage.setItem('role', 'seller');
        
-           console.log('Seller login Successful:', seller);
-           alert('Seller login Successful!');
+           toast({
+            title: "Login Successful",
+            description: "Welcome to your dashboard!",
+            variant: "success",
+          });
             handleClose();
             navigate('/seller')
         }
         else {
-          console.log("Google login failed: Account not found. Please sign up first.");
-          showToast("Google login failed: Account not found. Please sign up first.");         
+          toast({
+            title: "Login Failed",
+            description: "Google login failed: Account not found. Please sign up first.",
+            variant: "destructive",
+          });        
       }
     } catch (error) {
-        console.log("Google login failed:", error);
-        showToast("Google login failed. Please try again.");
-        window.alert("Google login failed. Please try again.")
+      toast({
+        title: "Login Failed",
+        description: error.response?.data?.message || "An error occurred. Please try again.",
+        variant: "destructive",
+      });
     }
 };
 

@@ -13,6 +13,8 @@ import Profile from "./components/Profile/Profile";
 import DataProvider from "./context/DataProvider";
 import DetailView from "./components/Details/DetailView";
 import ContactUs from './components/ContactUs/ContactForm'
+import SellerPrivateRoute from "./components/Seller/SellerPrivateRoute";
+import SellerLogin from "./components/login/SellerLogin";
 const router=createBrowserRouter([
   {path:'',element:<UserDashboard/>,children:[
     {path:'',element:<Home/>},
@@ -21,13 +23,17 @@ const router=createBrowserRouter([
     {path:'about', element:<AboutUs/>},
     {path:'contact',element:<ContactUs/>},
   ]},
-  {path:'/seller',element:<SellerDashboard/>,children:[
+  {path:'/seller',element:
+  <SellerPrivateRoute>
+    <SellerDashboard/>
+  </SellerPrivateRoute>
+  ,children:[
     {path:'products',element:<SellerProducts/>},
     {path:'overview',element:<SellerOverview/>},
     {path:'orders',element:<Order/>},
     {path:'followers',element:<Followers/>},
     {path:'edit-profile',element:<EditProfile/>},
-    {path:'profile',element:<Profile/>}
+    {path:'profile',element:<Profile/>},
   ]},
 ])
 function App() {

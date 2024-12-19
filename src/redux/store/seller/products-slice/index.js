@@ -25,7 +25,14 @@ export const addNewProduct=createAsyncThunk('/products/addnewproduct',async (for
 });
 
 export const fetchProducts=createAsyncThunk('/products/fetchProducts',async ()=>{
-    const result=await axios.get("http://localhost:5000/seller/products/get");
+    const result=await axios.get("http://localhost:5000/seller/products/get", {
+        headers: {
+            "Content-Type": "application/json", 
+          authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+        },
+        withCredentials: true,
+      });
+      console.log("API result",result.data);
     return result?.data;
 });
 
@@ -40,7 +47,12 @@ export const editProduct=createAsyncThunk('/products/editproduct',async ({id,for
 });
 
 export const deleteProduct=createAsyncThunk('/products/deleteproduct',async (id)=>{
-    const result=await axios.delete(`http://localhost:5000/seller/products/delete/${id}`);
+    const result=await axios.delete(`http://localhost:5000/seller/products/delete/${id}`,{
+        headers: {
+            "Content-Type": "application/json", 
+          authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+        }
+      });
     return result?.data;
 });
 const AdminProductsSlice= createSlice({

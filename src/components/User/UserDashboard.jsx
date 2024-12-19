@@ -3,6 +3,8 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Header from '../Header/Header'
 import DataProvider from '../../context/DataProvider'
+import Footer from '../Footer/Footer'
+
 
 const UserDashboard = () => {
   return (
@@ -11,6 +13,7 @@ const UserDashboard = () => {
         <Header/>
     </DataProvider>
    <Outlet/>
+   <Footer/>
    </>
   )
 }
