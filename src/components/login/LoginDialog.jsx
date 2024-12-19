@@ -9,6 +9,7 @@ import { DataContext } from "../../context/DataProvider"
 
 import { GoogleLogin } from '@react-oauth/google';
 import {jwtDecode} from 'jwt-decode';
+import { toast } from "@/hooks/use-toast";
 
 
 const Component=styled(Box)`
@@ -113,26 +114,65 @@ const LoginDialog = ({open,setOpen}) => {
     console.log(signup);
   }
   const signupUser=async ()=>{
+    try{
     let response=await authenticateSignup(signup);
     console.log(response);
     if(!response) return;
+    const { token, user } = response.data;
+
+    // Save token and role
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', 'user');
+
+    toast({
+      title: "Signup Successful",
+      description: "Welcome to your dashboard!",
+      variant: "success",
+    });
     handleClose();
     setAccount(signup.name);
+  } catch(error){
+    toast({
+      title: "Signup Failed",
+      description: error.response?.data?.message || "An error occurred. Please try again.",
+      variant: "destructive",
+    });
   }
+}
 
   const onValueChange=(e)=>{
     setLogin({...login,[e.target.name]:e.target.value});
   }
   const loginUser=async ()=>{
+    try{
     let response=await authenticateLogin(login);
     console.log(response);
     if(response.status===200){
+      const { token, user } = response.data;
+
+    // Save token and role
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', 'user');
+
+    toast({
+      title: "Login Successful",
+      description: "Welcome to your dashboard!",
+      variant: "success",
+    });
+  
       handleClose();
-      setAccount(response.data.data.name);
+      setAccount(response.data.user.name);
     }else{
       setError(true);
     }
+  }catch(error){
+    toast({
+      title: "Login Failed",
+      description: error.response?.data?.message || "An error occurred. Please try again.",
+      variant: "destructive",
+    });
   }
+}
   const handleGoogleLogin = async (googleUser) => {
     try {
         const decoded = jwtDecode(googleUser.credential); 
@@ -140,14 +180,35 @@ const LoginDialog = ({open,setOpen}) => {
 
         if (response.status === 200) {
             console.log(response);
-            setAccount(response.data.data.name);
+            const { token, user } = response.data;
+
+    // Save token and role
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', 'user');
+
+    toast({
+      title: "Login Successful",
+      description: "Welcome to your dashboard!",
+      variant: "success",
+    });
+            
+            setAccount(response.data.user.name);
             handleClose();
         }
         else {
-          console.log("Google login failed: Account not found. Please sign up first.");
+          toast({
+            title: "Login Failed",
+            description: "Google login failed: Account not found. Please sign up first.",
+            variant: "destructive",
+          });
       }
     } catch (error) {
-        console.log("Google login failed:", error);
+        
+        toast({
+          title: "Login Failed",
+          description: error.response?.data?.message || "An error occurred. Please try again.",
+          variant: "destructive",
+        });
     }
 };
 

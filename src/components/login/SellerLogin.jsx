@@ -113,16 +113,15 @@ const SellerLogin = ({open,setOpen}) => {
   formData.append("socialLink", signup.socialLink);
   formData.append("logo", signup.logo);
   formData.append("agree",signup.agree);
-  
+
   //toast for errors 
   const showToast = 
   (message) => {
-    console.log("Toast message:", message);
     toast({
       title: message,
       duration: 3000,
       position: 'top-center',
-      style: { backgroundColor: '#f33a6a', color: '#fff' ,alignSelf:"top-center"}
+      style: { backgroundColor: '#f33a6a', color: '#fff' ,zIndex: 1301}
     });
   };
 
@@ -150,9 +149,17 @@ const SellerLogin = ({open,setOpen}) => {
     //console.log(response);
     if(!response) showToast("Signup failed.Please check your details.");
     else{
-      handleClose();
+      const { token, seller } = response.data;
+
+    // Save token and role
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', 'seller');
+
+    showToast("Seller Signup Successful");
+
       setAccount(signup.name);
       navigate('/seller');
+      handleClose();
     }
   }catch(error){
     showToast(`An error occurred during signup. Please try again.${error.message}`);
@@ -168,7 +175,14 @@ const SellerLogin = ({open,setOpen}) => {
     console.log(response);
     if(response.status===200){
       handleClose();
-      setAccount(response.data.data.name);
+      const { token, seller } = response.data;
+
+    // Save token and role
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', 'seller');
+    showToast("Seller Login Successfull");
+
+     // setAccount(response.data.user.name);
       navigate('/seller')
     }else{
       setError(true);
@@ -182,17 +196,33 @@ const SellerLogin = ({open,setOpen}) => {
         if (response.status === 200) {
             console.log(response);
            // setAccount(response.data.data.name);
+           const { token, seller } = response.data;
+
+           // Save token and role
+           localStorage.setItem('token', token);
+           localStorage.setItem('role', 'seller');
+       
+           toast({
+            title: "Login Successful",
+            description: "Welcome to your dashboard!",
+            variant: "success",
+          });
             handleClose();
             navigate('/seller')
         }
         else {
-          console.log("Google login failed: Account not found. Please sign up first.");
-          showToast("Google login failed: Account not found. Please sign up first.");         
+          toast({
+            title: "Login Failed",
+            description: "Google login failed: Account not found. Please sign up first.",
+            variant: "destructive",
+          });        
       }
     } catch (error) {
-        console.log("Google login failed:", error);
-        showToast("Google login failed. Please try again.");
-        window.alert("Google login failed. Please try again.")
+      toast({
+        title: "Login Failed",
+        description: error.response?.data?.message || "An error occurred. Please try again.",
+        variant: "destructive",
+      });
     }
 };
 

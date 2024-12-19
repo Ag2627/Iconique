@@ -21,7 +21,12 @@ const Profile = ({account,setAccount}) => {
     setOpen(false)
   }
   const logoutUser=()=>{
+    localStorage.removeItem('token');
+    localStorage.removeItem('role'); // Optional
+    localStorage.clear();
+    alert('Logged out successfully!');
     setAccount('');
+    window.location.reload();
   }
   return (
     <>

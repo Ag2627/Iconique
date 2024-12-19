@@ -13,7 +13,7 @@ const component = styled(Box)`
 `
 const Home = () =>{
     const getProducts=useSelector(state => state.getProducts)
-    const { products } =getProducts;//object destructuring
+    const { products } =fetchProducts;//object destructuring
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchProducts())

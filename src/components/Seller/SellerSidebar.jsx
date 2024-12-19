@@ -13,7 +13,7 @@ const sellerSidebarMenuitems=[
     {
         id:'dashboard',
         label:'Dashboard',
-        path:'/seller/dashboard',
+        path:'/seller/overview',
         icons:<DashboardTwoToneIcon/>
     },
     {

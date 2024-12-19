@@ -1,5 +1,6 @@
 import React from 'react';
 import './AboutUs.css';
+import { Link } from 'react-router-dom';
 
 const AboutUs = () => {
   return (
@@ -54,7 +55,9 @@ const AboutUs = () => {
       {/* Call to Action Section */}
       <section className="cta-section">
         <h2>Want to join our journey?</h2>
+        <Link to='/contact'>
         <button className="cta-button">Contact Us</button>
+        </Link>
       </section>
     </div>
   );

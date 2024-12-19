@@ -5,23 +5,34 @@ import Connection from "./Database/db.js"
 import router from "./Routes/route.js"
 import bodyParser from "body-parser"
 import DefaultData from './default.js';
+import AdminProductRouter from "./Routes/Seller/product-routes.js";
+
 const app = express()
 
 dotenv.config()
 
 app.use(express.json())
-// app.use(cors({
-//     origin: 'http://localhost:5000', 
-//     credentials: true 
-// }));
-app.use(cors());
 
-
+app.use(
+    cors({
+      origin: "http://localhost:5173",
+      methods: ["GET", "POST", "DELETE", "PUT"],
+      allowedHeaders: [
+        "Content-Type",
+        "authorization",
+        "Cache-Control",
+        "Expires",
+        "Pragma",
+      ],
+      credentials: true,
+    })
+  );
 
 app.use(bodyParser.json({extended:true}));
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.use('/',router);
+app.use('/seller/products',AdminProductRouter);
 const port =5000
 const USERNAME=process.env.DB_USERNAME;
 const PASSWORD=process.env.DB_PASSWORD;
