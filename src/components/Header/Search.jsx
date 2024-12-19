@@ -1,11 +1,12 @@
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, InputBase, styled } from '@mui/material'
-import React, { useState } from 'react'
-
+import { Box, InputBase, ListItem,List, styled } from '@mui/material'
+import React, { useState,useEffect } from 'react'
+import { useSelector,useDispatch } from 'react-redux';
+import { fetchProducts } from '@/redux/actions/productAction';
 
 const Searchcontainer=styled(Box)`
     background:#ffffff;
-    width:38%;
+    width:40%;
     border-radius:2px;
     margin-left:10px;
     display:flex;
@@ -23,6 +24,11 @@ const InputSearchBase=styled(InputBase)`
 const Search = () => {
   
     const [text,setText]=useState();
+    const {products}=useSelector(state=>state.fetchProducts);
+    const dispatch=useDispatch();
+    useEffect(()=>{
+        dispatch(fetchProducts())
+    },[dispatch])
     const [open,setOpen]=useState(false);
     const getText=(text)=>{
         setText(text);
@@ -36,6 +42,18 @@ const Search = () => {
         <Searchiconwrapper>
             <SearchIcon/>
         </Searchiconwrapper>
+        {
+            text && 
+                <List>
+                    {
+                        products.filter(product=>product.title.toLowerCase().includes(text.toLowerCase())).map(product=>(
+                            <ListItem>
+                                {product.title}
+                            </ListItem>
+                        ))
+                    }
+                </List>
+        }
     </Searchcontainer>
   )
 }

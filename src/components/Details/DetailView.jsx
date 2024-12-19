@@ -18,7 +18,7 @@ const Container=styled(Grid)(({theme})=>({
     background: '#FFFFFF',
     display: 'flex',
     [theme.breakpoints.down('md')]:{
-        margin:0
+        margin:0 
     },
 
 }));
@@ -31,13 +31,18 @@ const RightContainer=styled(Grid)`
 const DetailView=()=>{
     const dispatch=useDispatch();
     const {id}=useParams();
-
+    
     const {loading,product}=useSelector(state=>state.fetchProductDetails);
 
+    
     useEffect(()=>{
-        if(product && id!==product.id)
+        if(!product && id!==product._id)
         dispatch(fetchProductDetails(id))
-    },[dispatch,id,product,loading])
+    },[dispatch,id,product,loading]);
+
+
+    
+    
     // console.log(product._id);
     return(<>
     
