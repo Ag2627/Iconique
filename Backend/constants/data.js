@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
-
+// import dress from '../../src/assets/taylor_floral_dress.png';
 export const products = [
   {
     sellerId: new mongoose.Types.ObjectId(),
-    image: 'https://example.com/taylor-dress.jpg',
+    image: '../../src/assets/taylor_floral_dress.png',
     title: 'Taylor Swift Inspired - Vintage Floral Dress',
     price: 1499,  // Changed to a number
     size: 'M',

@@ -4,6 +4,9 @@ import { fetchProductDetails } from "@/redux/actions/productAction";
 import { useDispatch, useSelector } from "react-redux";
 import ActionItem from './ActionItem';
 import { Box,Grid, Typography,styled } from "@mui/material";
+// import {products} from  '../../../Backend/constants/data.js';
+import ProductDetail from "./ProductDetail";
+
 
 const Component=styled(Box)`
     background: #F2F2F2;
@@ -11,14 +14,20 @@ const Component=styled(Box)`
 
 `;
 
-const Container=styled(Grid)`
-    background: #FFFFFF;
-    display: flex;
-`;
+const Container=styled(Grid)(({theme})=>({
+    background: '#FFFFFF',
+    display: 'flex',
+    [theme.breakpoints.down('md')]:{
+        margin:0
+    },
+
+}));
 
 const RightContainer=styled(Grid)`
     margin-top: 50px;
 `
+
+// const product=products[0];
 const DetailView=()=>{
     const dispatch=useDispatch();
     const {id}=useParams();
@@ -28,7 +37,9 @@ const DetailView=()=>{
         if(!product && id!==product.id)
         {dispatch(fetchProductDetails(id))}
     },[dispatch,id,product,loading])
+    // console.log(product._id);
     return(<>
+    
         <Component>
             {
                 product && Object.keys(product).length &&
@@ -39,8 +50,8 @@ const DetailView=()=>{
                         </Grid>
                         {/* right side pe details ke liye */}
                         <RightContainer item lg={8} md={8} sm={8} xs={12}>
-                            <Typography>{product.title}</Typography>
-                            <Typography style={{marginTop:5, color:'#878787',fontSize:14 }}>yaha ppar no of reviews aur rating hogi<Box component="span"><img src="" /></Box></Typography>
+                            
+                            <ProductDetail product={product}/>
                         </RightContainer>
                     </Container>
 

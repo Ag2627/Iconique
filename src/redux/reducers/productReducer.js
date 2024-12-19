@@ -39,4 +39,4 @@ export const fetchProductDetailsReducer=(state={product:{}},action)=>{
     default:
       return state
   }
-}
+};
