@@ -63,8 +63,7 @@ export const fetchSellerProducts = async (req, res) => {
     // Verify and decode the token to get sellerId
     const decoded = jwt.verify(token, JWT_SECRET);
     const sellerId = decoded.id;
-    console.log("seller ji",sellerId);
-    
+       
 
     // Fetch products that belong to the seller
     const products = await product.find({ sellerId });
@@ -208,8 +207,8 @@ export const deleteProduct = async (req, res) => {
 };
 export const fetchProductById=async(request,response)=>{
   try {
-    const id=request.params.id;
-    const prod=await product.findOne({'id':id})
+    const id=request.params._id;
+    const prod=await product.findOne({id})
 
     response.status(200).json(prod);
 

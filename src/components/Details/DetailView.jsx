@@ -24,10 +24,9 @@ const DetailView=()=>{
     const {id}=useParams();
 
     const {loading,product}=useSelector(state=>state.fetchProductDetails);
-
     useEffect(()=>{
-        if(product && id!==product.id)
-        dispatch(fetchProductDetails(id))
+        if(!product && id!==product.id)
+        {dispatch(fetchProductDetails(id))}
     },[dispatch,id,product,loading])
     return(<>
         <Component>

@@ -23,7 +23,7 @@ export const fetchProductDetails=(id)=>async(dispatch)=>{
     try{
         dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_REQUEST});
 
-        const {data}=await axios.get(`${URL}/seller/products/${id}`);
+        const {data}=await axios.get(`${URL}/product/${id}`);
         dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_SUCCESS,payload:data});
     } catch(error){
         dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_FAIL,payload:error.message});
