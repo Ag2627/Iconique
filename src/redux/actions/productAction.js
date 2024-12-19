@@ -21,10 +21,13 @@ export const fetchProducts = () => async (dispatch) =>{
 // action to fetch product by id
 export const fetchProductDetails=(id)=>async(dispatch)=>{
     try{
+     
         dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_REQUEST});
+       
 
         const {data}=await axios.get(`${URL}/product/${id}`);
-        dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_SUCCESS,payload:data});
+       
+        dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_SUCCESS,payload:data.data});
     } catch(error){
         dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_FAIL,payload:error.message});
     }
@@ -34,7 +37,7 @@ export const fetchProductDetails=(id)=>async(dispatch)=>{
 export const addProduct = (product) => async (dispatch) => {
     try {
       const { data } = await axios.post(`${URL}/seller/products`, product);
-      dispatch({ type:actionTypes.ADD_PRODUCT, payload: data });
+      dispatch({ type:actionTypes.ADD_PRODUCT, payload: data.data });
     } catch (error) {
       dispatch({ type:actionTypes. PRODUCT_ERROR, payload: error.message });
     }

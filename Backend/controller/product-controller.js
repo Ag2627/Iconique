@@ -207,10 +207,21 @@ export const deleteProduct = async (req, res) => {
 };
 export const fetchProductById=async(request,response)=>{
   try {
-    const id=request.params._id;
-    const prod=await product.findOne({id})
+    const { id } = request.params; 
+    console.log("Product id",id);
+    const prod=await product.findById(new mongoose.Types.ObjectId(id))
+    console.log("Product Fetched:", prod); 
+    if (!prod) {
+      return response.status(404).json({
+          success: false,
+          message: "Product not found",
+      });
+  }
 
-    response.status(200).json(prod);
+  response.status(200).json({
+      success: true,
+      data: prod,
+  });
 
   } catch (error) {
     response.status(500).json({message:error.message})
