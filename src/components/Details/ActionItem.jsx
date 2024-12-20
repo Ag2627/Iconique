@@ -35,8 +35,8 @@ const ActionItem=({product})=>{
             <Box style={{padding: '15px 20px',border: '1px solid #f0f0f0',width: '90%'}}>
             <img src={product.image}/>
             </Box>
-            <Button component="span" variant='contained' style={{marginRight: 10,background:'#F3245F', width:'44%'}}><Cart/>ADD TO CART</Button>
-            <Button component="span" variant='contained' style={{background:'#F3245F', width:'44%'}}><Bag/>BUY NOW</Button>
+            <styledButton component="span" variant='contained' style={{marginRight: 10,background:'#F3245F', width:'44%'}}><Cart/>ADD TO CART</styledButton>
+            <styledButton component="span" variant='contained' style={{background:'#F3245F', width:'44%'}}><Bag/>BUY NOW</styledButton>
         </LeftContainer>
     )
 
