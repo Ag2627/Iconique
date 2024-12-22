@@ -63,6 +63,7 @@ const Container=styled(Box)`
 const LoginButton=styled(Button)`
   background:#A52448;
   margin-top:10px;
+  margin-left:10px;
   text-transform:none;
   padding: 5px 40px;
   border-radius:5px;
