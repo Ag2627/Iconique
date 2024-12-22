@@ -154,10 +154,12 @@ const SellerLogin = ({open,setOpen}) => {
     // Save token and role
     localStorage.setItem('token', token);
     localStorage.setItem('role', 'seller');
-
+    localStorage.setItem(
+      "account",
+      JSON.stringify({ id: seller._id, name: seller.name })
+    );
     showToast("Seller Signup Successful");
 
-      setAccount(signup.name);
       navigate('/seller');
       handleClose();
     }
@@ -180,9 +182,12 @@ const SellerLogin = ({open,setOpen}) => {
     // Save token and role
     localStorage.setItem('token', token);
     localStorage.setItem('role', 'seller');
+    localStorage.setItem(
+      "account",
+      JSON.stringify({ id: seller._id, name: seller.name })
+    );
     showToast("Seller Login Successfull");
-
-     // setAccount(response.data.user.name);
+  
       navigate('/seller')
     }else{
       setError(true);
@@ -195,13 +200,16 @@ const SellerLogin = ({open,setOpen}) => {
 
         if (response.status === 200) {
             console.log(response);
-           // setAccount(response.data.data.name);
+        
            const { token, seller } = response.data;
-
+           
            // Save token and role
            localStorage.setItem('token', token);
            localStorage.setItem('role', 'seller');
-       
+           localStorage.setItem(
+            "account",
+            JSON.stringify({ id: seller._id, name: seller.name })
+          );
            toast({
             title: "Login Successful",
             description: "Welcome to your dashboard!",

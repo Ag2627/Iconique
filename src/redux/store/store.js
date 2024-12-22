@@ -7,10 +7,14 @@ import { fetchProductDetailsReducer, fetchProductReducer} from "../reducers/prod
 import {cartReducer} from '../reducers/cartReducer'
 //we will pass two argumnets to the create store reducer(action item) and middleware
 import AdminProductsSlice from '../store/seller/products-slice/index'
+import addressSlice from '../store/address/index'
+import userSlice from '../store/profile/index'
 //we will pass two argumnets to the create store reducer(action item) and middleware
 const reducer = combineReducers({
     fetchProducts : fetchProductReducer,
     fetchProductDetails : fetchProductDetailsReducer,
+    Address:addressSlice,
+    profile:userSlice,
     cart:cartReducer,
     adminProducts:AdminProductsSlice,
 })

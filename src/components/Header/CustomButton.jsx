@@ -4,8 +4,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LoginDialog from "../login/LoginDialog";
-import { useState,useContext } from "react";
-import { DataContext } from "../../context/DataProvider";
+import { useState,useEffect } from "react";
 import Profile from "./Profile";
 import SellerLogin from "../login/SellerLogin";
 import { Link } from "react-router-dom";
@@ -75,9 +74,16 @@ const CustomButton = () => {
 
   const [open,setOpen]=useState(false);
   const [sellerOpen,setSellerOpen]=useState(false);
-  const {account,setAccount}=useContext(DataContext);
+  const [account, setAccount] = useState({ id: "", name: "" });
   const [openMenu,setMenu]=useState(false);
 
+  // Retrieve account data from local storage on component mount
+  useEffect(() => {
+    const storedAccount = localStorage.getItem("account");
+    if (storedAccount) {
+      setAccount(JSON.parse(storedAccount));
+    }
+  }, []);
   const handleClick=(event)=>{
     setMenu(event.currentTarget)
   }
@@ -91,10 +97,11 @@ const CustomButton = () => {
   const openSellerDialog=()=>{
     setSellerOpen(true);
   }
+  console.log("Checking account",account);
     return (
     <Wrapper>
       {
-        account? <Profile account={account} setAccount={setAccount}/>:
+        account.id? <Profile account={account} setAccount={setAccount}/>:
         <LoginButton variant="contained" onClick={()=>openDialog()} >Login</LoginButton>
       }
         

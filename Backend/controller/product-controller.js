@@ -6,7 +6,6 @@ import mongoose from "mongoose";
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
-
 export const fetchProducts = async(request,response) =>{
     try{
         const products = await product.find({});
