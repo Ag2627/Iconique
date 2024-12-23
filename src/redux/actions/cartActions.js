@@ -1,9 +1,9 @@
 import axios from "axios"
 import * as actionType from '../constants/cartConstant'
 const URL ='http://localhost:5000'
-export const addToCart =(id,quantity) =>async(dispatch) =>{
+export const addToCart =(_id,quantity) =>async(dispatch) =>{
     try{
-        const {data} = await axios.get(`${URL}/product/${id}`);
+        const {data} = await axios.get(`${URL}/product/${_id}`);
 
         dispatch({type :actionType.ADD_TO_CART,payload:{...data,quantity}});
     }
@@ -11,8 +11,8 @@ export const addToCart =(id,quantity) =>async(dispatch) =>{
         dispatch({type :actionType.ADD_TO_CART_ERROR,payload:error.message});
     }
 }
-export const removeFromCart = (id) => (dispatch)=>{
+export const removeFromCart = (_id) => (dispatch)=>{
     //we haven't used try and catch here as there is no api call so there is no chance of error
-    dispatch({type :actionType.REMOVE_FROM_CART,payload :id});
+    dispatch({type :actionType.REMOVE_FROM_CART,payload :_id});
 
 }

@@ -7,7 +7,7 @@ import bodyParser from "body-parser"
 import DefaultData from './default.js';
 import AdminProductRouter from "./Routes/Seller/product-routes.js";
 
-const app = express()
+const app = express();
 
 dotenv.config()
 
@@ -36,8 +36,8 @@ app.use('/seller/products',AdminProductRouter);
 const port =5000
 const USERNAME=process.env.DB_USERNAME;
 const PASSWORD=process.env.DB_PASSWORD;
-Connection(USERNAME,PASSWORD)
+Connection(USERNAME,PASSWORD);
 app.listen(port, () =>{
     console.log(`server running at http://localhost:${port}`)
 })
-DefaultData();
+//DefaultData();

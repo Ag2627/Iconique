@@ -1,14 +1,14 @@
 
 
 import { Button, Divider, Box, Typography, styled } from '@mui/material';
-
-import Carousel from 'react-multi-carousel';
-import "react-multi-carousel/lib/styles.css";
+  
+ import Carousel from 'react-multi-carousel';
+ import "react-multi-carousel/lib/styles.css";
 import Countdown from 'react-countdown';
 import { Link } from 'react-router-dom';
 
 
-const responsive = {
+ const responsive = {
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
         items: 5,
@@ -30,7 +30,10 @@ const Component = styled(Box)`
 
 const Deal = styled(Box)`
     display: flex;    
+    align-items: center;
+    justify-content: space-between;
     padding: 15px 20px;
+    
 `
 
 const DealText = styled(Typography)`
@@ -48,11 +51,18 @@ const Timer = styled(Box)`
 `;
 
 const ViewAllButton = styled(Button)`
-    margin-left: auto;
-    background-color: #2874f0;
+    margin-left: auto;  
+    background-color: #F33A6A; 
     border-radius: 2px;
     font-size: 13px;
+    color: white;
+    font-weight:600
+    height: 30px;
+    &:hover {
+        background-color: #FF6F91;  
+    }
 `;
+
 
 const Image = styled('img')({
     width: 'auto',
@@ -70,65 +80,106 @@ const RenderTimer = styled(Box)(({ theme }) => ({
     }
 }));
       
-const MultiSlide = ({ data, timer, title }) => {
-    const timerURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/timer_a73398.svg';
+// const MultiSlide = ({ data, timer, title }) => {
+//     const timerURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/timer_a73398.svg';
 
+//     const renderer = ({ hours, minutes, seconds }) => {
+//         return <RenderTimer variant="span">{hours} : {minutes} : {seconds}  Left</RenderTimer>;
+//     };
+    
+//     return (
+//         <Component>
+//             <Deal>
+//                 <DealText>{title}</DealText>
+//                 {
+//                     timer && <Timer>
+//                                 <img src={timerURL} style={{ width: 24 }} alt='time clock' />
+//                                 <Countdown date={Date.now() + 5.04e+7} renderer={renderer} />
+//                         </Timer>
+//                 }
+//                 <ViewAllButton variant="contained" color="primary">View All</ViewAllButton>
+//             </Deal>
+//             <Divider />
+//             <Carousel
+//                 swipeable={false}
+//                 draggable={false}
+//                 responsive={responsive}
+//                 centerMode={true}
+//                 infinite={true}
+//                 autoPlay={true}
+//                 autoPlaySpeed={10000}
+//                 keyBoardControl={true}
+//                 showDots={false}
+//                 containerClass="carousel-container"
+//                 // removeArrowOnDeviceType={["tablet", "mobile"]}
+//                 dotListClass="custom-dot-list-style"
+//                 itemClass="carousel-item-padding-40-px"
+//             >
+//                 {
+//                     data.map(temp => (
+//                         <Link to={`product/${temp.id}`} style={{textDecoration: 'none'}}>
+//                             <Box textAlign="center" style={{ padding: '25px 15px' }}>
+//                                 <Image src={temp.url} />
+//                                 <Text style={{ fontWeight: 600, color: '#212121' }}>{temp.title.shortTitle}</Text>
+//                                 <Text style={{ color: 'green' }}>{temp.discount}</Text>
+//                                 <Text style={{ color: '#212121', opacity: '.6' }}>{temp.tagline}</Text>
+//                             </Box>
+//                         </Link>
+//                     ))
+//                 }
+//             </Carousel>
+//         </Component>
+//     )
+// }
+
+const Slide = ({ products }) => {
+    const timerURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/timer_a73398.svg';
+    if (!products || products.length === 0) {
+        return <div>No products available</div>;
+    }
     const renderer = ({ hours, minutes, seconds }) => {
         return <RenderTimer variant="span">{hours} : {minutes} : {seconds}  Left</RenderTimer>;
-    };
-    
+             };
     return (
         <Component>
             <Deal>
-                <DealText>{title}</DealText>
-                {
-                    timer && <Timer>
-                                <img src={timerURL} style={{ width: 24 }} alt='time clock' />
-                                <Countdown date={Date.now() + 5.04e+7} renderer={renderer} />
-                        </Timer>
-                }
-                <ViewAllButton variant="contained" color="primary">View All</ViewAllButton>
+                <DealText>Deal of the Day</DealText>
+                 <Timer>
+                    <img src={timerURL} alt="timer"/>
+                    <Countdown date={Date.now() + 5.04e+7} renderer={renderer}/>
+                </Timer> 
+                 <ViewAllButton variant="contained" >View All</ViewAllButton>
             </Deal>
             <Divider />
             <Carousel
-                swipeable={false}
-                draggable={false}
-                responsive={responsive}
-                centerMode={true}
-                infinite={true}
-                autoPlay={true}
-                autoPlaySpeed={10000}
-                keyBoardControl={true}
-                showDots={false}
-                containerClass="carousel-container"
-                // removeArrowOnDeviceType={["tablet", "mobile"]}
-                dotListClass="custom-dot-list-style"
-                itemClass="carousel-item-padding-40-px"
-            >
-                {
-                    data.map(temp => (
-                        <Link to={`product/${temp.id}`} style={{textDecoration: 'none'}}>
-                            <Box textAlign="center" style={{ padding: '25px 15px' }}>
-                                <Image src={temp.url} />
-                                <Text style={{ fontWeight: 600, color: '#212121' }}>{temp.title.shortTitle}</Text>
-                                <Text style={{ color: 'green' }}>{temp.discount}</Text>
-                                <Text style={{ color: '#212121', opacity: '.6' }}>{temp.tagline}</Text>
-                            </Box>
-                        </Link>
-                    ))
-                }
+            responsive ={responsive}
+            swipeable={false}
+            draggable={false}
+            infinite={true}
+            autoPlay={true}
+            autoPlaySpeed={4000}
+            keyBoardControl={true}
+            centerMode={true}
+            containerClass="carousel-container"
+            dotListClass="custom-dot-list-style"
+            itemClass="carousel-item-padding-40-px"
+        >
+            {
+                products.map(product => (
+                    <Box textAlign="center" style={{padding : '25px 15px'}} >
+
+                        <Image src={product.url} alt="product"/>    
+                        <Text style={{ fontWeight :600 ,color :'#212121'}}>{product.title.shortTitle}</Text>  
+                        <Text style={{color:'#FF6F91'}}>{product.discount}</Text>    
+                        <Text style={{color:'#212121',opacity:'0.6'}}>{product.tagline}</Text>
+                    </Box>
+                    
+
+                ))
+            }
+
             </Carousel>
         </Component>
-    )
-}
-
-const Slide = (props) => {
-    return (
-        <>
-            {
-                props.multi === true && <MultiSlide {...props} />
-            }
-        </>
     )
 }
 

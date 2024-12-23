@@ -1,9 +1,9 @@
 import * as actionType from '../constants/productConstant'
 //whenever we call dispatch reducer is automatically called
-const initialState = {
-    product: [],
-    error: null,
-};
+// const initialState = {
+//     products: [],
+//     error: null,
+// };
 
 export const fetchProductReducer = (state={ products : []},action) =>{
     //we are calling dispatch twice so to differentiate we will call switch method
