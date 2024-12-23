@@ -75,3 +75,72 @@ export const addProductFormElements = [
   },
  
 ];
+
+export const addressFormControls = [
+  {
+    label: "Address",
+    name: "address",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your address",
+  },
+  {
+    label: "City",
+    name: "city",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your city",
+  },
+  {
+    label: "Pincode",
+    name: "pincode",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your pincode",
+  },
+  {
+    label: "Phone",
+    name: "phone",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your phone number",
+  },
+  {
+    label: "Notes",
+    name: "notes",
+    componentType: "textarea",
+    placeholder: "Enter any additional notes",
+  },
+];
+
+export const ProfileFormControls = [
+  {
+    label: "Name",
+    name: "name",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your name",
+  },
+  {
+    label: "Email",
+    name: "email",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your email",
+  },
+  {
+    label: "Phone",
+    name: "phone",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your phone",
+  },
+  {
+    label: "Address",
+    name: "address",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your address",
+  },
+  
+];

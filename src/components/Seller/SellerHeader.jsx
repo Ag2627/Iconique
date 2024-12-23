@@ -1,8 +1,7 @@
 import { AlignJustify, LogOut } from "lucide-react";
-import React, { useContext } from 'react';
-import { Button, styled } from "@mui/material";
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, styled, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { DataContext } from "@/context/DataProvider";
 
 const LogoutButton = styled(Button)`
   background: #A52448;
@@ -42,14 +41,20 @@ const EditProfileButton = styled(Button)`
 
 const SellerHeader = ({ setOpen }) => {
   const navigate = useNavigate();
-  const { setAccount } = useContext(DataContext);
+  const [account, setAccount] = useState({ id: "", name: "" });
 
+  // Retrieve account data from local storage on component mount
+  useEffect(() => {
+    const storedAccount = localStorage.getItem("account");
+    if (storedAccount) {
+      setAccount(JSON.parse(storedAccount));
+    }
+  }, []);
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     localStorage.clear();
     alert('Logged out successfully!');
-    setAccount('');
     navigate('/');
   };
 
@@ -61,8 +66,8 @@ const SellerHeader = ({ setOpen }) => {
       </Button>
 
       <div className="flex flex-1 justify-end gap-2 items-center">
-        <ProfileButton onClick={() => navigate('profile')}>Profile</ProfileButton>
-        <EditProfileButton onClick={() => navigate('edit-profile')}>Edit Profile</EditProfileButton>
+        <Typography variant="h6" >Hey {account?.name || 'Guest'}</Typography>
+        <ProfileButton onClick={() => navigate('/seller/profile')}>Profile</ProfileButton>
         <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
       </div>
     </header>

@@ -123,14 +123,17 @@ const LoginDialog = ({open,setOpen}) => {
     // Save token and role
     localStorage.setItem('token', token);
     localStorage.setItem('role', 'user');
-
+    localStorage.setItem(
+      "account",
+      JSON.stringify({ id: user._id, name: user.name })
+    );
     toast({
       title: "Signup Successful",
       description: "Welcome to your dashboard!",
       variant: "success",
     });
+    window.location.reload();
     handleClose();
-    setAccount(signup.name);
   } catch(error){
     toast({
       title: "Signup Failed",
@@ -153,15 +156,17 @@ const LoginDialog = ({open,setOpen}) => {
     // Save token and role
     localStorage.setItem('token', token);
     localStorage.setItem('role', 'user');
-
+    localStorage.setItem(
+      "account",
+      JSON.stringify({ id: user._id, name: user.name })
+    );
     toast({
       title: "Login Successful",
       description: "Welcome to your dashboard!",
       variant: "success",
     });
-  
+    window.location.reload();
       handleClose();
-      setAccount(response.data.user.name);
     }else{
       setError(true);
     }
@@ -185,14 +190,17 @@ const LoginDialog = ({open,setOpen}) => {
     // Save token and role
     localStorage.setItem('token', token);
     localStorage.setItem('role', 'user');
+    localStorage.setItem(
+      "account",
+      JSON.stringify({ id: user._id, name: user.name })
+    );
 
     toast({
       title: "Login Successful",
       description: "Welcome to your dashboard!",
       variant: "success",
     });
-            
-            setAccount(response.data.user.name);
+    window.location.reload();
             handleClose();
         }
         else {
