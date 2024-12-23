@@ -5,6 +5,7 @@ import upload from "../config/cloudinary.js";
 import { validateLogin, validateSignup } from "../Middleware/validateInput.js";
 import { authenticate } from "../Middleware/check-auth.js";
 import { deleteUserProfile, getSellerProfile, getUserProfile, updateSellerProfile, updateUserProfile } from "../controller/profile_controller.js";
+import { addProductReview,getProductReviews } from "../controller/product-review-controller.js";
 
 const router=express.Router();
 //login signup routes
@@ -23,6 +24,9 @@ router.post('/google-sellerlogin',googleSellerLogin)
 router.get('/products',fetchProducts);
 router.get('/product/:id',fetchProductById);
 
+//review routes
+router.post('review/add',addProductReview);
+router.get('/review/:id',getProductReviews);
 
 //profile routes
 
