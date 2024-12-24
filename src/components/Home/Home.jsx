@@ -7,7 +7,7 @@ import { Fragment } from "react";
 import { Box,styled } from "@mui/material";
 import { fetchProducts } from "@/redux/actions/productAction";
 import { useDispatch ,useSelector} from "react-redux";
-const component = styled(Box)`
+const Component = styled(Box)`
     padding :10px
     background: #F33A6A;
 
@@ -26,7 +26,7 @@ const Home = () =>{
     return(
         <>
             <NavBar/>
-            <component>
+            <Component>
                 <Banner/>
                 <Slide products={productArray}/>
                 <Slide products={productArray}/>
@@ -35,7 +35,7 @@ const Home = () =>{
                 <Slide products={productArray}/>
                 <Slide products={productArray}/>
                 <Slide products={productArray}/>
-            </component>
+            </Component>
         </> 
         
     )

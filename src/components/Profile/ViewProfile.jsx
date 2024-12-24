@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, Routes, Route } from 'react-router-dom';
 import PersonalInfo from './PersonalInfo';
 import ManageAddresses from './ManageAddresses';
-import MyOrders from './MyOrders';
+import UserOrder from '../Orders/UserOrder';
 
 const ViewProfile = () => {
   return (
@@ -46,7 +46,7 @@ const ViewProfile = () => {
         <Routes>
           <Route path="personal-info" element={<PersonalInfo />} />
           <Route path="manage-addresses" element={<ManageAddresses />} />
-          <Route path="manage-orders" element={<MyOrders />} />
+          <Route path="manage-orders" element={<UserOrder />} />
         </Routes>
       </div>
     </div>

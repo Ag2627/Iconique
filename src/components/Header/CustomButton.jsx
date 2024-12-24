@@ -109,7 +109,7 @@ const CustomButton = () => {
       }
         
         <Typography style={{marginTop: 5,width:135,alignSelf:'center' }} onClick={()=>openSellerDialog()}>Become a Seller</Typography>
-        <Typography style={{marginTop: 5,alignSelf:'center'}}>More</Typography>
+        
         <Container to = "/cart">
           <Badge badgecontent ={cartItems ?. length} color="secondary">
             <ShoppingCartIcon/>

@@ -4,12 +4,13 @@ import LoginImage from "../../assets/LoginImage.png"
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { authenticateGoogleLogin, authenticateLogin, authenticateSignup } from "../../service/api"
-import { useState, useContext} from "react"
-import { DataContext } from "../../context/DataProvider"
+import { useState, useEffect} from "react"
+
 
 import { GoogleLogin } from '@react-oauth/google';
 import {jwtDecode} from 'jwt-decode';
 import { toast } from "@/hooks/use-toast";
+import PrivacyPolicyDialog from "../AboutUs/PrivacyPolicyDialog";
 
 
 const Component=styled(Box)`
@@ -96,7 +97,9 @@ const LoginDialog = ({open,setOpen}) => {
   const[login,setLogin]=useState(loginInitialValues);
   const [visible,setvisible]=useState(false);
   const [error,setError]=useState(false);
-  const {setAccount}=useContext(DataContext);
+  const [isPrivacyPolicyOpen, setPrivacyPolicyOpen] = useState(false);
+
+ 
 
   const handleClose=()=>{
     setOpen(false);
@@ -244,7 +247,7 @@ const LoginDialog = ({open,setOpen}) => {
                 {error && <Typography style={{color:'#ff6161',fontSize:14, fontWeight:600}}>Please enter valid email or password</Typography>}
                 <span><TextField variant="standard" onChange={(e)=>onValueChange(e)} name='email' label="Enter email"/>
                 <TextField variant="standard" onChange={(e)=>onValueChange(e)} name='password' type={visible? "text":"password"} label="Enter password"/> <span onClick={()=>{setvisible(!visible)}}>{visible? <VisibilityIcon/>:<VisibilityOffIcon/>}</span></span>
-                <Text>By continuing, you agree to the Iconique's Terms of use and <Link to=""> privacy policies</Link></Text>
+                <Text>By continuing, you agree to the Iconique's Terms of use and <Link onClick={() => setPrivacyPolicyOpen(true)} style={{ cursor: "pointer" }}> privacy policies</Link></Text>
                 <LoginButton onClick={()=>loginUser()} variant="contained">Login</LoginButton>
                 <Typography style={{textAlign:"center"}}>OR</Typography>
                 <Google variant="contained">
@@ -268,7 +271,7 @@ const LoginDialog = ({open,setOpen}) => {
                 <span><TextField variant="standard" onChange={(e)=>onInputChange(e)} name='password' type={visible? "text":"password"} label="Enter Password"/><span onClick={()=>{setvisible(!visible)}}>{visible? <VisibilityIcon/>:<VisibilityOffIcon/>}</span></span>
                 <TextField variant="standard" onChange={(e)=>onInputChange(e)}  name='phone' label="Enter Phone"/>
                 <TextField variant="standard" onChange={(e)=>onInputChange(e)} name='address' label="Enter Address"/>
-                <Box style={{display:'flex'}}><Checkbox onChange={(e)=>onInputChange(e)} name='agree' /> <Text>By continuing, you agree to the Iconique's Terms of use and <Link to=""> privacy policies</Link></Text></Box>
+                <Box style={{display:'flex'}}><Checkbox onChange={(e)=>onInputChange(e)} name='agree' /> <Text>By continuing, you agree to the Iconique's Terms of use and <Link onClick={() => setPrivacyPolicyOpen(true)} style={{ cursor: "pointer" }}> privacy policies</Link></Text></Box>
                 <LoginButton onClick={()=>signupUser()} variant="contained">Sign Up</LoginButton>
               
                 <CreateAccount onClick={()=>toggleLogin()}>Already have an Account? Login</CreateAccount>
@@ -276,6 +279,7 @@ const LoginDialog = ({open,setOpen}) => {
 } </Wrapper>
           </Box>
         </Component>
+        <PrivacyPolicyDialog open={isPrivacyPolicyOpen} onClose={() => setPrivacyPolicyOpen(false)} />
     </Dialog>
   )
 }

@@ -56,12 +56,16 @@ const ViewAllButton = styled(Button)`
     border-radius: 2px;
     font-size: 13px;
     color: white;
-    font-weight:600
+    font-weight: 600;
     height: 30px;
+    padding: 0 10px; /* Adjust padding for desired spacing around content */
+    width: auto; /* Ensures size is based on content */
+    white-space: nowrap; /* Prevents text wrapping if the content is long */
     &:hover {
         background-color: #FF6F91;  
     }
 `;
+
 
 
 const Image = styled('img')({
@@ -168,9 +172,9 @@ const Slide = ({ products }) => {
                 products.map(product => (
                     <Box textAlign="center" style={{padding : '25px 15px'}} >
 
-                        <Image src={product.url} alt="product"/>    
+                        <Image src={product.image} alt="product"/>    
                         <Text style={{ fontWeight :600 ,color :'#212121'}}>{product.title.shortTitle}</Text>  
-                        <Text style={{color:'#FF6F91'}}>{product.discount}</Text>    
+                        <Text style={{color:'#FF6F91'}}>{product.discount}% OFF</Text>    
                         <Text style={{color:'#212121',opacity:'0.6'}}>{product.tagline}</Text>
                     </Box>
                     
