@@ -1,7 +1,8 @@
 
 import {Box, Button, styled} from '@mui/material';
 import {ShoppingCart as Cart,ShoppingBag as Bag} from '@mui/icons-material';
-
+import { payUsingPaytm } from '@/service/api';
+import {post} from '../../utils/paytm.js'
 const LeftContainer=styled(Box)(({theme})=>({
     minWidth:'40%',
     padding: '40px 0 0 80px',
@@ -27,7 +28,15 @@ const StyledButton=styled(Button)(({theme})=>({
         width: '48%'
     }
 }))
-    
+
+const buyNow=()=>{
+    let response=payUsingPaytm({amount:500,email:'charpe.vani@gmail.com'});
+    let information={
+        action:'https://securegw-stage.paytm.in/order/process',
+        params:response,
+    }
+    post(information)
+}
 
 const ActionItem=({product})=>{
     return (
@@ -36,7 +45,7 @@ const ActionItem=({product})=>{
             <img src={product.image}/>
             </Box>
             <Button component="span" variant='contained' style={{marginRight: 10,background:'#F3245F', width:'44%'}}><Cart/>ADD TO CART</Button>
-            <Button component="span" variant='contained' style={{background:'#F3245F', width:'44%'}}><Bag/>BUY NOW</Button>
+            <Button component="span" variant='contained' style={{background:'#F3245F', width:'44%'}} onClick={()=>buyNow()}><Bag/>BUY NOW</Button>
         </LeftContainer>
     )
 

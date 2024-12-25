@@ -3,7 +3,7 @@ import { addProduct,fetchProducts, fetchProductById } from "../controller/produc
 import { userSignUp,userLogin,googleLogin,sellerSignup,googleSellerLogin, sellerLogin } from "../controller/user_controller.js";
 import upload from "../config/cloudinary.js";
 import { validateLogin, validateSignup } from "../Middleware/validateInput.js";
-
+import { addPaymentGateway } from "../controller/payment-controller.js";
 
 const router=express.Router();
 
@@ -17,4 +17,6 @@ router.post('/google-sellerlogin',googleSellerLogin)
 // router.post('/products', upload.single('image'), addProduct); // New route for adding product
 router.get('/products',fetchProducts);
 router.get('/product/:id',fetchProductById);
+
+router.post('/payment',addPaymentGateway);
 export default router

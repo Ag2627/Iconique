@@ -49,6 +49,14 @@ export const authenticateSellerGoogleLogin = async (googleUser) => {
       name: googleUser.name,
     });
 };
+
+export const payUsingPaytm=async(data)=>{
+    try{
+        let response=await axios.post(`${URL}/payment`,data);
+    } catch(error){
+        console.log('error while calling payment api'.error)
+    }
+}
 //redux is the database of the frontend
 
 
