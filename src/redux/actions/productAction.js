@@ -6,12 +6,12 @@ export const fetchProducts = () => async (dispatch) =>{
         //api ko call kiya usse pura response object aaya aur use data wala field fetch kr liya
         const { data } = await axios.get(`${URL}/products`);
         
-        dispatch({type :actionTypes.FETCH_PRODUCT_SUCCESS,payload : data });
+        dispatch({type :actionTypes.FETCH_PRODUCT_SUCCESS,payload : data});
         //dispatch function calls reducer internally
 
     }
     catch(error){
-       dispatch({type :actionTypes.FETCH_PRODUCT_FAIL,payload : error.response})
+       dispatch({type :actionTypes.FETCH_PRODUCT_FAIL,payload : error.message})
     }
 }
 //backend se response payload aayega

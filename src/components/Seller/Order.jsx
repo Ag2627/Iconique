@@ -1,8 +1,9 @@
 import React from 'react'
+import SellerOrder from '../Orders/SellerOrder'
 
 const Order = () => {
   return (
-    <div>Order</div>
+    <SellerOrder/>
   )
 }
 

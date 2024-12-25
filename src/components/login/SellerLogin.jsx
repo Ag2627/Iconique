@@ -9,6 +9,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import {jwtDecode} from 'jwt-decode';
 import { authenticateSellerGoogleLogin, authenticateSellerLogin, authenticateSellerSignup } from "../../service/api";
 import { useNavigate } from "react-router-dom";
+import PrivacyPolicyDialog from "../AboutUs/PrivacyPolicyDialog";
 
 const Component=styled(Box)`
   height:90vh;
@@ -99,7 +100,8 @@ const SellerLogin = ({open,setOpen}) => {
   const[login,setLogin]=useState(loginInitialValues);
   const [visible,setvisible]=useState(false);
   const [error,setError]=useState(false);
-  const {setAccount}=useContext(DataContext);
+  const [isPrivacyPolicyOpen, setPrivacyPolicyOpen] = useState(false);
+
 
   //form data setup
   const formData = new FormData();
@@ -154,10 +156,12 @@ const SellerLogin = ({open,setOpen}) => {
     // Save token and role
     localStorage.setItem('token', token);
     localStorage.setItem('role', 'seller');
-
+    localStorage.setItem(
+      "account",
+      JSON.stringify({ id: seller._id, name: seller.name })
+    );
     showToast("Seller Signup Successful");
 
-      setAccount(signup.name);
       navigate('/seller');
       handleClose();
     }
@@ -180,9 +184,12 @@ const SellerLogin = ({open,setOpen}) => {
     // Save token and role
     localStorage.setItem('token', token);
     localStorage.setItem('role', 'seller');
+    localStorage.setItem(
+      "account",
+      JSON.stringify({ id: seller._id, name: seller.name })
+    );
     showToast("Seller Login Successfull");
-
-     // setAccount(response.data.user.name);
+  
       navigate('/seller')
     }else{
       setError(true);
@@ -195,13 +202,16 @@ const SellerLogin = ({open,setOpen}) => {
 
         if (response.status === 200) {
             console.log(response);
-           // setAccount(response.data.data.name);
+        
            const { token, seller } = response.data;
-
+           
            // Save token and role
            localStorage.setItem('token', token);
            localStorage.setItem('role', 'seller');
-       
+           localStorage.setItem(
+            "account",
+            JSON.stringify({ id: seller._id, name: seller.name })
+          );
            toast({
             title: "Login Successful",
             description: "Welcome to your dashboard!",
@@ -250,7 +260,7 @@ const SellerLogin = ({open,setOpen}) => {
                 <TextField variant="standard" onChange={(e)=>onValueChange(e)} name='email' label="Enter email"/>
                 <span><TextField variant="standard" type={visible? "text":"password"} onChange={(e)=>onValueChange(e)} name='password' label="Enter password"/>
                 <span onClick={()=>{setvisible(!visible)}}>{visible? <VisibilityIcon/>:<VisibilityOffIcon/>}</span></span>
-                <Text>By continuing, you agree to the Iconique's Terms of use and <Link to=""> privacy policies</Link></Text>
+                <Text>By continuing, you agree to the Iconique's Terms of use and <Link onClick={() => setPrivacyPolicyOpen(true)} style={{ cursor: "pointer" }}> privacy policies</Link></Text>
                 <LoginButton onClick={()=>loginUser()} variant="contained">Login</LoginButton>
                 <Typography style={{textAlign:"center"}}>OR</Typography>
                 <Google variant="contained">
@@ -280,7 +290,7 @@ const SellerLogin = ({open,setOpen}) => {
                 <TextField variant="standard" onChange={(e)=>onInputChange(e)} name='socialLink' label="Enter your instagram account"/>
                 <Typography>Upload Logo</Typography>
                 <input type="file" onChange={(e)=>onImageChange(e)} name="logo" accept="image/*"/>
-                <Box style={{display:'flex'}}><Checkbox onChange={(e)=>onInputChange(e)} name='agree' /> <Text>By continuing, you agree to the Iconique's Terms of use and <Link to=""> privacy policies</Link></Text></Box>
+                <Box style={{display:'flex'}}><Checkbox onChange={(e)=>onInputChange(e)} name='agree' /> <Text>By continuing, you agree to the Iconique's Terms of use and <Link onClick={() => setPrivacyPolicyOpen(true)} style={{ cursor: "pointer" }}> privacy policies</Link></Text></Box>
                 <LoginButton onClick={()=>signupSeller()} variant="contained">Sign Up</LoginButton>
               
                 <CreateAccount onClick={()=>toggleLogin()}>Already have an Account? Login</CreateAccount>
@@ -288,6 +298,7 @@ const SellerLogin = ({open,setOpen}) => {
 } </Wrapper>
           </Box>
         </Component>
+        <PrivacyPolicyDialog open={isPrivacyPolicyOpen} onClose={() => setPrivacyPolicyOpen(false)} />
     </Dialog>
   )
 }

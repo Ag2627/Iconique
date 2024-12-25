@@ -3,10 +3,13 @@ import { addProduct,fetchProducts, fetchProductById } from "../controller/produc
 import { userSignUp,userLogin,googleLogin,sellerSignup,googleSellerLogin, sellerLogin } from "../controller/user_controller.js";
 import upload from "../config/cloudinary.js";
 import { validateLogin, validateSignup } from "../Middleware/validateInput.js";
+import { authenticate } from "../Middleware/check-auth.js";
+import { deleteUserProfile, getSellerProfile, getUserProfile, updateSellerProfile, updateUserProfile } from "../controller/profile_controller.js";
+import { addProductReview,getProductReviews } from "../controller/product-review-controller.js";
 import { addPaymentGateway } from "../controller/payment-controller.js";
 
 const router=express.Router();
-
+//login signup routes
 router.post('/signup',validateSignup ,userSignUp);
 router.post('/login',validateLogin,userLogin);
 router.post('/seller-signup',upload.single('logo'),validateSignup,sellerSignup);
@@ -14,9 +17,25 @@ router.post('/seller-login',validateLogin,sellerLogin);
 router.post('/google-login',googleLogin)
 router.post('/google-sellerlogin',googleSellerLogin)
 
+
+
 // router.post('/products', upload.single('image'), addProduct); // New route for adding product
+
+//product routes
 router.get('/products',fetchProducts);
 router.get('/product/:id',fetchProductById);
+
+//review routes
+router.post('review/add',addProductReview);
+router.get('/review/:id',getProductReviews);
+
+//profile routes
+
+router.get('/user/get/:id',authenticate,getUserProfile);
+router.put('/user/edit/:id',authenticate,updateUserProfile);
+router.delete('/user/delete/:id',authenticate,deleteUserProfile);
+router.get('/seller/profile/:id',authenticate,getSellerProfile);
+router.put('/seller/profile/:id',authenticate,updateSellerProfile);
 
 router.post('/payment',addPaymentGateway);
 export default router

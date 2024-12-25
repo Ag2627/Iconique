@@ -1,6 +1,7 @@
 import axios from "axios";
 const URL="http://localhost:5000"
 
+let token = localStorage.getItem('token');
 export const authenticateSignup=async (data)=>{
     try{
         return await axios.post(`${URL}/signup`,data)
@@ -59,6 +60,27 @@ export const payUsingPaytm=async(data)=>{
 }
 //redux is the database of the frontend
 
+export const fetchProfile = async (role, id) => {
+    const { data } = await axios.get(`${URL}/${role}/profile/${id}`,{
+        headers: {
+            "Content-Type": "application/json", 
+          authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+        },
+        withCredentials: true,
+      });
+    return data;
+};
+
+export const updateProfile = async (role, id, updatedData) => {
+    const { data } = await axios.put(`${URL}/${role}/profile/${id}`, updatedData,{
+        headers: {
+            "Content-Type": "application/json", 
+          authorization: `Bearer ${token}`  
+        },
+        withCredentials: true,
+      });
+    return data;
+};
 
 // export const fetchProductById = (id) => axios.get(`/seller/products/${id}`);
 // export const addProduct = (product) => axios.post('/seller/products', product);

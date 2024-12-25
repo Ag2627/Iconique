@@ -8,20 +8,24 @@ import SellerProducts from "./components/Seller/SellerProducts";
 import Order from "./components/Seller/Order";
 import Followers from "./components/Seller/Followers";
 import SellerOverview from "./components/Seller/SellerOverview";
-import EditProfile from "./components/Profile/EditProfile";
-import Profile from "./components/Profile/Profile";
+import ViewProfile from "./components/Profile/ViewProfile";
 import DataProvider from "./context/DataProvider";
 import DetailView from "./components/Details/DetailView";
 import ContactUs from './components/ContactUs/ContactForm'
 import SellerPrivateRoute from "./components/Seller/SellerPrivateRoute";
 import SellerLogin from "./components/login/SellerLogin";
+import Cart from "./components/cart/Cart";
+import UserOrder from "./components/Orders/UserOrder";
 
 const router=createBrowserRouter([
   {path:'',element:<UserDashboard/>,children:[
     {path:'',element:<Home/>},
     {path:'product/:id',element:<DetailView/>},
+    {path :'/cart',element :<Cart/>},
     {path:'about', element:<AboutUs/>},
     {path:'contact',element:<ContactUs/>},
+    {path:'profile/*',element:<ViewProfile/>},
+    {path:'my-orders',element:<UserOrder/>},
   ]},
   {path:'/seller',element:
   <SellerPrivateRoute>
@@ -32,8 +36,7 @@ const router=createBrowserRouter([
     {path:'overview',element:<SellerOverview/>},
     {path:'orders',element:<Order/>},
     {path:'followers',element:<Followers/>},
-    {path:'edit-profile',element:<EditProfile/>},
-    {path:'profile',element:<Profile/>},
+    {path:'profile',element:<ViewProfile/>},
   ]},
 ])
 function App() {

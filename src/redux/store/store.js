@@ -4,13 +4,21 @@ import { thunk } from "redux-thunk";
 //thunk is a middleware when we call our api thunk is used
 import { composeWithDevTools } from "@redux-devtools/extension";
 import { fetchProductDetailsReducer, fetchProductReducer} from "../reducers/productReducer";
+
+
 import {cartReducer} from '../reducers/cartReducer'
 //we will pass two argumnets to the create store reducer(action item) and middleware
 import AdminProductsSlice from '../store/seller/products-slice/index'
+import addressSlice from '../store/address/index'
+import userSlice from '../store/profile/index'
+import reviewSlice from '../store/review-slice/index'
 //we will pass two argumnets to the create store reducer(action item) and middleware
 const reducer = combineReducers({
     fetchProducts : fetchProductReducer,
     fetchProductDetails : fetchProductDetailsReducer,
+    Address:addressSlice,
+    profile:userSlice,
+    review:reviewSlice,
     cart:cartReducer,
     adminProducts:AdminProductsSlice,
 })

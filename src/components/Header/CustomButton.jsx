@@ -1,14 +1,14 @@
-import { Box, Button,Menu, MenuItem, styled, Typography } from "@mui/material"
+import { Box, Button,Menu, MenuItem, styled, Typography,Badge} from "@mui/material"
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LoginDialog from "../login/LoginDialog";
-import { useState,useContext } from "react";
-import { DataContext } from "../../context/DataProvider";
+import { useState,useEffect } from "react";
 import Profile from "./Profile";
 import SellerLogin from "../login/SellerLogin";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // const Wrapper=styled(Box)(({theme})=>({
 //   display:'flex',
@@ -58,7 +58,7 @@ const Text=styled(Typography)`
 const Component=styled(Menu)`
   margin-top:5px;
 `
-const Container=styled(Box)`
+const Container=styled(Link)`
   display:flex;
 `
 const LoginButton=styled(Button)`
@@ -76,9 +76,16 @@ const CustomButton = () => {
 
   const [open,setOpen]=useState(false);
   const [sellerOpen,setSellerOpen]=useState(false);
-  const {account,setAccount}=useContext(DataContext);
+  const [account, setAccount] = useState({ id: "", name: "" });
   const [openMenu,setMenu]=useState(false);
 
+  // Retrieve account data from local storage on component mount
+  useEffect(() => {
+    const storedAccount = localStorage.getItem("account");
+    if (storedAccount) {
+      setAccount(JSON.parse(storedAccount));
+    }
+  }, []);
   const handleClick=(event)=>{
     setMenu(event.currentTarget)
   }
@@ -92,18 +99,22 @@ const CustomButton = () => {
   const openSellerDialog=()=>{
     setSellerOpen(true);
   }
+  const {cartItems} = useSelector(state => state.cart);
+  console.log("Checking account",account);
     return (
     <Wrapper>
       {
-        account? <Profile account={account} setAccount={setAccount}/>:
+        account.id? <Profile account={account} setAccount={setAccount}/>:
         <LoginButton variant="contained" onClick={()=>openDialog()} >Login</LoginButton>
       }
         
         <Typography style={{marginTop: 5,width:135,alignSelf:'center' }} onClick={()=>openSellerDialog()}>Become a Seller</Typography>
-        <Typography style={{marginTop: 5,alignSelf:'center'}}>More</Typography>
-        <Container>
+        
+        <Container to = "/cart">
+          <Badge badgecontent ={cartItems ?. length} color="secondary">
             <ShoppingCartIcon/>
-            <Typography>Cart</Typography>
+          </Badge>
+            <Typography style={{marginLeft : 10}}>Cart</Typography>
         </Container>
         <Container>
             <FavoriteIcon/>

@@ -1,6 +1,10 @@
 
 import {Box, Button, styled} from '@mui/material';
 import {ShoppingCart as Cart,ShoppingBag as Bag} from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/actions/cartActions';
+import { useState } from 'react';
 import { payUsingPaytm } from '@/service/api';
 import {post} from '../../utils/paytm.js'
 const LeftContainer=styled(Box)(({theme})=>({
@@ -39,11 +43,21 @@ const buyNow=()=>{
 }
 
 const ActionItem=({product})=>{
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [quantity ,setQuantity] = useState(1);
+    //const {id} =product;
+    const addItemToCart =() => {
+       dispatch(addToCart(_id,quantity));
+        navigate('/cart');
+    }
     return (
         <LeftContainer>
             <Box style={{padding: '15px 20px',border: '1px solid #f0f0f0',width: '90%'}}>
             <img src={product.image}/>
             </Box>
+            <StyledButton component="span" variant='contained' onClick={() => addItemToCart()} style={{marginRight: 10,background:'#F3245F', width:'44%'}}><Cart/>ADD TO CART</StyledButton>
+            <StyledButton component="span" variant='contained' style={{background:'#F3245F', width:'44%'}}><Bag/>BUY NOW</StyledButton>
             <Button component="span" variant='contained' style={{marginRight: 10,background:'#F3245F', width:'44%'}}><Cart/>ADD TO CART</Button>
             <Button component="span" variant='contained' style={{background:'#F3245F', width:'44%'}} onClick={()=>buyNow()}><Bag/>BUY NOW</Button>
         </LeftContainer>

@@ -92,7 +92,7 @@ export const userLogin=async(request,response)=>{
         response.status(200).json({
             message: "Login successful",
             token,
-            user
+            user:user
         });
         } else{
             return response.status(401).json('Invalid Login');
@@ -125,7 +125,7 @@ export const sellerLogin = async (request, response) => {
         response.status(200).json({
             message: "Login successful",
             token,
-            seller
+            seller:seller
         });
     } catch (error) {
         response.status(500).json({ message: error.message });
@@ -152,7 +152,7 @@ export const googleLogin = async (req, res) => {
         res.status(200).json({
             message: "Login successful",
             token,
-            user
+            user:user
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -179,7 +179,7 @@ export const googleSellerLogin = async (req, res) => {
         res.status(200).json({
             message: "Login successful",
             token,
-            seller
+            seller:seller
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
