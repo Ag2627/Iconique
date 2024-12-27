@@ -5,7 +5,7 @@ const Component = styled(Box)`
     display : flex;
     margin : 55px 130px 0px 130px;
     justify-content : space-between;
-    background : '#fff';
+    background : #fff;
 `
  const Text =styled(Typography)`
     font-size : 20px;

@@ -36,11 +36,12 @@ const DetailView=()=>{
    
     
     useEffect(()=>{
-        if(product && id!==product.id)
+        if(!product && id!==product.id)
         {
             dispatch(fetchProductDetails(id))}
     },[dispatch,id,product,loading])
-    // console.log(product._id);
+    console.log("this is product:" +product);
+    
     return(<>
     
         <Component>
