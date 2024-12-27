@@ -168,7 +168,7 @@ const Slide = ({ products }) => {
                 products.map(product => (
                     <Box textAlign="center" style={{padding : '25px 15px'}} >
 
-                        <Image src={product.url} alt="product"/>    
+                        <Image src={product.image} alt="product"/>    
                         <Text style={{ fontWeight :600 ,color :'#212121'}}>{product.title.shortTitle}</Text>  
                         <Text style={{color:'#FF6F91'}}>{product.discount}</Text>    
                         <Text style={{color:'#212121',opacity:'0.6'}}>{product.tagline}</Text>
