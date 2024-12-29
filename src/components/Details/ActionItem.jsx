@@ -1,10 +1,12 @@
 
 import {Box, Button, styled} from '@mui/material';
 import {ShoppingCart as Cart,ShoppingBag as Bag} from '@mui/icons-material';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/actions/cartActions';
 import { useState } from 'react';
+
 const LeftContainer=styled(Box)(({theme})=>({
     minWidth:'40%',
     padding: '40px 0 0 80px',
@@ -38,7 +40,7 @@ const ActionItem=({product})=>{
     const [quantity ,setQuantity] = useState(1);
     //const {id} =product;
     const addItemToCart =() => {
-       dispatch(addToCart(_id,quantity));
+       dispatch(addToCart(product._id,quantity));
         navigate('/cart');
     }
     return (
@@ -48,6 +50,7 @@ const ActionItem=({product})=>{
             </Box>
             <StyledButton component="span" variant='contained' onClick={() => addItemToCart()} style={{marginRight: 10,background:'#F3245F', width:'44%'}}><Cart/>ADD TO CART</StyledButton>
             <StyledButton component="span" variant='contained' style={{background:'#F3245F', width:'44%'}}><Bag/>BUY NOW</StyledButton>
+            <StyledButton component="span" variant='contained' onClick={() => addItemToCart()} style={{marginRight: 10,background:'#F3245F', width:'44%'}}><FavoriteBorderIcon/>ADD TO WISHLIST</StyledButton>
         </LeftContainer>
     )
 

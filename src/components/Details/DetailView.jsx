@@ -31,12 +31,10 @@ const RightContainer=styled(Grid)`
 const DetailView=()=>{
     const dispatch=useDispatch();
     const {id}=useParams();
-    
     const {loading,product}=useSelector(state=>state.fetchProductDetails);
-   
     
     useEffect(()=>{
-        if(product && id!==product.id)
+        if(product && id!==product._id)
         {
             dispatch(fetchProductDetails(id))}
     },[dispatch,id,product,loading])

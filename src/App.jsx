@@ -16,11 +16,14 @@ import SellerPrivateRoute from "./components/Seller/SellerPrivateRoute";
 import SellerLogin from "./components/login/SellerLogin";
 import Cart from "./components/cart/Cart";
 import UserOrder from "./components/Orders/UserOrder";
+import SellerProfile from "./components/Seller/SellerProfile";
+import WishList from "./components/wishlist/WishList";
 
 const router=createBrowserRouter([
   {path:'',element:<UserDashboard/>,children:[
     {path:'',element:<Home/>},
     {path:'product/:id',element:<DetailView/>},
+    {path:'wishlist',element:<WishList/>},
     {path :'/cart',element :<Cart/>},
     {path:'about', element:<AboutUs/>},
     {path:'contact',element:<ContactUs/>},
@@ -36,7 +39,7 @@ const router=createBrowserRouter([
     {path:'overview',element:<SellerOverview/>},
     {path:'orders',element:<Order/>},
     {path:'followers',element:<Followers/>},
-    {path:'profile',element:<ViewProfile/>},
+    {path:'profile',element:<SellerProfile/>},
   ]},
 ])
 function App() {

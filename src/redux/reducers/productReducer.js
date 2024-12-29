@@ -25,7 +25,7 @@ export const fetchProductReducer = (state={ products : []},action) =>{
     }
 
 };
-export const fetchProductDetailsReducer=(state={product:{}},action)=>{
+export const fetchProductDetailsReducer=(state={product:{},loading:true},action)=>{
   switch(action.type){
   
     case actionType.FETCH_PRODUCT_DETAILS_REQUEST:

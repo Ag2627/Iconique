@@ -21,7 +21,7 @@ export const fetchProducts = () => async (dispatch) =>{
 // action to fetch product by id
 export const fetchProductDetails=(id)=>async(dispatch)=>{
     try{
-     
+
         dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_REQUEST});
        
 

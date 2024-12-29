@@ -1,9 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
 
-const token = localStorage.getItem('token');  // Get the token
-
-
 const initialState={
     isLoading:false,
     productList:[],
@@ -16,11 +13,12 @@ export const addNewProduct=createAsyncThunk('/products/addnewproduct',async (for
         {
             headers: {
                 "Content-Type": "application/json", 
-              authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+              authorization: `Bearer ${localStorage.getItem('token')}`  // Ensure token is sent as "Bearer <token>"
             },
             withCredentials: true,
           }
     );
+    
     return result?.data;
 });
 
@@ -28,10 +26,11 @@ export const fetchProducts=createAsyncThunk('/products/fetchProducts',async ()=>
     const result=await axios.get("http://localhost:5000/seller/products/get", {
         headers: {
             "Content-Type": "application/json", 
-          authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+          authorization: `Bearer ${localStorage.getItem('token')}`  // Ensure token is sent as "Bearer <token>"
         },
         withCredentials: true,
       });
+  
       console.log("API result",result.data);
     return result?.data;
 });
@@ -40,7 +39,7 @@ export const editProduct=createAsyncThunk('/products/editproduct',async ({id,for
     const result=await axios.put(`http://localhost:5000/seller/products/edit/${id}`,formData,{
         headers: {
             "Content-Type": "application/json", 
-          authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+          authorization: `Bearer ${localStorage.getItem('token')}`  // Ensure token is sent as "Bearer <token>"
         }
       });
     return result?.data;
@@ -50,7 +49,7 @@ export const deleteProduct=createAsyncThunk('/products/deleteproduct',async (id)
     const result=await axios.delete(`http://localhost:5000/seller/products/delete/${id}`,{
         headers: {
             "Content-Type": "application/json", 
-          authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+          authorization: `Bearer ${localStorage.getItem('token')}`  // Ensure token is sent as "Bearer <token>"
         }
       });
     return result?.data;

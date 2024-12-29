@@ -116,7 +116,7 @@ const CustomButton = () => {
           </Badge>
             <Typography style={{marginLeft : 10}}>Cart</Typography>
         </Container>
-        <Container>
+        <Container component={Link} to="/wishlist">
             <FavoriteIcon/>
             <Typography>Wishlist</Typography>
         </Container>
