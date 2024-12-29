@@ -33,6 +33,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use('/',router);
 app.use('/seller/products',AdminProductRouter);
 app.use('/address',AddressRouter);
+app.use('/api',router)
 const port =5000
 const USERNAME=process.env.DB_USERNAME;
 const PASSWORD=process.env.DB_PASSWORD;
