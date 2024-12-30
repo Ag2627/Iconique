@@ -9,12 +9,16 @@ const JWT_SECRET = process.env.JWT_SECRET;
 export const fetchProducts = async(request,response) =>{
     try{
         const products = await product.find({});
-
+        console.log("controller ka log: ",products);
+        
         response.status(200).json({
           success:true,
           data:products,
         }
+        
+        
         );
+        
     } catch(error){
         response.status(500).json({
           success:false,

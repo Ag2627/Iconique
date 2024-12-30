@@ -16,6 +16,7 @@ import SellerPrivateRoute from "./components/Seller/SellerPrivateRoute";
 import SellerLogin from "./components/login/SellerLogin";
 import Cart from "./components/cart/Cart";
 import UserOrder from "./components/Orders/UserOrder";
+import PaymentComponent from "./components/PaymentComp/PaymentComponent";
 
 const router=createBrowserRouter([
   {path:'',element:<UserDashboard/>,children:[
@@ -26,6 +27,7 @@ const router=createBrowserRouter([
     {path:'contact',element:<ContactUs/>},
     {path:'profile/*',element:<ViewProfile/>},
     {path:'my-orders',element:<UserOrder/>},
+    {path:'/payment',element:<PaymentComponent/>},
   ]},
   {path:'/seller',element:
   <SellerPrivateRoute>

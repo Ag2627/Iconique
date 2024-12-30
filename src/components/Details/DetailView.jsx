@@ -28,19 +28,28 @@ const RightContainer=styled(Grid)`
 `
 
 // const product=products[0];
+// console.log(product._id);
+
 const DetailView=()=>{
     const dispatch=useDispatch();
     const {id}=useParams();
+    // const id=product._id;
+    const fetchDetails=useSelector(state=>state.fetchProductDetails);
+    console.log("details "+fetchDetails);
+    const {loading,product}=fetchDetails;
+    // console.log(product.product);
     
-    const {loading,product}=useSelector(state=>state.fetchProductDetails);
    
     
     useEffect(()=>{
-        if(!product && id!==product.id)
+        if(product && id!==product.id)
         {
             dispatch(fetchProductDetails(id))}
     },[dispatch,id,product,loading])
     console.log("this is product:" +product);
+    console.dir(product);
+
+    
     
     return(<>
     

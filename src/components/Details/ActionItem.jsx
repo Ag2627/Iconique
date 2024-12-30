@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/actions/cartActions';
 import { useState } from 'react';
-import { payUsingPaytm } from '@/service/api';
-import {post} from '../../utils/paytm.js'
+import { paymentServices } from '../../service/paymentServices';
+import { PaymentScript } from '../../utils/PaymentScript';
+
 const LeftContainer=styled(Box)(({theme})=>({
     minWidth:'40%',
     padding: '40px 0 0 80px',
@@ -34,12 +35,9 @@ const StyledButton=styled(Button)(({theme})=>({
 }))
 
 const buyNow=()=>{
-    let response=payUsingPaytm({amount:500,email:'charpe.vani@gmail.com'});
-    let information={
-        action:'https://securegw-stage.paytm.in/order/process',
-        params:response,
-    }
-    post(information)
+        const amount = 500; 
+        const title = "Product Title";
+        paymentServices(amount, title);
 }
 
 const ActionItem=({product})=>{
@@ -48,7 +46,7 @@ const ActionItem=({product})=>{
     const [quantity ,setQuantity] = useState(1);
     //const {id} =product;
     const addItemToCart =() => {
-       dispatch(addToCart(_id,quantity));
+       dispatch(addToCart(product._id,quantity));
         navigate('/cart');
     }
     return (

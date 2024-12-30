@@ -21,7 +21,7 @@ const Home = () =>{
     useEffect(() => {
         dispatch(fetchProducts())
     },[dispatch])
-    console.log("products" ,products);
+    // console.log("products" ,products);
     const productArray =products?.data || [];
     return(
         <>

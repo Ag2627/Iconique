@@ -6,6 +6,7 @@ import router from "./Routes/route.js"
 import bodyParser from "body-parser"
 import AdminProductRouter from "./Routes/Seller/product-routes.js";
 import AddressRouter from "./Routes/Address/address-routes.js";
+import { createOrder,fetchPaymentDetails,verifyPayment } from "./controller/payment-controller.js"
 const app = express()
 
 dotenv.config()
@@ -38,6 +39,20 @@ const port =5000
 const USERNAME=process.env.DB_USERNAME;
 const PASSWORD=process.env.DB_PASSWORD;
 Connection(USERNAME,PASSWORD);
-app.listen(port, () =>{
-    console.log(`server running at http://localhost:${port}`)
-})
+console.log(`server running at http://localhost:${port}`);
+
+
+//payment section 
+app.post('/orders',createOrder)
+
+app.get("/payment/:paymentId", async (req, res) => {
+  const { paymentId } = req.params;
+
+  try {
+      const paymentDetails = await fetchPaymentDetails(paymentId);
+
+      res.json(paymentDetails);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});

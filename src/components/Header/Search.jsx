@@ -3,7 +3,7 @@ import { Box, InputBase, ListItem,List, styled } from '@mui/material'
 import React from 'react'
 import { useState,useEffect } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
-import { fetchProducts as listProducts} from '@/redux/actions/productAction';
+import { fetchProducts as listProducts} from '../../redux/actions/productAction';
 import {Link} from 'react-router-dom';
 
 const Searchcontainer=styled(Box)`
@@ -36,22 +36,24 @@ const Search = () => {
     const [text,setText]=useState();
     const [open,setOpen]=useState(true);
     
-    const fetchProducts=useSelector(state=>state.fetchProducts);
+    const {products}=useSelector(state=>state.fetchProducts);
+    console.log("ye hai prods: "+products);
     
-    const {products}=fetchProducts;
+    
+    
     
     //logging all products on console
-    // useEffect(() => {
-    //     if (Array.isArray(products.data)) {
-    //       for (let i = 0; i < products.data.length; i++) {
-    //         console.log(`Product ${i + 1}:`, products.data[i]);
-    //       }
-    //     }
-    //     else{
-    //         console.log("not an array");
+    useEffect(() => {
+        if (Array.isArray(products)) {
+          for (let i = 0; i < products.length; i++) {
+            console.log(`Product ${i + 1}:`, products[i]);
+          }
+        }
+        else{
+            console.log("not an array");
             
-    //     }
-    //   }, [products]); 
+        }
+      }, [products]); 
     
     
     const dispatch=useDispatch();
@@ -78,7 +80,7 @@ const Search = () => {
             text && 
                 <ListWrapper>
                     {
-                        products.data.filter((product)=> product.title && product.title.toLowerCase().includes(text.toLowerCase())).map(product=>(
+                        products.filter((product)=> product.title && product.title.toLowerCase().includes(text.toLowerCase())).map(product=>(
                             <ListItem key={product._id}>
                                 <Link to={`product/${product._id}`} onClick={()=>setText('')} style={{textDecoration:'none', color:'inherit'}}>
                                 {product.title}

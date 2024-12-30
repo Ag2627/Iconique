@@ -26,7 +26,7 @@ router.get('/products',fetchProducts);
 router.get('/product/:id',fetchProductById);
 
 //review routes
-router.post('review/add',addProductReview);
+router.post('/review/add',addProductReview);
 router.get('/review/:id',getProductReviews);
 
 //profile routes
