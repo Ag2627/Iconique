@@ -6,7 +6,7 @@ import { validateLogin, validateSignup } from "../Middleware/validateInput.js";
 import { authenticate } from "../Middleware/check-auth.js";
 import { deleteUserProfile, getSellerProfile, getUserProfile, updateSellerProfile, updateUserProfile } from "../controller/profile_controller.js";
 import { addProductReview,getProductReviews } from "../controller/product-review-controller.js";
-// import { addPaymentGateway } from "../controller/payment-controller.js";
+import { addToWishList, getWishList, RemoveFromWishList } from "../controller/wishlist-controller.js";
 
 const router=express.Router();
 //login signup routes
@@ -28,6 +28,11 @@ router.get('/product/:id',fetchProductById);
 //review routes
 router.post('/review/add',addProductReview);
 router.get('/review/:id',getProductReviews);
+
+//wishlist routes 
+router.post('/wishlist/add',authenticate,addToWishList);
+router.get('/wishlist/get/:userId',authenticate,getWishList);
+router.delete('/wishlist/delete/:userId/:productId',authenticate,RemoveFromWishList);
 
 //profile routes
 

@@ -3,7 +3,7 @@ import product from "../Model/product-schema.js";
 import review from "../Model/ReviewSchema.js";
 export const addProductReview = async (req, res) => {
      try{
-        const {productId, userId, sellerId, userName, reviewMessage, rating} = req.body;
+        const {productId, userId, userName, reviewMessage, rating} = req.body;
         const order= await Order.findOne({userId,"cartItems.productId":productId,
             orderStatus:"Confirmed"
         })
@@ -23,7 +23,6 @@ export const addProductReview = async (req, res) => {
         const newReview= new review({
             productId,
             userId,
-            sellerId,
             userName,
             reviewMessage,
             rating
@@ -49,7 +48,7 @@ export const addProductReview = async (req, res) => {
 }
 export const getProductReviews = async (req, res) => {
     try{
-        const productId=req.params;
+        const {productId}=req.params;
         const reviews= await review.find({productId});
         res.status(200).json({
             success:true,

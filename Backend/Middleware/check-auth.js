@@ -37,7 +37,7 @@ export const authenticate = (req, res, next) => {
     }
 
     const decoded = verifyToken(token);
-    req.user = decoded; // Attach decoded token to request
+    req.user = decoded.id; // Attach decoded token to request
     next();
   } catch (error) {
     res.status(401).json({ message: "Authentication failed." });

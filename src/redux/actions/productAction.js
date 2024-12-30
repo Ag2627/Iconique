@@ -30,8 +30,7 @@ export const fetchProducts = () => async (dispatch) =>{
 export const fetchProductDetails=(id)=>async(dispatch)=>{
   
     try{
-        
-        
+
         dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_REQUEST});
         const {data}=await axios.get(`${URL}/product/${id}`);
     

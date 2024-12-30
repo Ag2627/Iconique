@@ -10,6 +10,7 @@ import { addNewProduct, deleteProduct, editProduct, fetchProducts } from '../../
 import { useToast } from '@/hooks/use-toast';
 import ProductTile from './ProductTile';
 
+
 const initialFormData = {
   image: null,
   title: "",
@@ -20,6 +21,7 @@ const initialFormData = {
   size: "",
   discount: "",
   quantity: "",
+  tagline:'',
   averageReview: 0,
 };
 
@@ -91,7 +93,7 @@ const SellerProducts = () => {
 
   useEffect(()=>{
     dispatch(fetchProducts());
-  },[]);
+  },[dispatch]);
 
   
 
@@ -104,7 +106,7 @@ const SellerProducts = () => {
         {
           
           productList && productList.length>0?
-          productList.map(productItem=><ProductTile setCurrentEditedId={setCurrentEditedId} 
+          productList.map(productItem=><ProductTile key={productItem._id} setCurrentEditedId={setCurrentEditedId} 
             setFormData={setFormData}
             setOpenCreateProductsDialog={setOpenCreateProductsDialog} product={productItem}
             handleDelete={handleDelete}

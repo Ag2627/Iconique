@@ -1,8 +1,6 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const token = localStorage.getItem('token'); 
-
 const initialState = {
     isLoading: false,
     addressList: [],
@@ -15,10 +13,9 @@ export const addNewAddress = createAsyncThunk(
         const response = await axios.post('http://localhost:5000/address/add',  data,{
             headers: {
                 "Content-Type": "application/json", 
-              authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+              authorization: `Bearer ${localStorage.getItem('token')}`  // Ensure token is sent as "Bearer <token>"
             }
           });
-          console.log("Token check",token);
         
         return response.data;
     }
@@ -29,7 +26,7 @@ export const fetchAllAddresses = createAsyncThunk(
         const response = await axios.get(`http://localhost:5000/address/get/${userId}`,{
             headers: {
                 "Content-Type": "application/json", 
-              authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+              authorization: `Bearer ${localStorage.getItem('token')}`  // Ensure token is sent as "Bearer <token>"
             }
           });
 
@@ -43,7 +40,7 @@ export const editAddress = createAsyncThunk(
         const response = await axios.put(`http://localhost:5000/address/edit/${userId}/${addressId}`,  formData,{
             headers: {
                 "Content-Type": "application/json", 
-              authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+              authorization: `Bearer ${localStorage.getItem('token')}`  // Ensure token is sent as "Bearer <token>"
             }
           });
 
@@ -57,7 +54,7 @@ export const deleteAddress = createAsyncThunk(
         const response = await axios.delete(`http://localhost:5000/address/delete/${userId}/${addressId}`,{
             headers: {
                 "Content-Type": "application/json", 
-              authorization: `Bearer ${token}`  // Ensure token is sent as "Bearer <token>"
+              authorization: `Bearer ${localStorage.getItem('token')}`  // Ensure token is sent as "Bearer <token>"
             }
           });
 

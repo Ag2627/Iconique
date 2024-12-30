@@ -30,21 +30,22 @@ const CartItem =({item}) =>{
     const reomoveItemfromCart =(_id) => {
         dispatch(removeFromCart(_id));
     }
+    
     return (
         <Component>
             <LeftComponent>
-                <img src={item.url} alt="product" style={{ height :110,width : 110}}/>
+                <img src={item.data.image} alt="product" style={{ height :110,width : 110}}/>
                 <GroupedButton/>
             </LeftComponent>
             <Box style={{margin : 20}}>
-                <Typography>{addEllipsis(item.title.longTitle)}</Typography>
-                <SmallText>seller:{item.sellerID} </SmallText>
+                <Typography>{addEllipsis(item.data.title)}</Typography>
+                <SmallText>seller:{item.data.sellerID} </SmallText>
                 <Typography style={{margin:'20px 0'}}>
-                    <Box component="span" style={{fontWeight:600, fontSize: 18 }}>₹{Math.ceil(item.price-item.price*item.discount/100)}</Box>&nbsp;&nbsp;&nbsp;
-                    <Box component="span" style={{color:'#878787'}}><strike>₹{item.price}</strike></Box>&nbsp;&nbsp;&nbsp;
-                    <Box component="span" style={{color: '#388E3C'}}>-{item.discount}%</Box>
+                    <Box component="span" style={{fontWeight:600, fontSize: 18 }}>₹{Math.ceil(item.data.price-item.data.price*item.data.discount/100)}</Box>&nbsp;&nbsp;&nbsp;
+                    <Box component="span" style={{color:'#878787'}}><strike>₹{item.data.price}</strike></Box>&nbsp;&nbsp;&nbsp;
+                    <Box component="span" style={{color: '#388E3C'}}>-{item.data.discount}%</Box>
                 </Typography>
-                <Remove onClick={() => reomoveItemfromCart(item._id) }>Remove</Remove>
+                <Remove onClick={() => reomoveItemfromCart(item.data._id) }>Remove</Remove>
             </Box>
         </Component>
     )

@@ -97,10 +97,10 @@ const ManageAddresses = () => {
   },[dispatch,userId]);
   return (
     <Card>
-      <div className='mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2'>
+      <div className='mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2'>
         {
           addressList && addressList.length>0 ?
-          addressList.map(singleAddressItem=><AddressCard handleDeleteAddress={handleDeleteAddress} addressInfo={singleAddressItem}
+          addressList.map(singleAddressItem=><AddressCard key={singleAddressItem._id}handleDeleteAddress={handleDeleteAddress} addressInfo={singleAddressItem}
           handleEditAddress={handleEditAddress}
           />):null
         }

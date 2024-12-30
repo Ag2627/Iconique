@@ -57,8 +57,8 @@ const TotalView = ({ cartItems }) => {
     const totalAmount = () => {
         let price = 0, discount = 0;
         cartItems.map(item => {
-            price += item.price.mrp
-            discount += (item.price.mrp - item.price.cost) 
+            price +=( item.price-item.price*item.discount/100)
+            discount += item.discount
         })
         setPrice(price);
         setDiscount(discount);
