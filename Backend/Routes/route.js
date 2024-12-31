@@ -42,5 +42,4 @@ router.delete('/user/delete/:id',authenticate,deleteUserProfile);
 router.get('/seller/profile/:id',authenticate,getSellerProfile);
 router.put('/seller/profile/:id',authenticate,updateSellerProfile);
 
-// router.post('/payment',addPaymentGateway);
-export default router
+export default router;

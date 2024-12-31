@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/actions/cartActions';
 import { useState } from 'react';
-import { paymentServices } from '../../service/paymentServices';
-import { PaymentScript } from '../../utils/PaymentScript';
+// import { paymentServices } from '../../service/paymentServices';
+// import { PaymentScript } from '../../utils/PaymentScript';
 
 const LeftContainer=styled(Box)(({theme})=>({
     minWidth:'40%',
@@ -35,11 +35,11 @@ const StyledButton=styled(Button)(({theme})=>({
     }
 }))
 
-const buyNow=()=>{
-        const amount = 500; 
-        const title = "Product Title";
-        paymentServices(amount, title);
-}
+// const buyNow=()=>{
+//         const amount = 500; 
+//         const title = "Product Title";
+//         paymentServices(amount, title);
+// }
 
 const ActionItem=({product})=>{
     const navigate = useNavigate();
@@ -59,7 +59,7 @@ const ActionItem=({product})=>{
             <StyledButton component="span" variant='contained' style={{background:'#F3245F', width:'44%'}}><Bag/>BUY NOW</StyledButton>
             <StyledButton component="span" variant='contained' onClick={() => addItemToCart()} style={{marginRight: 10,background:'#F3245F', width:'44%'}}><FavoriteBorderIcon/>ADD TO WISHLIST</StyledButton>
             <Button component="span" variant='contained' style={{marginRight: 10,background:'#F3245F', width:'44%'}}><Cart/>ADD TO CART</Button>
-            <Button component="span" variant='contained' style={{background:'#F3245F', width:'44%'}} onClick={()=>buyNow()}><Bag/>BUY NOW</Button>
+            <Button component="span" variant='contained' style={{background:'#F3245F', width:'44%'}}><Bag/>BUY NOW</Button>
         </LeftContainer>
     )
 
