@@ -18,7 +18,7 @@ import Cart from "./components/cart/Cart";
 import UserOrder from "./components/Orders/UserOrder";
 import SellerProfile from "./components/Seller/SellerProfile";
 import WishList from "./components/wishlist/WishList";
-import PaymentComponent from "./components/PaymentComp/PaymentComponent";
+import PaymentComponent from "./components/PaymentComp/PaymentComponent.jsx";
 
 const router=createBrowserRouter([
   {path:'',element:<UserDashboard/>,children:[

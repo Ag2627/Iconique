@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { fetchProductDetails } from "@/redux/actions/productAction";
+import { fetchProductDetails } from "../../redux/actions/productAction";
 import { useDispatch, useSelector } from "react-redux";
 import ActionItem from './ActionItem';
 import { Box,Grid, Typography,styled } from "@mui/material";

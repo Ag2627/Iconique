@@ -54,7 +54,7 @@ const Header = () => {
         </Box>
     );
     useEffect(()=>{
-        console.log("drawer ",open);
+        // console.log("drawer ",open);
     },[open])
   return (
       <Styleheader>

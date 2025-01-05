@@ -7,6 +7,8 @@ import bodyParser from "body-parser"
 import AdminProductRouter from "./Routes/Seller/product-routes.js";
 import AddressRouter from "./Routes/Address/address-routes.js";
 import { createOrder,fetchPaymentDetails,verifyPayment } from "./controller/payment-controller.js"
+import paymentRouter from './Routes/Payment/payment-routes.js'
+
 const app = express()
 
 dotenv.config()
@@ -34,7 +36,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use('/',router);
 app.use('/seller/products',AdminProductRouter);
 app.use('/address',AddressRouter);
-app.use('/api',router)
+app.use('/payment',paymentRouter);
+
 const port =5000
 const USERNAME=process.env.DB_USERNAME;
 const PASSWORD=process.env.DB_PASSWORD;

@@ -1,23 +1,38 @@
 import React from "react";
 import { useState,useEffect } from "react";
-import {loadScript} from './loadScript';
+// import {useLoadScript} from './loadScript';
 
 
-export const PaymentScript=() =>{
-    useEffect(()=>{(
-        async()=>{
-            try{
-                const isLoaded = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
-                if(isLoaded){
-                    console.log("payment gateway script loaded successfully");  
-                }
-            } catch (error){
-                console.log("Failed to load payment script: ",error);
+// export const usePaymentScript=() =>{
+//     useEffect(()=>{(
+//         async()=>{
+//             try{
+//                 const isLoaded = await useLoadScript('https://checkout.razorpay.com/v1/checkout.js');
+//                 if(isLoaded){
+//                     console.log("payment gateway script loaded successfully");  
+//                 }
+//             } catch (error){
+//                 console.log("Failed to load payment script: ",error);
                 
-            }
-        }
-    )
+//             }
+//         }
+//     )
         
-    },[])
+//     },[])
     
-}
+// }
+
+// Custom hook example for PaymentScript
+export const usePaymentScript = () => {
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        console.log("loaded script");
+        
+        script.async = true;
+        document.body.appendChild(script);
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
+};

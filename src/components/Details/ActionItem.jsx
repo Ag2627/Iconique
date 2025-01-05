@@ -78,8 +78,10 @@ const ActionItem=({product})=>{
             <img src={product.image}/>
             </Box>
             <StyledButton component="span" variant='contained' onClick={() => addItemToCart()} style={{marginRight: 10,background:'#F3245F', width:'44%'}}><Cart/>ADD TO CART</StyledButton>
+            <StyledButton component="span" variant='contained' style={{background:'#F3245F', width:'44%'}}><Bag/>BUY NOW</StyledButton>
             <StyledButton component="span" variant='contained' onClick={()=>handleAddtoWishlist(product._id)} style={{marginRight: 10,background:'#F3245F', width:'44%'}}><FavoriteBorderIcon/>ADD TO WISHLIST</StyledButton>
-            <Button component="span" variant='contained' style={{background:'#F3245F', width:'44%'}}><Bag/>BUY NOW</Button>
+            {/* <Button component="span" variant='contained' style={{marginRight: 10,background:'#F3245F', width:'44%'}}><Cart/>ADD TO CART</Button>
+            <Button component="span" variant='contained' style={{background:'#F3245F', width:'44%'}}><Bag/>BUY NOW</Button> */}
         </LeftContainer>
     )
 
