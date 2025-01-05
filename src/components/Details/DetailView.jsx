@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { fetchProductDetails } from "@/redux/actions/productAction";
+import { fetchProductDetails } from "../../redux/actions/productAction";
 import { useDispatch, useSelector } from "react-redux";
 import ActionItem from './ActionItem';
 import { Box,Grid, Typography,styled } from "@mui/material";
@@ -40,8 +40,8 @@ const DetailView=()=>{
         {
             dispatch(fetchProductDetails(id))}
     },[dispatch,id,product,loading])
-    console.log("this is product:" +product);
-    console.dir(product);
+    // console.log("this is product:" +product);
+    // console.dir(product);
 
     
     

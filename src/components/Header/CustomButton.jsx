@@ -100,7 +100,7 @@ const CustomButton = () => {
     setSellerOpen(true);
   }
   const {cartItems} = useSelector(state => state.cart);
-  console.log("Checking account",account);
+  // console.log("Checking account",account);
     return (
     <Wrapper>
       {

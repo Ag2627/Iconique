@@ -1,5 +1,4 @@
 import axios from "axios";
-
 export const paymentServices = async (amount,title)=>{
     try{
         const options={
@@ -7,10 +6,18 @@ export const paymentServices = async (amount,title)=>{
             amount: amount,
         }
 
-        const res=await axios.post('https://localhost:5000/api/createOrder',options);
-        const data=res.data;
-        console.log("data: "+data);
+        const res=await axios.post('http://localhost:5000/payment/createOrder',options);
+        // console.log("response: ",res);
+        //response generate ho rha hai
 
+        
+        const data=res.data;
+        if(data){
+            console.log("data: "+data);
+
+        
+        
+        console.log("ye lo tyoe window ka;  ",typeof window.Razorpay);
         const paymentObject= new window.Razorpay({
             key:"rzp_test_pIRmD0pCH6Ut3K",
             orderId: data.id,
@@ -22,7 +29,7 @@ export const paymentServices = async (amount,title)=>{
                     paymentId:response.razorpay_payment_id,
                     sign:response.razorpay_signature,
                 }
-                axios.post('https://localhost:5000/api/verifyPayment',optn).then((res)=>{
+                axios.post('https://localhost:5000/verifyPayment',optn).then((res)=>{
                     console.log(res.data);
                     if(res.data.status==="success"){
                         alert("payment successful");
@@ -38,6 +45,11 @@ export const paymentServices = async (amount,title)=>{
             }
         })
         paymentObject.open();
+    }
+    else{
+        console.log("pay services m err");
+        
+    }
         
     } catch(error){
         console.error("Error in payment services: ",error);
