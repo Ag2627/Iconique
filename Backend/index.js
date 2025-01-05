@@ -39,7 +39,10 @@ const port =5000
 const USERNAME=process.env.DB_USERNAME;
 const PASSWORD=process.env.DB_PASSWORD;
 Connection(USERNAME,PASSWORD);
-console.log(`server running at http://localhost:${port}`);
+app.listen(port, () =>{
+  console.log(`server running at http://localhost:${port}`)
+})
+
 
 
 //payment section 

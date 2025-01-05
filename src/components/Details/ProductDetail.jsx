@@ -47,7 +47,6 @@ const ProductDetail=({product})=>{
             
         })
     }
-    console.log("Prod",product)
     useEffect(()=>{
         if(product!==null) dispatch(getReviews(product?._id))
     },[product]);

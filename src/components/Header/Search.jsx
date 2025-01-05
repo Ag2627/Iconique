@@ -36,25 +36,8 @@ const Search = () => {
     const [text,setText]=useState();
     const [open,setOpen]=useState(true);
     
-    const {products}=useSelector(state=>state.fetchProducts);
-    console.log("ye hai prods: "+products);
-    
-    
-    
-    
-    //logging all products on console
-    useEffect(() => {
-        if (Array.isArray(products)) {
-          for (let i = 0; i < products.length; i++) {
-            console.log(`Product ${i + 1}:`, products[i]);
-          }
-        }
-        else{
-            console.log("not an array");
-            
-        }
-      }, [products]); 
-    
+    const {products}=useSelector(state=>state.fetchProducts);  
+       
     
     const dispatch=useDispatch();
 
@@ -80,7 +63,7 @@ const Search = () => {
             text && 
                 <ListWrapper>
                     {
-                        products.filter((product)=> product.title && product.title.toLowerCase().includes(text.toLowerCase())).map(product=>(
+                        products.data.filter((product)=> product.title && product.title.toLowerCase().includes(text.toLowerCase())).map(product=>(
                             <ListItem key={product._id}>
                                 <Link to={`product/${product._id}`} onClick={()=>setText('')} style={{textDecoration:'none', color:'inherit'}}>
                                 {product.title}

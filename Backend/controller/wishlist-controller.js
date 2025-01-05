@@ -57,19 +57,41 @@ export const RemoveFromWishList=async(req,res)=>{
                 message:"Invalid data provided",
             })
         }
-        const wishlist=await Wishlist.findOne({userId});
+        const wishlist=await Wishlist.findOne({userId}).populate({
+            path: "products.productId",
+            select: "image title price discount averageReview",
+        });
         if (!wishlist) {
             return res.status(404).json({ 
                 success:false,
                 message: 'Wishlist not found' });
           }
-        
-          const updatedProducts = wishlist.products.filter(item => item.productId.toString() !== productId);
-          wishlist.products = updatedProducts;
+
+          wishlist.products = wishlist.products.filter(item => item.productId._id.toString() !== productId);
+          
           await wishlist.save();
-      
+          
+
+          
+          await wishlist.populate({
+            path: "products.productId",
+            select: "image title price discount averageReview",
+          });
+
+          const populateWishlistItems = wishlist.products.map(item => ({
+            productId:  item.productId ? item.productId._id:null,
+            image:item.productId ?  item.productId.image:null,
+            title:item.productId ?  item.productId.title:"Product not found",
+            price:item.productId ?  item.productId.price:null,
+            averageReview: item.productId ? item.productId.averageReview:null,
+            discount:item.productId ?  item.productId.discount:null,
+          }));
+
           res.status(200).json({ message: 'Product removed from wishlist', 
-            data:wishlist ,
+            data:{
+                ...wishlist._doc,
+                items:populateWishlistItems
+            } ,
             success:true
         });
 
@@ -92,19 +114,38 @@ export const getWishList=async(req,res)=>{
                 message:"user id is required",
             })
         }
-        const wishlist=(await Wishlist.findOne({userId})).populate({
-            path:'products.productId',
-        })
+        const wishlist=await Wishlist.findOne({userId}).populate({
+            path: "products.productId",
+            select: "image title price discount averageReview",
+          });
+        
         if (!wishlist) {
             return res.status(404).json({ 
                 success:false,
                 message: 'Wishlist not found' });
           }
 
+          const validItems=wishlist.products.filter(productItem=>productItem.productId);
+          if(validItems.length<wishlist.products.length){
+                wishlist.products=validItems;
+
+                await wishlist.save();
+          }
+          const populateWishlistItems=validItems.map(item=>({
+            productId:item.productId._id,
+            image:item.productId.image,
+            title:item.productId.title,
+            price:item.productId.price,
+            averageReview:item.productId.averageReview,
+            discount:item.productId.discount
+          }))
           res.status(200).json({
             success:true,
             message:"Fetched SuccessFully",
-            data:wishlist,
+            data:{
+                ...wishlist._doc,
+                items:populateWishlistItems
+            },
           })
 
     }catch(error){

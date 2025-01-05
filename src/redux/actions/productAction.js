@@ -8,7 +8,6 @@ export const fetchProducts = () => async (dispatch) =>{
         //api ko call kiya usse pura response object aaya aur use data wala field fetch kr liya
         const { data } = await axios.get(`${URL}/products`);
         
-        console.log("API response: ",data);
         
         
         dispatch({type :actionTypes.FETCH_PRODUCT_SUCCESS,payload : data});

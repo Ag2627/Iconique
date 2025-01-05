@@ -40,8 +40,6 @@ const DetailView=()=>{
         {
             dispatch(fetchProductDetails(id))}
     },[dispatch,id,product,loading])
-    console.log("this is product:" +product);
-    console.dir(product);
 
     
     

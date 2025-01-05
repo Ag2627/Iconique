@@ -25,6 +25,9 @@ export const getWishList=createAsyncThunk('wishlist/getWishList',async(userId)=>
               authorization: `Bearer ${localStorage.getItem('token')}`  
             }
           });
+
+          console.log("Api data laaya?",response.data);
+          
           return response.data;
 })
 export const RemoveFromWishList=createAsyncThunk('wishlist/RemoveFromWishList',async({userId,productId})=>{
@@ -46,7 +49,7 @@ wishlistSlice=createSlice({
             state.isLoading=true;
         }).addCase(addToWishList.fulfilled,(state,action)=>{
             state.isLoading=false;
-            state.wishlistItems=action.payload.data;
+            state.wishlistItems=action.payload.data.products;
         })
         .addCase(addToWishList.rejected,(state)=>{
             state.isLoading=false;
@@ -55,7 +58,7 @@ wishlistSlice=createSlice({
             state.isLoading=true;
         }).addCase(getWishList.fulfilled,(state,action)=>{
             state.isLoading=false;
-            state.wishlistItems=action.payload.data;
+            state.wishlistItems=action.payload.data.products;
         })
         .addCase(getWishList.rejected,(state)=>{
             state.isLoading=false;
@@ -64,7 +67,7 @@ wishlistSlice=createSlice({
             state.isLoading=true;
         }).addCase(RemoveFromWishList.fulfilled,(state,action)=>{
             state.isLoading=false;
-            state.wishlistItems=action.payload.data;
+            state.wishlistItems=action.payload.data.products;
         })
         .addCase(RemoveFromWishList.rejected,(state)=>{
             state.isLoading=false;
