@@ -3,7 +3,7 @@ import { Box, InputBase, ListItem,List, styled } from '@mui/material'
 import React from 'react'
 import { useState,useEffect } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
-import { fetchProducts as listProducts} from '@/redux/actions/productAction';
+import { fetchProducts as listProducts} from '../../redux/actions/productAction';
 import {Link} from 'react-router-dom';
 
 const Searchcontainer=styled(Box)`
@@ -36,23 +36,8 @@ const Search = () => {
     const [text,setText]=useState();
     const [open,setOpen]=useState(true);
     
-    const fetchProducts=useSelector(state=>state.fetchProducts);
-    
-    const {products}=fetchProducts;
-    
-    //logging all products on console
-    // useEffect(() => {
-    //     if (Array.isArray(products.data)) {
-    //       for (let i = 0; i < products.data.length; i++) {
-    //         console.log(`Product ${i + 1}:`, products.data[i]);
-    //       }
-    //     }
-    //     else{
-    //         console.log("not an array");
-            
-    //     }
-    //   }, [products]); 
-    
+    const {products}=useSelector(state=>state.fetchProducts);  
+       
     
     const dispatch=useDispatch();
 

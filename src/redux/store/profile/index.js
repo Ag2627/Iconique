@@ -1,8 +1,6 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const token = localStorage.getItem('token'); 
-
 const initialState = {
     isLoading: false,
     UserList: [],
@@ -14,7 +12,7 @@ export const fetchUser= createAsyncThunk(
         const response = await axios.get(`http://localhost:5000/user/get/${id}`,{
             headers: {
                 "Content-Type": "application/json", 
-              authorization: `Bearer ${token}` 
+              authorization: `Bearer ${localStorage.getItem('token')}` 
             }
           });
 
@@ -29,7 +27,7 @@ export const editUser = createAsyncThunk(
         const response = await axios.put(`http://localhost:5000/user/edit/${id}`,  formData,{
             headers: {
                 "Content-Type": "application/json", 
-              authorization: `Bearer ${token}` 
+              authorization: `Bearer ${localStorage.getItem('token')}` 
             }
           });
 
@@ -44,7 +42,7 @@ export const deleteUser = createAsyncThunk(
         const response = await axios.delete(`http://localhost:5000/user/delete/${id}`,{
             headers: {
                 "Content-Type": "application/json", 
-              authorization: `Bearer ${token}` 
+              authorization: `Bearer ${localStorage.getItem('token')}` 
             }
           });
 

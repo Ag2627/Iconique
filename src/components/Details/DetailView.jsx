@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { fetchProductDetails } from "@/redux/actions/productAction";
+import { fetchProductDetails } from "../../redux/actions/productAction";
 import { useDispatch, useSelector } from "react-redux";
 import ActionItem from './ActionItem';
 import { Box,Grid, Typography,styled } from "@mui/material";
@@ -28,19 +28,20 @@ const RightContainer=styled(Grid)`
 `
 
 // const product=products[0];
+// console.log(product._id);
+
 const DetailView=()=>{
     const dispatch=useDispatch();
     const {id}=useParams();
-    
     const {loading,product}=useSelector(state=>state.fetchProductDetails);
-   
     
     useEffect(()=>{
-        if(!product && id!==product.id)
+        if(product && id!==product._id)
         {
             dispatch(fetchProductDetails(id))}
     },[dispatch,id,product,loading])
-    console.log("this is product:" +product);
+
+    
     
     return(<>
     

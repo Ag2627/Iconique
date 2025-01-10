@@ -1,16 +1,23 @@
 import axios from "axios";
 import * as actionTypes from '../constants/productConstant.js'
-const URL ='http://localhost:5000'
+const URL ='http://localhost:5000';
 export const fetchProducts = () => async (dispatch) =>{
+  
     try{ 
+      
         //api ko call kiya usse pura response object aaya aur use data wala field fetch kr liya
         const { data } = await axios.get(`${URL}/products`);
+        
+        
         
         dispatch({type :actionTypes.FETCH_PRODUCT_SUCCESS,payload : data});
         //dispatch function calls reducer internally
 
     }
     catch(error){
+      console.log("error aya");
+      console.log("error ye hai: ",error.response?.data || error.message);
+      
        dispatch({type :actionTypes.FETCH_PRODUCT_FAIL,payload : error.message})
     }
 }
@@ -20,15 +27,15 @@ export const fetchProducts = () => async (dispatch) =>{
 
 // action to fetch product by id
 export const fetchProductDetails=(id)=>async(dispatch)=>{
+  
     try{
-     
-        dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_REQUEST});
-       
 
+        dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_REQUEST});
         const {data}=await axios.get(`${URL}/product/${id}`);
-       
+    
         dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_SUCCESS,payload:data.data});
     } catch(error){
+
         dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_FAIL,payload:error.message});
     }
 };

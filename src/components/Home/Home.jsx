@@ -21,8 +21,9 @@ const Home = () =>{
     useEffect(() => {
         dispatch(fetchProducts())
     },[dispatch])
-    console.log("products" ,products);
+
     const productArray =products?.data || [];
+    
     return(
         <>
             <NavBar/>

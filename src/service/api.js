@@ -51,13 +51,13 @@ export const authenticateSellerGoogleLogin = async (googleUser) => {
     });
 };
 
-export const payUsingPaytm=async(data)=>{
-    try{
-        let response=await axios.post(`${URL}/payment`,data);
-    } catch(error){
-        console.log('error while calling payment api'.error)
-    }
-}
+// export const payUsingPaytm=async(data)=>{
+//     try{
+//         let response=await axios.post(`${URL}/payment`,data);
+//     } catch(error){
+//         console.log('error while calling payment api'.error)
+//     }
+// }
 //redux is the database of the frontend
 
 export const fetchProfile = async (role, id) => {

@@ -96,6 +96,7 @@ const CartItem =({item}) =>{
             }
         })
     }
+    
     return (
         <Component>
             <LeftComponent>

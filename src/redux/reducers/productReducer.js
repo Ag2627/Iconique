@@ -1,11 +1,11 @@
 import * as actionType from '../constants/productConstant'
 //whenever we call dispatch reducer is automatically called
-// const initialState = {
-//     products: [],
-//     error: null,
-// };
+const initialState = {
+    products: [],
+    error: null,
+};
 
-export const fetchProductReducer = (state={ products : []},action) =>{
+export const fetchProductReducer = (state={ products : [],loading:true},action) =>{
     //we are calling dispatch twice so to differentiate we will call switch method
     switch(action.type){
         case actionType.FETCH_PRODUCT_SUCCESS :
@@ -25,7 +25,7 @@ export const fetchProductReducer = (state={ products : []},action) =>{
     }
 
 };
-export const fetchProductDetailsReducer=(state={product:{}},action)=>{
+export const fetchProductDetailsReducer=(state={product:{},loading:true},action)=>{
   switch(action.type){
   
     case actionType.FETCH_PRODUCT_DETAILS_REQUEST:
@@ -35,6 +35,8 @@ export const fetchProductDetailsReducer=(state={product:{}},action)=>{
     case actionType.FETCH_PRODUCT_DETAILS_FAIL:
       return {loading:false, error:action.payload}
     case actionType.FETCH_PRODUCT_DETAILS_RESET:
+      console.log("product not found !  ");
+      
       return {product:{}}
     default:
       return state

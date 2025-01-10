@@ -7,6 +7,8 @@ import CartItem from "./CartItem";
 import TotalView from "./TotalView";
 import { useEffect } from "react";
 import { fetchCartItems } from "@/redux/store/cart-slice";
+import { paymentServices } from "../../service/paymentServices.jsx";
+
 const Container = styled(Grid)(({ theme }) => ({
     padding: '30px 135px',
     display: 'flex',
@@ -25,7 +27,7 @@ const ButtonWrapper =styled(Box)`
     border-top : 1px solid #f0f0f0;
 
 `;
-const styledButton = styled(Button)`
+const StyledButton = styled(Button)`
     display : flex;
     margin-left : auto;
     background  : #F33A6A;
@@ -40,6 +42,13 @@ const LeftComponent = styled(Grid)(({ theme }) => ({
         marginBottom: 15
     }
 }));
+const buyNow=()=>{
+    // console.log("oredr placed");
+    
+        const amount = 500; 
+        const title = "Product Title";
+        paymentServices(amount, title);
+}
 const Cart = () =>{
     const { cartItems } =useSelector(state => state.shopCart);
     const account =JSON.parse(localStorage.getItem('account'));
@@ -67,7 +76,7 @@ const Cart = () =>{
                                 ))
                             }
                             <ButtonWrapper>
-                                <styledButton>Place Order</styledButton>
+                                <StyledButton onClick={buyNow}>Place Order</StyledButton>
                             </ButtonWrapper>
                         </LeftComponent>
                         <Grid item lg={3} md={3} sm={12} xs={12}>

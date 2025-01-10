@@ -1,4 +1,5 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
     isLoading: false,
@@ -20,7 +21,7 @@ export const getReviews = createAsyncThunk(
     '/order/getReviews',
     async (id)=>{
 
-        const response = await axios.post(`http://localhost:5000/review/${id}`);
+        const response = await axios.get(`http://localhost:5000/review/${id}`);
     
         
         return response.data;

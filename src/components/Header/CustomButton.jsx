@@ -100,7 +100,7 @@ const CustomButton = () => {
     setSellerOpen(true);
   }
   const {cartItems} = useSelector(state => state.cart);
-  console.log("Checking account",account);
+  // console.log("Checking account",account);
     return (
     <Wrapper>
       {
@@ -116,7 +116,7 @@ const CustomButton = () => {
           </Badge>
             <Typography style={{marginLeft : 10}}>Cart</Typography>
         </Container>
-        <Container>
+        <Container component={Link} to="/wishlist">
             <FavoriteIcon/>
             <Typography>Wishlist</Typography>
         </Container>

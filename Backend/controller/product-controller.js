@@ -10,11 +10,15 @@ export const fetchProducts = async(request,response) =>{
     try{
         const products = await product.find({});
 
+        
         response.status(200).json({
           success:true,
           data:products,
         }
+        
+        
         );
+        
     } catch(error){
         response.status(500).json({
           success:false,
@@ -86,16 +90,16 @@ export const addProduct = async (req, res) => {
   try {
     const { title, description, category, sustainable, price, size, discount, quantity,image } = req.body;
      // Save image path if uploaded
+     
      const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
       return res.status(401).json({ message: "Unauthorized, no token provided" });
     }
+ 
 
     const decoded = jwt.verify(token, JWT_SECRET); // Decode token to get seller ID
     const sellerId = decoded.id;
 
-     console.log("Token in controller: ",token);
-    console.log(sellerId);
     if (!title || !description || !category || !price) {
       return res.status(400).json({
         success: false,
@@ -208,8 +212,9 @@ export const fetchProductById=async(request,response)=>{
   try {
     const { id } = request.params; 
     console.log("Product id",id);
-    const prod=await product.findById(new mongoose.Types.ObjectId(id))
-    console.log("Product Fetched:", prod); 
+    const prod=await product.findById(id)
+    
+    // console.log("Product Fetched:", prod); 
     if (!prod) {
       return response.status(404).json({
           success: false,
