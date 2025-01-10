@@ -1,5 +1,6 @@
 import User from "../Model/user_schema.js";
 import Seller from "../Model/seller_schema.js";
+//import { i } from "vite/dist/node/types.d-aGj9QkWt.js";
 
 export const getUserProfile = async (req, res) => {
     try {
@@ -61,6 +62,7 @@ export const getSellerProfile = async (req, res) => {
 export const updateSellerProfile = async (req, res) => {
     try {
         const { name, phone, address, storeName, description, socialLink } = req.body;
+        
         const updatedSeller = await Seller.findByIdAndUpdate(req.params.id, { name, phone, address, storeName, description, socialLink }, { new: true });
         if (!updatedSeller) return res.status(404).json({ message: 'Seller not found' });
         res.json(updatedSeller);

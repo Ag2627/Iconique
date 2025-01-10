@@ -5,13 +5,13 @@ const token = localStorage.getItem('token');
 
 const initialState = {
     isLoading: false,
-    UserList: [],
+    SellerList: [],
 }
 
-export const fetchUser= createAsyncThunk(
-    'user/fetchUser',
+export const fetchSeller= createAsyncThunk(
+    'seller/fetchSeller',
     async(id)=>{
-        const response = await axios.get(`http://localhost:5000/user/get/${id}`,{
+        const response = await axios.get(`http://localhost:5000/seller/get/${id}`,{
             headers: {
                 "Content-Type": "application/json", 
               authorization: `Bearer ${token}` 
@@ -23,10 +23,10 @@ export const fetchUser= createAsyncThunk(
     }
 )
 
-export const editUser = createAsyncThunk(
-    'user/editUser',
+export const editSeller = createAsyncThunk(
+    'seller/editSeller',
     async ({id,formData})=>{
-        const response = await axios.put(`http://localhost:5000/user/edit/${id}`,  formData,{
+        const response = await axios.put(`http://localhost:5000/seller/edit/${id}`,  formData,{
             headers: {
                 "Content-Type": "application/json", 
               authorization: `Bearer ${token}` 
@@ -38,10 +38,10 @@ export const editUser = createAsyncThunk(
     }
 )
 
-export const deleteUser = createAsyncThunk(
-    'user/deleteUser',
+export const deleteSeller = createAsyncThunk(
+    'seller/deleteSeller',
     async (id)=>{
-        const response = await axios.delete(`http://localhost:5000/user/delete/${id}`,{
+        const response = await axios.delete(`http://localhost:5000/seller/delete/${id}`,{
             headers: {
                 "Content-Type": "application/json", 
               authorization: `Bearer ${token}` 
@@ -52,22 +52,19 @@ export const deleteUser = createAsyncThunk(
         return response.data;
     }
 )
-
-const userSlice = createSlice({
-    name:'userProfile',
+const sellerSlice = createSlice({
+    name:'sellerProfile',
     initialState,
     reducers:[],
     extraReducers:(builder)=>{
-        builder.addCase(fetchUser.pending,(state)=>{
+        builder.addCase(fetchSeller.pending,(state)=>{
             state.isLoading = true;
-        }).addCase(fetchUser.fulfilled,(state,action)=>{
+        }).addCase(fetchSeller.fulfilled,(state,action)=>{
             state.isLoading = false;
-            state.UserList = action.payload.data;
-        }).addCase(fetchUser.rejected,(state)=>{
+            state.SellerList = action.payload.data;
+        }).addCase(fetchSeller.rejected,(state)=>{
             state.isLoading = false;
-            state.UserList=[];
+            state.SellerList=[];
         })
     }})
-    
-export default userSlice.reducer; 
-
+    export default sellerSlice.reducer; 

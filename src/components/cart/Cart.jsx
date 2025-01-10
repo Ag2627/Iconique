@@ -1,10 +1,12 @@
 
 import { Typography,Grid,Box ,styled,Button} from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 //components
 import EmptyCart from "./EmptyCart";
 import CartItem from "./CartItem";
 import TotalView from "./TotalView";
+import { useEffect } from "react";
+import { fetchCartItems } from "@/redux/store/cart-slice";
 const Container = styled(Grid)(({ theme }) => ({
     padding: '30px 135px',
     display: 'flex',
@@ -39,7 +41,14 @@ const LeftComponent = styled(Grid)(({ theme }) => ({
     }
 }));
 const Cart = () =>{
-    const {cartItems} =useSelector(state => state.cart);
+    const { cartItems } =useSelector(state => state.shopCart);
+    const account =JSON.parse(localStorage.getItem('account'));
+    const dispatch = useDispatch();
+
+    useEffect(() =>{
+        dispatch(fetchCartItems(account?._id));
+
+    },[dispatch]);
 
     return(
         <>

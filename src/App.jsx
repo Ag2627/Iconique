@@ -9,6 +9,7 @@ import Order from "./components/Seller/Order";
 import Followers from "./components/Seller/Followers";
 import SellerOverview from "./components/Seller/SellerOverview";
 import ViewProfile from "./components/Profile/ViewProfile";
+import Viewsellerprofile from "./components/sellerprofile/Viewsellerprofile";
 import DataProvider from "./context/DataProvider";
 import DetailView from "./components/Details/DetailView";
 import ContactUs from './components/ContactUs/ContactForm'
@@ -22,6 +23,7 @@ const router=createBrowserRouter([
     {path:'',element:<Home/>},
     {path:'product/:id',element:<DetailView/>},
     {path :'/cart',element :<Cart/>},
+    {path :'/seller/profile',element :<Viewsellerprofile/>},
     {path:'about', element:<AboutUs/>},
     {path:'contact',element:<ContactUs/>},
     {path:'profile/*',element:<ViewProfile/>},
