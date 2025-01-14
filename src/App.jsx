@@ -19,6 +19,7 @@ import UserOrder from "./components/Orders/UserOrder";
 import SellerProfile from "./components/Seller/SellerProfile";
 import WishList from "./components/wishlist/WishList";
 import PaymentComponent from "./components/PaymentComp/PaymentComponent.jsx";
+import Checkout from "./components/Checkout/Checkout";
 
 const router=createBrowserRouter([
   {path:'',element:<UserDashboard/>,children:[
@@ -31,6 +32,7 @@ const router=createBrowserRouter([
     {path:'profile/*',element:<ViewProfile/>},
     {path:'my-orders',element:<UserOrder/>},
     {path:'/payment',element:<PaymentComponent/>},
+    {path:'/checkout',element:<Checkout/>},
   ]},
   {path:'/seller',element:
   <SellerPrivateRoute>

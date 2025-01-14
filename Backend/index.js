@@ -49,7 +49,7 @@ app.listen(port, () =>{
 
 
 //payment section 
-app.post('/orders',createOrder)
+app.post('/payment/orders',createOrder)
 
 app.get("/payment/:paymentId", async (req, res) => {
   const { paymentId } = req.params;

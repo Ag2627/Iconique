@@ -1,29 +1,75 @@
 import { createRazorpayInstance } from "../config/razorpay-config.js";
 import dotenv from 'dotenv';
 import crypto from 'crypto';
+import Order from "../Model/OrderSchema.js";
 dotenv.config();
 
 const razorpayInstance=createRazorpayInstance();
 export const createOrder=async(req,res)=>{
     //for trial frontend se amount le rhe hai
     //never do this in practice
-    const { productId, amount }=req.body;
-
+    const {userId, cartItems=[], addressInfo, orderStatus,
+            paymentMethod,
+            paymentStatus,
+            amount,
+            orderDate,
+            orderUpdateDate,
+            paymentId,
+            payerId} = req.body;
+        console.log(cartItems);
+        
+        
     const options={
         amount: amount*100, //smallest currency unit i.e paise in our case
         currency: "INR",
-        receipt: `receipt_order_1`,
+        receipt: `receipt_order_${Date.now()}`,
+        payment_capture: 1,  // 1 for auto-capture
+                notes: {
+                    description: 'order description',  // Additional order info
+                    items: JSON.stringify(cartItems.map(item => ({
+                        name: item.title,
+                        sku: item._id,
+                        price: (item.price - (item.price * item.discount)).toFixed(2),
+                        quantity: item.quantity
+                    })))
+                }
     }; 
 
     try{
-        razorpayInstance.orders.create(options,(err,order)=>{
+        razorpayInstance.orders.create(options,async(err,order)=>{
             if( err){
                 return res.status(500).json({
                     success: false,
-                    message: "Oops! something went wrong"
+                    message: "Error while creating razorpay order"
                 });
+            }else{
+                const newOrder= new Order({
+                    userId,
+                    cartItems,
+                    addressInfo,
+                    orderStatus,
+                    paymentMethod,
+                    paymentStatus: "pending",
+                    amount,
+                    orderDate,
+                    orderUpdateDate,
+                    paymentId: order.id
+                });
+                await newOrder.save();
+                res.status(201).json({
+                    success: true,
+                    order,
+                    id: order.id, // Return Razorpay order ID for frontend
+                    key: process.env.RAZORPAY_KEY_ID, // Send Razorpay key
+                    amount: options.amount,
+                    currency: options.currency,
+                    notes: options.notes,
+                    orderId: newOrder._id
+
+                })
+
             }
-            return res.status(200).json(order);
+            // return res.status(200).json(order);
         });
     }catch(error){
         return res.status(500).json({

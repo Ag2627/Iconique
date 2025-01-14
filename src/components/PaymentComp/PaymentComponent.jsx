@@ -29,7 +29,10 @@ const buttonStyle = {
 
 
 const PaymentComponent = () => {
-//     usePaymentScript();
+    console.log("script loading...");
+    usePaymentScript();
+    console.log("loaded");
+    
 
 
 const handlePayment = () =>{
