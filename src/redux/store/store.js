@@ -6,7 +6,6 @@ import { composeWithDevTools } from "@redux-devtools/extension";
 import { fetchProductDetailsReducer, fetchProductReducer} from "../reducers/productReducer";
 import shopCartSlice  from "./cart-slice"
 
-import {cartReducer} from '../reducers/cartReducer'
 //we will pass two argumnets to the create store reducer(action item) and middleware
 import AdminProductsSlice from '../store/seller/products-slice/index'
 import addressSlice from '../store/address/index'
@@ -20,7 +19,6 @@ const reducer = combineReducers({
     Address:addressSlice,
     profile:userSlice,
     review:reviewSlice,
-    cart:cartReducer,
     wishlist:wishlistSlice,
     adminProducts:AdminProductsSlice,
     shopCart : shopCartSlice,

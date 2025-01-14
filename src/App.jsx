@@ -9,7 +9,6 @@ import Order from "./components/Seller/Order";
 import Followers from "./components/Seller/Followers";
 import SellerOverview from "./components/Seller/SellerOverview";
 import ViewProfile from "./components/Profile/ViewProfile";
-import Viewsellerprofile from "./components/sellerprofile/Viewsellerprofile";
 import DataProvider from "./context/DataProvider";
 import DetailView from "./components/Details/DetailView";
 import ContactUs from './components/ContactUs/ContactForm'
@@ -17,9 +16,9 @@ import SellerPrivateRoute from "./components/Seller/SellerPrivateRoute";
 import SellerLogin from "./components/login/SellerLogin";
 import Cart from "./components/cart/Cart";
 import UserOrder from "./components/Orders/UserOrder";
-import SellerProfile from "./components/Seller/SellerProfile";
 import WishList from "./components/wishlist/WishList";
 import PaymentComponent from "./components/PaymentComp/PaymentComponent.jsx";
+import SellerProfilePage from "./components/Seller/SellerProfilePage";
 
 const router=createBrowserRouter([
   {path:'',element:<UserDashboard/>,children:[
@@ -27,7 +26,6 @@ const router=createBrowserRouter([
     {path:'product/:id',element:<DetailView/>},
     {path:'wishlist',element:<WishList/>},
     {path :'/cart',element :<Cart/>},
-    {path :'/seller/profile',element :<Viewsellerprofile/>},
     {path:'about', element:<AboutUs/>},
     {path:'contact',element:<ContactUs/>},
     {path:'profile/*',element:<ViewProfile/>},
@@ -43,7 +41,7 @@ const router=createBrowserRouter([
     {path:'overview',element:<SellerOverview/>},
     {path:'orders',element:<Order/>},
     {path:'followers',element:<Followers/>},
-    {path:'profile',element:<SellerProfile/>},
+    {path:'profile',element:<SellerProfilePage/>},
   ]},
 ])
 function App() {

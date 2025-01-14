@@ -30,7 +30,6 @@ const PersonalInfo = () => {
 
   const { UserList } = useSelector((state) => state.profile);
   const userId = jwtDecode(token)?.id;
-  console.log("hello ji",UserList)
   const handleManageUser = (event) => {
     event.preventDefault();
     dispatch(editUser({ id: userId, formData })).then((data) => {

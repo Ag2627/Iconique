@@ -6,13 +6,10 @@ import { validateLogin, validateSignup } from "../Middleware/validateInput.js";
 import { authenticate } from "../Middleware/check-auth.js";
 import { deleteUserProfile, getSellerProfile, getUserProfile, updateSellerProfile, updateUserProfile } from "../controller/profile_controller.js";
 import { addProductReview,getProductReviews } from "../controller/product-review-controller.js";
-<<<<<<< HEAD
 // import { addPaymentGateway } from "../controller/payment-controller.js";
 import { fetchCartItems,addToCart,deleteCartItem,updateCartItem } from "../controller/cart-controller.js"
-=======
 import { addToWishList, getWishList, RemoveFromWishList } from "../controller/wishlist-controller.js";
 
->>>>>>> c8836265cd09889cf7f5258cab225af263baa0af
 const router=express.Router();
 //login signup routes
 router.post('/signup',validateSignup ,userSignUp);
@@ -34,10 +31,10 @@ router.get('/product/:id',fetchProductById);
 router.post('/review/add',addProductReview);
 router.get('/review/:id',getProductReviews);
 //cart routes
-router.post('/add',addToCart);
-router.get('/get/:userId',fetchCartItems)
-router.put('/update-cart',updateCartItem)
-router.delete('/:userId/:productId',deleteCartItem)
+router.post('/cart/add',addToCart);
+router.get('/cart/get/:userId',fetchCartItems)
+router.put('/cart/update-cart',updateCartItem)
+router.delete('/cart/:userId/:productId',deleteCartItem)
 
 //wishlist routes 
 router.post('/wishlist/add',authenticate,addToWishList);

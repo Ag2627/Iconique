@@ -4,17 +4,13 @@ import {ShoppingCart as Cart,ShoppingBag as Bag} from '@mui/icons-material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-// import { addToCart } from '../../redux/actions/cartActions';
 import { useState } from 'react';
-import { payUsingPaytm } from '@/service/api';
-import {post} from '../../utils/paytm.js'
+
 import { addToCart, fetchCartItems } from '@/redux/store/cart-slice';
 import { useToast } from '@/hooks/use-toast.js';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../redux/actions/cartActions';
-import { useState } from 'react';
+
 import { addToWishList, getWishList } from '@/redux/store/wishlist-slice';
-import { useToast } from '@/hooks/use-toast';
+
 // import { paymentServices } from '../../service/paymentServices';
 // import { PaymentScript } from '../../utils/PaymentScript';
 
@@ -55,6 +51,7 @@ const ActionItem=({product,handleAddtoCart})=>{
     const dispatch = useDispatch();
     const {toast} =useToast();
     const [quantity ,setQuantity] = useState(1);
+    const account =JSON.parse(localStorage.getItem('account'));
     function handleAddtoCart (getCurrentProductId){
         dispatch(addToCart({userId: account?.id,productId:getCurrentProductId,quantity : 1})).then(
             data=>{
@@ -69,11 +66,7 @@ const ActionItem=({product,handleAddtoCart})=>{
             }
         )
     } 
-    //const {id} =product;
-    // const addItemToCart =() => {
-    //    dispatch(addToCart(_id,quantity));
-    //     navigate('/cart');
-    // }
+
     return (
         <LeftContainer>
             <Box style={{padding: '15px 20px',border: '1px solid #f0f0f0',width: '90%'}}>

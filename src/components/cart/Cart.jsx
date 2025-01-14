@@ -53,9 +53,9 @@ const Cart = () =>{
     const { cartItems } =useSelector(state => state.shopCart);
     const account =JSON.parse(localStorage.getItem('account'));
     const dispatch = useDispatch();
-
+    console.log("ites",cartItems)
     useEffect(() =>{
-        dispatch(fetchCartItems(account?._id));
+        dispatch(fetchCartItems(account?.id));
 
     },[dispatch]);
 

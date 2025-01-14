@@ -57,9 +57,16 @@ const TotalView = ({ cartItems }) => {
     const totalAmount = () => {
         let price = 0, discount = 0;
         cartItems.map(item => {
-            price +=( item.price-item.price*item.discount/100)
-            discount += item.discount
+            console.log("price", item.price);
+            console.log("discounted",item.price-item.price*item.discount/100);
+            
+            price +=( item.price-item.price*item.discount/100)*item.quantity;
+            discount += ((item.price)-(item.price-item.price*item.discount/100))*item.quantity;
+            console.log(discount);
+            
         })
+        price = parseFloat(price.toFixed(2));
+        discount = parseFloat(discount.toFixed(2));
         setPrice(price);
         setDiscount(discount);
     }
@@ -80,9 +87,9 @@ const TotalView = ({ cartItems }) => {
                     <Price component="span">₹40</Price>
                 </Typography>
                 <TotalAmount>Total Amount
-                    <Price component="span">₹{price - discount + 40}</Price>
+                    <Price component="span">₹{(price - discount + 40).toFixed(2)}</Price>
                 </TotalAmount>
-                <Discount>You will save ₹{discount - 40} on this order</Discount>
+                <Discount>You will save ₹{discount} on this order</Discount>
             </Container>
         </Box>
     )

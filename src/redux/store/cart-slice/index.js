@@ -17,15 +17,16 @@ export const addToCart = createAsyncThunk('cart/addToCart',async({userId,product
     return  response.data
 });
 export const fetchCartItems = createAsyncThunk('cart/fetchCartItems',async(userId)=> {
-    const response = await axios.post(`http://localhost:5000/cart/get/${userId}`,
+    const response = await axios.get(`http://localhost:5000/cart/get/${userId}`,
         
     );
     return  response.data
 });
 export const deleteCartItem = createAsyncThunk('cart/deleteCartItem',async({userId,productId})=> {
     const response = await axios.delete(`http://localhost:5000/cart/${userId}/${productId}`,
-        
     );
+    console.log("api",response);
+    
     return  response.data
 });
 export const updateCartItem = createAsyncThunk('cart/updateCartItem',async({userId,productId,quantity})=> {
@@ -47,7 +48,7 @@ const shoppingCartSlice =createSlice({
             state.isLoading =true
         }).addCase(addToCart.fulfilled,(state,action) => {
             state.isLoading =false;
-            state.cartItems = action.payload.data
+            state.cartItems = action.payload.data.items
         }).addCase(addToCart.rejected,(state) => {
             state.isLoading =false;
             state.cartItems =[]
@@ -55,7 +56,7 @@ const shoppingCartSlice =createSlice({
             state.isLoading =true
         }).addCase(fetchCartItems.fulfilled,(state,action) => {
             state.isLoading =false;
-            state.cartItems = action.payload.data
+            state.cartItems = action.payload.data.items
         }).addCase(fetchCartItems.rejected,(state) => {
             state.isLoading =false;
             state.cartItems =[]
@@ -63,7 +64,7 @@ const shoppingCartSlice =createSlice({
             state.isLoading =true
         }).addCase(updateCartItem.fulfilled,(state,action) => {
             state.isLoading =false;
-            state.cartItems = action.payload.data
+            state.cartItems = action.payload.data.items
         }).addCase(updateCartItem.rejected,(state) => {
             state.isLoading =false;
             state.cartItems =[]
@@ -71,7 +72,7 @@ const shoppingCartSlice =createSlice({
             state.isLoading =true
         }).addCase(deleteCartItem.fulfilled,(state,action) => {
             state.isLoading =false;
-            state.cartItems = action.payload.data
+            state.cartItems = action.payload.data.items
         }).addCase(deleteCartItem.rejected,(state) => {
             state.isLoading =false;
             state.cartItems =[]

@@ -57,7 +57,7 @@ export const fetchCartItems = async (req,res) => {
             })
         }
         const cart = await Cart.findOne({userId}).populate({
-            path : 'item.productId',
+            path : 'items.productId',
             select : "image title price discount"
         })
         if(!cart){
@@ -155,13 +155,15 @@ export const updateCartItem = async (req,res) => {
 }
 export const deleteCartItem = async (req,res) => {
     try{
-        const {userId,productId} = request.params;
+        const {userId,productId} = req.params;
         if(!userId || !productId ){
             return res.status(400).json({
                 success : false,
                 message : 'Invalid data provided!'
             });
            }
+           
+           
          const cart =await Cart.findOne({userId}).populate({
             path : "items.productId",
             select :"image title price discount",
@@ -175,9 +177,9 @@ export const deleteCartItem = async (req,res) => {
         }
         cart.items = cart.items.filter(item => item.productId._id.toString() !== productId)
         await cart.save();
-        await Cart.populate({
+        await cart.populate({
             path : "items.productId",
-            select :"image title price ",
+            select :"image title price discount",
          })
          const populateCartItems = cart.items.map(item => ({
             productId : item.productId? item.productId._id : null,

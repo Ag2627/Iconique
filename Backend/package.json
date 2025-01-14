@@ -23,12 +23,9 @@
     "multer-storage-cloudinary": "^4.0.0",
     "nodemon": "^3.1.9",
     "parser": "^0.1.4",
-<<<<<<< HEAD
-    "redux": "^5.0.1",
-    "vite": "^6.0.7"
-=======
+    
+    
     "razorpay": "^2.9.5",
     "redux": "^5.0.1"
->>>>>>> c8836265cd09889cf7f5258cab225af263baa0af
   }
 }
