@@ -81,9 +81,6 @@ const WishList = () => {
             {wishlistItems.map((item) => (
               <WishlistItem key={item.productId._id}  item={item} />
             ))}
-            <ButtonWrapper>
-              <StyledButton>Add to Cart</StyledButton>
-            </ButtonWrapper>
           </LeftComponent>
         </Container>
       ) : (
