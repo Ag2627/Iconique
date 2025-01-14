@@ -1,10 +1,12 @@
 import {Link} from 'react-router-dom';
 import { Typography,Grid,Box ,styled,Button} from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 //components
 import EmptyCart from "./EmptyCart";
 import CartItem from "./CartItem";
 import TotalView from "./TotalView";
+import { useEffect } from "react";
+import { fetchCartItems } from "@/redux/store/cart-slice";
 import { paymentServices } from "../../service/paymentServices.jsx";
 
 const Container = styled(Grid)(({ theme }) => ({
@@ -47,7 +49,14 @@ const LeftComponent = styled(Grid)(({ theme }) => ({
 //         paymentServices(amount, title);
 // }
 const Cart = () =>{
-    const {cartItems} =useSelector(state => state.cart);
+    const { cartItems } =useSelector(state => state.shopCart);
+    const account =JSON.parse(localStorage.getItem('account'));
+    const dispatch = useDispatch();
+    console.log("ites",cartItems)
+    useEffect(() =>{
+        dispatch(fetchCartItems(account?.id));
+
+    },[dispatch]);
 
     return(
         <>

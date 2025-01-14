@@ -60,7 +60,7 @@ const ProductDetail=({product})=>{
             <SustainabilityTag isSus={product.sustainable}/>
         </Typography>
         <Typography>
-            <Box component="span" style={{fontSize:28 }}>₹{Math.ceil(product.price-product.price*product.discount/100)}</Box>&nbsp;&nbsp;&nbsp;
+            <Box component="span" style={{fontSize:28 }}>₹{product.price-product.price*product.discount/100}</Box>&nbsp;&nbsp;&nbsp;
             <Box component="span" style={{color:'#878787'}}><strike>₹{product.price}</strike></Box>&nbsp;&nbsp;&nbsp;
             <Box component="span" style={{color: '#388E3C'}}>-{product.discount}%</Box>
         </Typography>

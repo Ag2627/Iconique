@@ -99,7 +99,7 @@ const CustomButton = () => {
   const openSellerDialog=()=>{
     setSellerOpen(true);
   }
-  const {cartItems} = useSelector(state => state.cart);
+  const {cartItems} = useSelector(state => state.shopCart);
   // console.log("Checking account",account);
     return (
     <Wrapper>

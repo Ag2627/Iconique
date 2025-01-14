@@ -11,9 +11,9 @@ export const navData = [
 ]
     //shoes dress top topoffer jackets handwear accesories shirt bottoms
     export const bannerData = [
-        { id: 1, url: 'https://rukminim1.flixcart.com/flap/3376/560/image/d117a62eb5fbb8e1.jpg?q=50' },
-        { id: 2, url: 'https://rukminim1.flixcart.com/flap/3376/560/image/57267a180af306fe.jpg?q=50' },
-        { id: 3, url: 'https://rukminim1.flixcart.com/flap/3376/560/image/ae9966569097a8b7.jpg?q=50' },
-        { id: 4, url: 'https://rukminim1.flixcart.com/flap/3376/560/image/f6202f13b6f89b03.jpg?q=50' }
+        { id: 1, url: 'https://res.cloudinary.com/dzbpm0jt3/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Shop%20Now,w_0.5,y_0.18/v1736860309/DALL_E_2025-01-14_18.37.18_-_A_promotional_banner_with_a_vibrant_pink_and_purple_theme_showcasing_a_stylish_female_musician_performing_on_stage_under_dynamic_concert_lighting._Th_zxruti.webp' },
+        { id: 2, url: 'https://res.cloudinary.com/dzbpm0jt3/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Shop%20Now,w_0.5,y_0.18/v1736860309/DALL_E_2025-01-14_18.37.18_-_A_promotional_banner_with_a_vibrant_pink_and_purple_theme_showcasing_a_stylish_female_musician_performing_on_stage_under_dynamic_concert_lighting._Th_zxruti.webp' },
+        { id: 3, url: 'https://res.cloudinary.com/dzbpm0jt3/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Shop%20Now,w_0.5,y_0.18/v1736860309/DALL_E_2025-01-14_18.37.18_-_A_promotional_banner_with_a_vibrant_pink_and_purple_theme_showcasing_a_stylish_female_musician_performing_on_stage_under_dynamic_concert_lighting._Th_zxruti.webp' },
+        { id: 4, url: 'https://res.cloudinary.com/dzbpm0jt3/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Shop%20Now,w_0.5,y_0.18/v1736860309/DALL_E_2025-01-14_18.37.18_-_A_promotional_banner_with_a_vibrant_pink_and_purple_theme_showcasing_a_stylish_female_musician_performing_on_stage_under_dynamic_concert_lighting._Th_zxruti.webp' }
     ]
 
