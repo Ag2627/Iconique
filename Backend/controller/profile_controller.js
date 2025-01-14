@@ -1,5 +1,6 @@
 import User from "../Model/user_schema.js";
 import Seller from "../Model/seller_schema.js";
+//import { i } from "vite/dist/node/types.d-aGj9QkWt.js";
 
 export const getUserProfile = async (req, res) => {
     try {
@@ -52,19 +53,30 @@ export const getSellerProfile = async (req, res) => {
     try {
         const seller = await Seller.findById(req.params.id);
         if (!seller) return res.status(404).json({ message: 'Seller not found' });
-        res.json(seller);
+        res.status(200).json({ success:true,
+            data:seller, 
+            message:"Info updated successfully",})
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+        res.status(500).json({ 
+            success:false,
+            message:"Error",
+            error: error.message });
     }
 };
 
 export const updateSellerProfile = async (req, res) => {
     try {
         const { name, phone, address, storeName, description, socialLink } = req.body;
+        
         const updatedSeller = await Seller.findByIdAndUpdate(req.params.id, { name, phone, address, storeName, description, socialLink }, { new: true });
         if (!updatedSeller) return res.status(404).json({ message: 'Seller not found' });
-        res.json(updatedSeller);
-    } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+        res.status(200).json({ success:true,
+            data:updatedSeller, 
+            message:"Info updated successfully",})
+        } catch (error) {
+            res.status(500).json({ 
+            success:false,
+            message:"Error",
+            error: error.message });
     }
 };
