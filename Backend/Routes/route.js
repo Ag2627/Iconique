@@ -9,6 +9,7 @@ import { addProductReview,getProductReviews } from "../controller/product-review
 // import { addPaymentGateway } from "../controller/payment-controller.js";
 import { fetchCartItems,addToCart,deleteCartItem,updateCartItem } from "../controller/cart-controller.js"
 import { addToWishList, getWishList, RemoveFromWishList } from "../controller/wishlist-controller.js";
+import { sellerStats } from "../controller/dashboard-controller.js";
 
 const router=express.Router();
 //login signup routes
@@ -40,6 +41,9 @@ router.delete('/cart/:userId/:productId',deleteCartItem)
 router.post('/wishlist/add',authenticate,addToWishList);
 router.get('/wishlist/get/:userId',authenticate,getWishList);
 router.delete('/wishlist/delete/:userId/:productId',authenticate,RemoveFromWishList);
+
+//overview stats
+router.get('/overview/get/:id',authenticate,sellerStats)
 
 //profile routes
 
