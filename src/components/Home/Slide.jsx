@@ -6,6 +6,7 @@ import { Button, Divider, Box, Typography, styled } from '@mui/material';
  import "react-multi-carousel/lib/styles.css";
 import Countdown from 'react-countdown';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
  const responsive = {
@@ -138,6 +139,8 @@ const RenderTimer = styled(Box)(({ theme }) => ({
 
 const Slide = ({ products }) => {
     const timerURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/timer_a73398.svg';
+    const navigate = useNavigate();
+
     if (!products || products.length === 0) {
         return <div>No products available</div>;
     }
@@ -156,27 +159,37 @@ const Slide = ({ products }) => {
             </Deal>
             <Divider />
             <Carousel
-            responsive ={responsive}
-            swipeable={false}
-            draggable={false}
-            infinite={true}
-            autoPlay={true}
-            autoPlaySpeed={4000}
-            keyBoardControl={true}
-            centerMode={true}
-            containerClass="carousel-container"
-            dotListClass="custom-dot-list-style"
-            itemClass="carousel-item-padding-40-px"
-        >
+                responsive={responsive}
+                swipeable={false}
+                draggable={false}
+                infinite={true}
+                autoPlay={true}
+                autoPlaySpeed={4000}
+                keyBoardControl={true}
+                centerMode={true}
+                containerClass="carousel-container"
+                dotListClass="custom-dot-list-style"
+                itemClass="carousel-item-padding-40-px"
+>
             {
                 products.map(product => (
-                    <Box key={product._id} textAlign="center" style={{padding : '25px 15px'}} >
-
-                        <Image src={product.image} alt="product"/>    
-                        <Text style={{ fontWeight :600 ,color :'#212121'}}>{product.title.shortTitle||product.title}</Text>  
-                        <Text style={{color:'#FF6F91'}}>{product.discount}% OFF</Text>    
-                        <Text style={{color:'#212121',opacity:'0.6'}}>{product.tagline}</Text>
-                    </Box>
+                    
+                    <Box
+                key={product._id}
+                textAlign="center"
+                style={{ padding: '25px 15px', cursor: 'pointer' }}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/product/${product._id}`);
+                }}
+            >
+                <Image src={product.image} alt="product" />
+                <Text style={{ fontWeight: 600, color: '#212121' }}>
+                    {product.title.shortTitle || product.title}
+                </Text>
+                <Text style={{ color: '#FF6F91' }}>{product.discount}% OFF</Text>
+                <Text style={{ color: '#212121', opacity: '0.6' }}>{product.tagline}</Text>
+            </Box>
                     
 
                 ))
