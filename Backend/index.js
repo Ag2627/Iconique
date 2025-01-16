@@ -8,6 +8,8 @@ import AdminProductRouter from "./Routes/Seller/product-routes.js";
 import AddressRouter from "./Routes/Address/address-routes.js";
 import { createOrder,fetchPaymentDetails,verifyPayment } from "./controller/payment-controller.js"
 import paymentRouter from './Routes/Payment/payment-routes.js'
+import Seller from "./Model/seller_schema.js"
+import { authenticate } from "./Middleware/check-auth.js"
 
 const app = express()
 
@@ -62,3 +64,5 @@ app.get("/payment/:paymentId", async (req, res) => {
       res.status(500).json({ error: error.message });
   }
 });
+  
+

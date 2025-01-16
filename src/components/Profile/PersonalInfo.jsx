@@ -55,6 +55,7 @@ const PersonalInfo = () => {
     dispatch(deleteUser(userId)).then((data) => {
       if (data?.payload?.success) {
         localStorage.removeItem('token'); // Clear token
+        localStorage.clear()
         navigate('/'); // Redirect to login page
         toast({
           title: 'Account Deleted',
