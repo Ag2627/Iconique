@@ -14,6 +14,7 @@ import userSlice from '../store/profile/index'
 import reviewSlice from '../store/review-slice/index'
 import wishlistSlice from '../store/wishlist-slice/index'
 import sellerSlice from '../store/seller-pofile/index'
+import statsSlice from '../store/overviewSlice/index'
 //we will pass two argumnets to the create store reducer(action item) and middleware
 const reducer = combineReducers({
     fetchProducts : fetchProductReducer,
@@ -22,6 +23,7 @@ const reducer = combineReducers({
     profile:userSlice,
     sellerProfile:sellerSlice,
     review:reviewSlice,
+    stats:statsSlice,
     wishlist:wishlistSlice,
     adminProducts:AdminProductsSlice,
     shopCart : shopCartSlice,
