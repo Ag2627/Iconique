@@ -1,6 +1,7 @@
 //is store ko hum web ko redux se connect karenge
 import { createStore , combineReducers, applyMiddleware} from "redux";
-import { thunk } from "redux-thunk";
+import {thunk} from "redux-thunk";
+
 //thunk is a middleware when we call our api thunk is used
 import { composeWithDevTools } from "@redux-devtools/extension";
 import { fetchProductDetailsReducer, fetchProductReducer} from "../reducers/productReducer";

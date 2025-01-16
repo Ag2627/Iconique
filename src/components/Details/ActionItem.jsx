@@ -66,6 +66,20 @@ const ActionItem=({product,handleAddtoCart})=>{
             }
         )
     } 
+    function handleAddtoWishlist (getCurrentProductId){
+        dispatch(addToWishList({userId: account?.id,productId:getCurrentProductId})).then(
+            data=>{
+                if(data?.payload?.success){
+                    dispatch(getWishList(account?.id));
+                    toast({
+                        type :'success',
+                        title:'product added to wishlist',
+                        
+                    })
+                }
+            }
+        )
+    } 
 
     return (
         <LeftContainer>
