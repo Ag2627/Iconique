@@ -4,7 +4,8 @@ import { userSignUp,userLogin,googleLogin,sellerSignup,googleSellerLogin, seller
 import upload from "../config/cloudinary.js";
 import { validateLogin, validateSignup } from "../Middleware/validateInput.js";
 import { authenticate } from "../Middleware/check-auth.js";
-import { deleteUserProfile, getSellerProfile, getUserProfile, updateSellerProfile, updateUserProfile } from "../controller/profile_controller.js";
+import { deleteUserProfile, getSellerProfile, getUserProfile,updateSellerProfile, updateUserProfile, deleteSellerProfile } from "../controller/profile_controller.js";
+
 import { addProductReview,getProductReviews } from "../controller/product-review-controller.js";
 // import { addPaymentGateway } from "../controller/payment-controller.js";
 import { fetchCartItems,addToCart,deleteCartItem,updateCartItem } from "../controller/cart-controller.js"
@@ -46,8 +47,12 @@ router.delete('/wishlist/delete/:userId/:productId',authenticate,RemoveFromWishL
 router.get('/user/get/:id',authenticate,getUserProfile);
 router.put('/user/edit/:id',authenticate,updateUserProfile);
 router.delete('/user/delete/:id',authenticate,deleteUserProfile);
-router.get('/seller/profile/:id',authenticate,getSellerProfile);
-router.put('/seller/profile/:id',authenticate,updateSellerProfile);
+router.get('/seller/get/:id',authenticate,getSellerProfile);
+router.put('/seller/edit/:id',authenticate,updateSellerProfile);
+router.delete('/seller/delete/:sellerId',authenticate,deleteSellerProfile);
+// router.delete('/seller/delete/:sellerId',authenticate,deleteProductsBySellerId);
+
+
 
 
 // router.post('/payment',addPaymentGateway);

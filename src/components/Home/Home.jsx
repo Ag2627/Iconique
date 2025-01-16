@@ -29,13 +29,13 @@ const Home = () =>{
             <NavBar/>
             <Component>
                 <Banner/>
-                <Slide products={productArray}/>
-                <Slide products={productArray}/>
-                <Slide products={productArray}/>
-                <Slide products={productArray}/>
-                <Slide products={productArray}/>
-                <Slide products={productArray}/>
-                <Slide products={productArray}/>
+                <Slide products={productArray} title="Deal of the Day" timer={true}/>
+                <Slide products={productArray} title="Bejeweled and Bright" timer={false}/>
+                <Slide products={productArray} title="Dapper & Distinguished" timer={false}/>
+                <Slide products={productArray} title="Tiny Trendsetters" timer={false}/>
+                <Slide products={productArray} title="Stride & Style" timer={false}/>
+                <Slide products={productArray} title="Adorn & Elevate" timer={false}/>
+                
             </Component>
         </> 
         

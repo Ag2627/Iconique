@@ -137,7 +137,7 @@ const RenderTimer = styled(Box)(({ theme }) => ({
 //     )
 // }
 
-const Slide = ({ products }) => {
+const Slide = ({ products,title,timer }) => {
     const timerURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/timer_a73398.svg';
     const navigate = useNavigate();
 
@@ -150,11 +150,15 @@ const Slide = ({ products }) => {
     return (
         <Component>
             <Deal>
-                <DealText>Deal of the Day</DealText>
-                 <Timer>
-                    <img src={timerURL} alt="timer"/>
-                    <Countdown date={Date.now() + 5.04e+7} renderer={renderer}/>
-                </Timer> 
+                <DealText>{title}</DealText>
+                {
+                    timer && 
+                    <Timer>
+                        <img src={timerURL} alt="timer"/>
+                        <Countdown date={Date.now() + 5.04e+7} renderer={renderer}/>
+                    </Timer> 
+                }
+                 
                  <ViewAllButton variant="contained" >View All</ViewAllButton>
             </Deal>
             <Divider />
