@@ -144,3 +144,66 @@ export const ProfileFormControls = [
   },
   
 ];
+export const sellerPersonalProfileFormControls = [
+  {
+    label: "Name",
+    name: "name",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your name",
+  },
+  {
+    label: "Email",
+    name: "email",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your email",
+  },
+  {
+    label: "Phone",
+    name: "phone",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your phone",
+  },
+  {
+    label: "Address",
+    name: "address",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your address",
+  },
+  {
+    label: "Logo",
+    name: "logo",
+    componentType :"input",
+    type: "text",
+    placeholder: "Enter your logo",
+  }
+  
+];
+export const sellerStoreProfileFormControls = [
+  {
+    label: "Store Name",
+    name: "storeName",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your store name",
+  },
+  {
+    label: "Description",
+    name: "description",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your store's description",
+  },
+  {
+    label: "Social Link",
+    name: "socialLink",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your Social Link",
+  },
+  
+  
+];

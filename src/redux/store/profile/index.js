@@ -50,7 +50,33 @@ export const deleteUser = createAsyncThunk(
         return response.data;
     }
 )
-
+// Fetch Seller Profile
+export const fetchSellerProfile = createAsyncThunk(
+    'seller/fetchSellerProfile',
+    async (id) => {
+      const response = await axios.get(`http://localhost:5000/seller/get/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      return response.data; // Assuming response.data contains the seller profile
+    }
+  );
+  
+  // Update Seller Profile
+  export const updateSellerProfile = createAsyncThunk(
+    'seller/updateSellerProfile',
+    async ({ id, formData }) => {
+      const response = await axios.put(`http://localhost:5000/seller/edit/${id}`, formData, {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      return response.data; // Assuming response.data contains the updated profile
+    }
+  );
 const userSlice = createSlice({
     name:'userProfile',
     initialState,
@@ -65,6 +91,21 @@ const userSlice = createSlice({
             state.isLoading = false;
             state.UserList=[];
         })
+        .addCase(fetchSellerProfile.pending, (state) => {
+            state.isLoading = true;
+            state.error = null;
+          })
+        .addCase(fetchSellerProfile.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.UserList = action.payload.data;
+          })
+        .addCase(fetchSellerProfile.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.error.message;
+          })
+        
+        
+      
     }})
     
 export default userSlice.reducer; 

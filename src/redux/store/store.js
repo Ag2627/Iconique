@@ -1,9 +1,11 @@
 //is store ko hum web ko redux se connect karenge
 import { createStore , combineReducers, applyMiddleware} from "redux";
-import { thunk } from "redux-thunk";
+import {thunk} from "redux-thunk";
+
 //thunk is a middleware when we call our api thunk is used
 import { composeWithDevTools } from "@redux-devtools/extension";
 import { fetchProductDetailsReducer, fetchProductReducer} from "../reducers/productReducer";
+
 import shopCartSlice  from "./cart-slice"
 import shoppingOrderSlice from "./product-slice"
 
@@ -13,13 +15,17 @@ import addressSlice from '../store/address/index'
 import userSlice from '../store/profile/index'
 import reviewSlice from '../store/review-slice/index'
 import wishlistSlice from '../store/wishlist-slice/index'
+import sellerSlice from '../store/seller-pofile/index'
+import statsSlice from '../store/overviewSlice/index'
 //we will pass two argumnets to the create store reducer(action item) and middleware
 const reducer = combineReducers({
     fetchProducts : fetchProductReducer,
     fetchProductDetails : fetchProductDetailsReducer,
     Address:addressSlice,
     profile:userSlice,
+    sellerProfile:sellerSlice,
     review:reviewSlice,
+    stats:statsSlice,
     wishlist:wishlistSlice,
     adminProducts:AdminProductsSlice,
     shopCart : shopCartSlice,
