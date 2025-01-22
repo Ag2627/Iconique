@@ -17,7 +17,6 @@ import SellerLogin from "./components/login/SellerLogin";
 import Cart from "./components/cart/Cart";
 import UserOrder from "./components/Orders/UserOrder";
 import WishList from "./components/wishlist/WishList";
-import PaymentComponent from "./components/PaymentComp/PaymentComponent.jsx";
 import SellerProfilePage from "./components/Seller/SellerProfilePage";
 import Checkout from "./components/Checkout/Checkout";
 
@@ -31,7 +30,6 @@ const router=createBrowserRouter([
     {path:'contact',element:<ContactUs/>},
     {path:'profile/*',element:<ViewProfile/>},
     {path:'my-orders',element:<UserOrder/>},
-    {path:'/payment',element:<PaymentComponent/>},
     {path:'/checkout',element:<Checkout/>},
   ]},
   {path:'/seller',element:

@@ -38,7 +38,7 @@ const CartItem =({item}) =>{
     // const reomoveItemfromCart =(_id) => {
     //     dispatch(removeFromCart(_id));
     // }
-    console.log("CART",cartItems)
+    // console.log("CART",cartItems)
     function handleUpdateQuantity(getCartItem, typeOfAction) {
         if (typeOfAction == "plus") {
           let getCartItems = cartItems || [];

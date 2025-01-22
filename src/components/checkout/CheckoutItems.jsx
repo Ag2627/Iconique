@@ -26,24 +26,26 @@ const PriceDetails = styled(Typography)`
 `;
 
 const CheckoutItems = ({ item }) => {
+    // console.log("item aaya",item);
+    
   return (
     <Component>
       <LeftComponent>
-        <ProductImage src={item.data.image} alt={item.data.title} />
+        <ProductImage src={item.image} alt={item.title} />
       </LeftComponent>
       <Box>
-        <Typography variant="h6">{item.data.title}</Typography>
+        <Typography variant="h6">{item.title}</Typography>
         <PriceDetails>
           <Box component="span" style={{ fontWeight: 600, fontSize: 18 }}>
-            ₹{Math.ceil(item.data.price - (item.data.price * item.data.discount) / 100)}
+            ₹{Math.ceil(item.price - (item.price * item.discount) / 100)}
           </Box>
           &nbsp;&nbsp;&nbsp;
           <Box component="span" style={{ color: '#878787' }}>
-            <strike>₹{item.data.price}</strike>
+            <strike>₹{item.price}</strike>
           </Box>
           &nbsp;&nbsp;&nbsp;
           <Box component="span" style={{ color: '#388E3C' }}>
-            -{item.data.discount}%
+            -{item.discount}%
           </Box>
         </PriceDetails>
       </Box>

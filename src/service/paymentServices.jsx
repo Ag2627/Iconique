@@ -1,5 +1,5 @@
 import axios from "axios";
-export const paymentServices = async (amount,title)=>{
+export const paymentServices = async (amount)=>{
     try{
         const options={
             productId: 1,
