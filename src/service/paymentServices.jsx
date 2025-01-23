@@ -1,9 +1,10 @@
 import axios from "axios";
-export const paymentServices = async (amount,title)=>{
+export const paymentServices = async (amount)=>{
     try{
         const options={
             productId: 1,
             amount: amount,
+            receipt: `receipt_${Date.now()}`,
         }
 
         const res=await axios.post('http://localhost:5000/payment/createOrder',options);
@@ -12,18 +13,19 @@ export const paymentServices = async (amount,title)=>{
 
         
         const data=res.data;
-        if(data){
+        if(data && data.success){
             console.log("data: "+data);
 
-        
-        
-        console.log("ye lo tyoe window ka;  ",typeof window.Razorpay);
         const paymentObject= new window.Razorpay({
             key:"rzp_test_pIRmD0pCH6Ut3K",
             orderId: data.id,
-            ...data,
+            amount: data.amount, // Amount from backend
+            currency: data.currency,
             handler:function(response){
-                console.log(response);
+                console.log("ye lo response: ",response);
+                const pay_id=response.razorpay_payment_id;
+                console.log("payment id: ",pay_id);
+                
                 const optn={
                     orderId:response.razorpay_order_id,
                     paymentId:response.razorpay_payment_id,
@@ -38,12 +40,20 @@ export const paymentServices = async (amount,title)=>{
                     }
                     
                 }).catch((err)=>{
-                    console.log(err);
+                    console.log("Error verifying payment: ",err);
                     
                 })
                 
-            }
-        })
+            },
+            prefill: {
+                name: "Customer Name", // Customize with user data
+                email: "customer@example.com", // Use actual user email
+                contact: "9999999999", // Use actual contact
+              },
+              theme: {
+                color: "#3399cc", // Customize color
+              },
+        });
         paymentObject.open();
     }
     else{

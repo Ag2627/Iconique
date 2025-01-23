@@ -1,4 +1,4 @@
-
+import {Link} from 'react-router-dom';
 import { Typography,Grid,Box ,styled,Button} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 //components
@@ -42,18 +42,16 @@ const LeftComponent = styled(Grid)(({ theme }) => ({
         marginBottom: 15
     }
 }));
-const buyNow=()=>{
-    // console.log("oredr placed");
+// const buyNow=()=>{
     
-        const amount = 500; 
-        const title = "Product Title";
-        paymentServices(amount, title);
-}
+//         const amount = 500; 
+//         const title = "Product Title";
+//         paymentServices(amount, title);
+// }
 const Cart = () =>{
     const { cartItems } =useSelector(state => state.shopCart);
     const account =JSON.parse(localStorage.getItem('account'));
     const dispatch = useDispatch();
-    console.log("ites",cartItems)
     useEffect(() =>{
         dispatch(fetchCartItems(account?.id));
 
@@ -79,7 +77,9 @@ const Cart = () =>{
                                 ))
                             }
                             <ButtonWrapper>
-                                <StyledButton onClick={buyNow}>Place Order</StyledButton>
+                                <Link to="/checkout">
+                                <StyledButton>Place Order</StyledButton>
+                                </Link>
                             </ButtonWrapper>
                         </LeftComponent>
                         <Grid item lg={3} md={3} sm={12} xs={12}>

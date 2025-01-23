@@ -6,20 +6,22 @@ const initialState = {
     statsList: [],
 }
 
-export const fetchStats= createAsyncThunk(
+export const fetchStats = createAsyncThunk(
     'seller/fetchStats',
-    async(id)=>{
-        const response = await axios.get(`http://localhost:5000/overview/get/${id}`,{
-            headers: {
-                "Content-Type": "application/json", 
-              authorization: `Bearer ${localStorage.getItem('token')}` 
-            }
-          });
-
-        
+    async (id) => {
+     // console.log("Fetching stats for ID:", id);
+      const response = await axios.get(`http://localhost:5000/overview/get/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+       // console.log("API response:", response);
         return response.data;
     }
-)
+  );
+  
+  
 
 const statsSlice = createSlice({
     name:'stats',

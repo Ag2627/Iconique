@@ -39,8 +39,8 @@ export const updateCartItem = createAsyncThunk('cart/updateCartItem',async({user
     );
     return  response.data
 });
-const shoppingCartSlice =createSlice({
-    name : 'shoppingCart',
+const shopCartSlice =createSlice({
+    name : 'shopCart',
     initialState,
     reducers :{},
     extraReducers : (builder) => {
@@ -81,4 +81,4 @@ const shoppingCartSlice =createSlice({
 
 });
 
-export default shoppingCartSlice.reducer;
+export default shopCartSlice.reducer;

@@ -18,7 +18,7 @@ const initialAddressFormData={
   phone:'',
   notes:'',
 }
-const ManageAddresses = () => {
+const ManageAddresses = ({setCurrAddress}) => {
 
   const [formData, setFormData] = useState(initialAddressFormData);
   const[currentEditedId,setCurrentEditedId]=useState(null);
@@ -100,9 +100,13 @@ const ManageAddresses = () => {
       <div className='mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2'>
         {
           addressList && addressList.length>0 ?
-          addressList.map(singleAddressItem=><AddressCard key={singleAddressItem._id}handleDeleteAddress={handleDeleteAddress} addressInfo={singleAddressItem}
-          handleEditAddress={handleEditAddress}
-          />):null
+          addressList.map(singleAddressItem=>(
+            <AddressCard key={singleAddressItem._id} 
+              handleDeleteAddress={handleDeleteAddress} 
+              addressInfo={singleAddressItem}
+              handleEditAddress={handleEditAddress}
+              setCurrAddress={setCurrAddress}
+          />)):null
         }
         
       </div>
@@ -126,4 +130,4 @@ const ManageAddresses = () => {
     </Card>  )
 }
 
-export default ManageAddresses
+export default ManageAddresses;

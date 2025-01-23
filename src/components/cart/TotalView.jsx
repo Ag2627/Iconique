@@ -57,12 +57,12 @@ const TotalView = ({ cartItems }) => {
     const totalAmount = () => {
         let price = 0, discount = 0;
         cartItems.map(item => {
-            console.log("price", item.price);
-            console.log("discounted",item.price-item.price*item.discount/100);
+            // console.log("price", item.price);
+            // console.log("discounted",item.price-item.price*item.discount/100);
             
             price +=( item.price)*item.quantity;
             discount += ((item.price)-(item.price-item.price*item.discount/100))*item.quantity;
-            console.log(discount);
+            // console.log(discount);
             
         })
         price = parseFloat(price.toFixed(2));
