@@ -61,6 +61,9 @@ const Cart = () =>{
 
     return(
         <>
+            <div style={{ marginTop: '50px' }}>
+                
+            </div>
             {
                 cartItems.length ?
                     <Container container>

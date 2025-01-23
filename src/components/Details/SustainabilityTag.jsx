@@ -4,7 +4,7 @@ import sustainability from '../../assets/sustainability.jpg'
 const SustainabilityTag=({isSus})=>{
     return(
         <>
-            {(isSus==='true') && <img src={sustainability} width='3%'/>}
+            {(isSus==='true' || isSus==='YES') && <img src={sustainability} width='3%'/>}
         </>
     )
 
