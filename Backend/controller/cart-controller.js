@@ -81,8 +81,10 @@ export const fetchCartItems = async (req,res) => {
             discount:item.productId.discount,
             quantity : item.quantity,
         }))
-        res.status(200).json({
+        res.status(201).json({
+            
             success : true,
+            message : "product added to Cart",
             data :{
                 ...cart._doc,
                 items : populateCartItems
