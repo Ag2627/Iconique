@@ -11,6 +11,7 @@ import { addReview, getReviews } from "@/redux/store/review-slice";
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import { useNavigate } from "react-router-dom";
 
 const ColumnText=styled(TableRow)`
     font-size: 14px;
@@ -24,11 +25,17 @@ const ProductDetail=({product})=>{
     const [rating,setRating]=useState(0);
     const dispatch=useDispatch();
     const account=localStorage.getItem('account')
+    const navigate = useNavigate();
 
     const {reviewList}=useSelector((state)=>state.review);
     function handleRatingChange(getRating){
         setRating(getRating);
     }
+
+    const handleSellerClick = () => {
+      // Navigate to the seller details page with the seller's data in state
+      navigate('/sellerdetails', { state: { seller: product.sellerId } });
+    };
     
     function handleAddReview(){
         dispatch(addReview({
@@ -82,7 +89,7 @@ const ProductDetail=({product})=>{
 
             <ColumnText>
                 <TableCell style={{color:'#878787'}}>Seller</TableCell>
-                <TableCell style={{fontWeight:600}}>{product.sellerId}</TableCell>
+                <TableCell  style={{fontWeight:600}} onClick={handleSellerClick}>{product?.sellerId?.name || ""}</TableCell>
             </ColumnText>
             <ColumnText>
                 <TableCell style={{color:'#878787'}}>Description</TableCell>

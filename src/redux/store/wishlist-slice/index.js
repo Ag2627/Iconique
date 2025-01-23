@@ -26,7 +26,7 @@ export const getWishList=createAsyncThunk('wishlist/getWishList',async(userId)=>
             }
           });
 
-          console.log("Api data laaya?",response.data);
+         // console.log("Api data laaya?",response.data);
           
           return response.data;
 })

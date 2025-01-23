@@ -19,6 +19,7 @@ import UserOrder from "./components/Orders/UserOrder";
 import WishList from "./components/wishlist/WishList";
 import SellerProfilePage from "./components/Seller/SellerProfilePage";
 import Checkout from "./components/Checkout/Checkout";
+import SellerData from "./components/Followers/SellerData";
 
 const router=createBrowserRouter([
   {path:'',element:<UserDashboard/>,children:[
@@ -27,6 +28,7 @@ const router=createBrowserRouter([
     {path:'wishlist',element:<WishList/>},
     {path :'/cart',element :<Cart/>},
     {path:'about', element:<AboutUs/>},
+    {path:'/sellerDetails',element:<SellerData/>},
     {path:'contact',element:<ContactUs/>},
     {path:'profile/*',element:<ViewProfile/>},
     {path:'my-orders',element:<UserOrder/>},
