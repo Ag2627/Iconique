@@ -1,5 +1,5 @@
 import { Box,styled,Typography,Button } from "@mui/material";
-import { addEllipsis } from "@/utils/common-utils";
+//import { addEllipsis } from "@/utils/common-utils";
 //import { removeFromCart } from "@/redux/actions/cartActions";
 import { useDispatch, useSelector } from "react-redux";
 //import GroupedButton from "./ButtonGroup";
@@ -133,7 +133,7 @@ const CartItem =({item}) =>{
       </div>
             </LeftComponent>
             <Box style={{margin : 20}}>
-                <Typography>{addEllipsis(item.title)}</Typography>
+                <Typography>{item.title}</Typography>
                 {/* <SmallText>seller:{item.sellerID} </SmallText> */}
                 <Typography style={{margin:'20px 0'}}>
                     <Box component="span" style={{fontWeight:600, fontSize: 18 }}>₹{(item.price-item.price*item.discount/100)}</Box>&nbsp;&nbsp;&nbsp;

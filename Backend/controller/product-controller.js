@@ -58,19 +58,11 @@ export const handleImageUpload=async(req,res)=>{
 export const fetchSellerProducts = async (req, res) => {
   try {
     // Extract token from the request header
-    const token = req.headers.authorization?.split(" ")[1];
-    if (!token) {
-      return res.status(401).json({ success: false, message: "Unauthorized, no token provided" });
-    }
+    
 
-    // Verify and decode the token to get sellerId
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const sellerId = decoded.id;
-       
-
+     const {sellerId}=req.params; 
     // Fetch products that belong to the seller
     const products = await product.find({ sellerId });
-   console.log("products",products);
     res.status(200).json({
       success: true,
       data: products,
@@ -211,8 +203,8 @@ export const deleteProduct = async (req, res) => {
 export const fetchProductById=async(request,response)=>{
   try {
     const { id } = request.params; 
-    console.log("Product id",id);
-    const prod=await product.findById(id)
+   // console.log("Product id",id);
+    const prod=await (await product.findById(id)).populate('sellerId','name email storeName phone address description socialLink logo');
     
     // console.log("Product Fetched:", prod); 
     if (!prod) {

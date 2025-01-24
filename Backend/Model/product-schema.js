@@ -21,7 +21,8 @@ const productSchema = new mongoose.Schema({
     description : String,
     discount : Number,
     tagline : String,
-    averageReview:String
+    averageReview:String,
+    category : String,
 },{timestamps:true});
 //we have to create a collection in mongoose database
 const product = mongoose.model('product',productSchema);

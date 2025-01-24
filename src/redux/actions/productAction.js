@@ -32,7 +32,7 @@ export const fetchProductDetails=(id)=>async(dispatch)=>{
 
         dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_REQUEST});
         const {data}=await axios.get(`${URL}/product/${id}`);
-    
+        
         dispatch({type:actionTypes.FETCH_PRODUCT_DETAILS_SUCCESS,payload:data.data});
     } catch(error){
 

@@ -7,7 +7,7 @@ const initialState={
 }
 
 export const addToWishList=createAsyncThunk('wishlist/addToWishList',async({userId,productId})=>{
-    const response=await axios.post('http://localhost:5000/wishlist/add', {
+    const response=await axios.post('http://localhost:5000/wishlist/add',{
         userId,productId
     },{
             headers: {
@@ -26,7 +26,7 @@ export const getWishList=createAsyncThunk('wishlist/getWishList',async(userId)=>
             }
           });
 
-          console.log("Api data laaya?",response.data);
+         // console.log("Api data laaya?",response.data);
           
           return response.data;
 })

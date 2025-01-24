@@ -27,15 +27,7 @@ const sellerSidebarMenuitems=[
         label:'Orders',
         path:'/seller/orders',
         icons:<FactCheckIcon/>
-    },
-    {
-      id:'followers',
-      label:'Followers',
-      path:'/seller/followers',
-      icons:<GroupAddIcon/>
-  },
-
-]
+    },]
 
 
 const MenuItems=({setOpen})=>{

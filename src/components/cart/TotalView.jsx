@@ -60,7 +60,7 @@ const TotalView = ({ cartItems }) => {
             // console.log("price", item.price);
             // console.log("discounted",item.price-item.price*item.discount/100);
             
-            price +=( item.price-item.price*item.discount/100)*item.quantity;
+            price +=( item.price)*item.quantity;
             discount += ((item.price)-(item.price-item.price*item.discount/100))*item.quantity;
             // console.log(discount);
             
@@ -84,7 +84,7 @@ const TotalView = ({ cartItems }) => {
                     <Price component="span">-₹{discount}</Price>
                 </Typography>
                 <Typography>Delivery Charges
-                    <Price component="span">₹40</Price>
+                    <Price component="span">₹99</Price>
                 </Typography>
                 <TotalAmount>Total Amount
                     <Price component="span">₹{(price - discount + 40).toFixed(2)}</Price>
