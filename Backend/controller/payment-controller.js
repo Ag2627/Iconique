@@ -8,15 +8,15 @@ const razorpayInstance=createRazorpayInstance();
 export const createOrder=async(req,res)=>{
     //for trial frontend se amount le rhe hai
     //never do this in practice
-    const {userId, cartItems=[], addressInfo, orderStatus,
+    const {userId, cartItems, addressInfo, orderStatus,
             paymentMethod,
             paymentStatus,
             amount,
             orderDate,
             orderUpdateDate,
             paymentId,
-            payerId} = req.body;
-        console.log(cartItems);
+            payerId,cartId} = req.body;
+        console.log("Backend le cartitems",cartItems);
         
         
     const options={
@@ -45,6 +45,8 @@ export const createOrder=async(req,res)=>{
             }else{
                 const newOrder= new Order({
                     userId,
+                    cartId,
+                    paymentId,
                     cartItems,
                     addressInfo,
                     orderStatus,

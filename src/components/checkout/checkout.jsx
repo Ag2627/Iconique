@@ -11,6 +11,7 @@ import {createNewOrder} from '../../redux/store/product-slice'
 const Container = styled(Grid)(({ theme }) => ({
   padding: '20px 80px', // Reduced padding for better balance
   display: 'flex',
+  marginTop:'20px',
   gap: '20px', // Add spacing between left and right components
   justifyContent: 'space-between',
   [theme.breakpoints.down('md')]: {
