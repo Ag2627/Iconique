@@ -22,9 +22,10 @@ export const paymentServices = async (amount)=>{
             amount: data.amount, // Amount from backend
             currency: data.currency,
             handler:function(response){
-                console.log("ye lo response: ",response);
+                console.log("ye lo payment id: ",response);
                 const pay_id=response.razorpay_payment_id;
                 console.log("payment id: ",pay_id);
+                window.location.href = `/order-details?payment_id=${response.razorpay_payment_id}&order_id=${data.id}`;
                 
                 const optn={
                     orderId:response.razorpay_order_id,
@@ -34,6 +35,8 @@ export const paymentServices = async (amount)=>{
                 axios.post('https://localhost:5000/verifyPayment',optn).then((res)=>{
                     console.log(res.data);
                     if(res.data.status==="success"){
+                        console.log("payment ho gya");
+                        
                         alert("payment successful");
                     }else{
                         alert("payment failed");
