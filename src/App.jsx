@@ -19,6 +19,7 @@ import UserOrder from "./components/Orders/UserOrder";
 import WishList from "./components/wishlist/WishList";
 import SellerProfilePage from "./components/Seller/SellerProfilePage";
 import Checkout from "./components/Checkout/Checkout";
+import OrderDetails from "./components/Orders/OrderDetails";
 
 const router=createBrowserRouter([
   {path:'',element:<UserDashboard/>,children:[
@@ -31,6 +32,7 @@ const router=createBrowserRouter([
     {path:'profile/*',element:<ViewProfile/>},
     {path:'my-orders',element:<UserOrder/>},
     {path:'/checkout',element:<Checkout/>},
+    {path:'order-details',element:<OrderDetails/>}
   ]},
   {path:'/seller',element:
   <SellerPrivateRoute>
