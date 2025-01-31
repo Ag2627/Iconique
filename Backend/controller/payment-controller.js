@@ -8,7 +8,7 @@ const razorpayInstance=createRazorpayInstance();
 export const createOrder=async(req,res)=>{
     //for trial frontend se amount le rhe hai
     //never do this in practice
-    const {userId, cartItems, addressInfo, orderStatus,
+    const {userId, cartItems=[], addressInfo, orderStatus,
             paymentMethod,
             paymentStatus,
             amount,

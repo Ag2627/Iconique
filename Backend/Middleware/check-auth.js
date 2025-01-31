@@ -43,3 +43,10 @@ export const authenticate = (req, res, next) => {
     res.status(401).json({ message: "Authentication failed." });
   }
 };
+export function localVariables(req,res,next){
+    req.app.locals = {
+      OTP :null,
+      resetSession : false,
+    }
+    next();
+}

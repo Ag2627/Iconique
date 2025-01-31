@@ -1,6 +1,8 @@
 import User from "../Model/user_schema.js";
 import Seller from "../Model/seller_schema.js";
 import product from "../Model/product-schema.js";
+import otpGenerator from 'otp-generator';
+import bcrypt from 'bcrypt';
 //import { i } from "vite/dist/node/types.d-aGj9QkWt.js";
 
 export const getUserProfile = async (req, res) => {
@@ -169,4 +171,67 @@ export const getSellerProfile = async (req, res) => {
       res.status(500).json({ success: false, message: "Failed to delete seller profile." });
     }
   };
+  export const generateOTP=async (req,res) => {
+    console.log("aaya");
+    
+    req.app.locals.OTP = otpGenerator.generate(6,{lowerCaseAlphabets:false ,upperCaseAlphabets:false ,specialChars :false})
+    res.status(201).send({ code: req.app.locals.OTP})
+  }
+  export const verifyOTP=async (req,res) => {
+      const {code} =req.query;
+      if(parseInt(req.app.locals.OTP)=== parseInt(code)){
+        req.app.locals.OTP =null;//reset the otp value
+        req.app.locals.resetSession=true;//start session for reset password
+        return res.status(201).send({
+          msg:'verified Successfully',
+
+        })
+      }
+      return res.status(400).send({error : "Invalid OTP"});
+  }
+  //successfully redirect user when otp is valid
+  export const createResetSession = async (req,res) =>{
+        if(req.app.locals.resetSession){
+          req.app.locals.resetSession=false;//allow access to this route only once
+          return res.status(201).send({msg :"access granted !"})
+        }
+        return res.status(440).send({error : "session expired!"})
+  }
+  //update the password when we have a valid session
+  export const resetPassword = async (req, res) => {
+    try {
+      if(!req.app.locals.resetSession) return res.status(440).send({error : "Session expired!"});
+      const { email, password } = req.body;
+  
+      // Check if the email and password are provided
+      if (!email || !password) {
+        return res.status(400).send({ error: "Email and password are required" });
+      }
+  
+      // Find the user by email
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(404).send({ error: "User not found" });
+      }
+  
+      // Hash the new password
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      // Update the user's password
+      const updatedUser = await User.updateOne(
+        { email },
+        { password: hashedPassword }
+      );
+  
+      if (updatedUser.modifiedCount > 0) {
+        return res.status(200).send({ msg: "Password updated successfully" });
+      } else {
+        return res.status(500).send({ error: "Failed to update password" });
+      }
+    } catch (error) {
+      // Handle unexpected errors
+      return res.status(500).send({ error: "An error occurred", details: error.message });
+    }
+  };
+  
   
