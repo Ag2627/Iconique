@@ -1,5 +1,5 @@
 // import { Button } from '@mui/material'
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useMemo, useState } from 'react'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet';
 import CommonForm from '../common/form';
 import { addProductFormElements } from '@/config';
@@ -31,15 +31,29 @@ const SellerProducts = () => {
   const [imageFile,setImageFile]=useState(null);
   const [uploadedImageUrl,setUploadedImageUrl]=useState('')
   const [imageLoadingState,setImageLoadingState]=useState(false);
-  const {productList}=useSelector(state=>state.adminProducts)
+  const {productList}=useSelector((state)=>state.adminProducts)
   const dispatch=useDispatch(); //jo thunk se store me reducers banaye the uske liye
   const [currentEditedId,setCurrentEditedId]=useState(null);
   const {toast}=useToast();
+  const [errors, setErrors] = useState({}); 
 
+  function validateForm() {
+    const { title, price, size, sustainable, quantity, category } = formData;
+    const newErrors = {};
+
+    if (!title) newErrors.title = "Title is required";
+    if (!price || price < 0) newErrors.price = "Price must be a non-negative value";
+    if (!quantity || quantity < 0) newErrors.quantity = "Quantity must be a non-negative value";
+    if (!category) newErrors.category = "Category is required";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
+  const isFormValid = useMemo(() => validateForm(), [formData]);
 
   function onSubmit(event){
     event.preventDefault();
-
+    if (!validateForm()) return;
     currentEditedId!==null?
     dispatch(editProduct({id:currentEditedId,formData})).then((data)=>{
       if(data?.payload?.success){
@@ -78,19 +92,7 @@ const SellerProducts = () => {
     
   }
   
-  function isFormValid(){
-    const { title, price, size, sustainable, quantity, category } = formData;
-
-    return (
-        title && 
-        price && 
-        size && 
-        sustainable !== undefined && 
-        quantity && 
-        category
-    );
-  }
-
+  
   useEffect(()=>{
     dispatch(fetchProducts());
   },[dispatch]);
@@ -118,6 +120,7 @@ const SellerProducts = () => {
         setOpenCreateProductsDialog(false);
         setCurrentEditedId(null); //jo fill kiya vo hatane ke liye;
         setFormData(initialFormData);
+        setErrors({});
 
       }}>
         <SheetContent side="right" className="overflow-auto">
@@ -139,7 +142,8 @@ const SellerProducts = () => {
             onSubmit={onSubmit}
             formData={formData} setFormData={setFormData} buttonText={currentEditedId!==null? 'Edit':'Add'}
               formControls={addProductFormElements}
-              isBtnDisabled={!isFormValid()}
+              isBtnDisabled={!isFormValid}
+              errors={errors}
             />
           </div>
         </SheetContent>

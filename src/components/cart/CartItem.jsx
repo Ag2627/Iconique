@@ -51,7 +51,7 @@ const CartItem =({item}) =>{
             const getCurrentProductIndex = products.data.findIndex(
               (product) => product._id === getCartItem?.productId
             );
-            const getTotalStock = products.data[getCurrentProductIndex].totalStock;
+            const getTotalStock = products.data[getCurrentProductIndex].quantity;
     
             console.log(getCurrentProductIndex, getTotalStock, "getTotalStock");
     

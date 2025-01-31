@@ -92,10 +92,18 @@ export const addProduct = async (req, res) => {
     const decoded = jwt.verify(token, JWT_SECRET); // Decode token to get seller ID
     const sellerId = decoded.id;
 
-    if (!title || !description || !category || !price) {
+    if (!title || !description || !category || price === undefined || quantity === undefined) {
       return res.status(400).json({
         success: false,
         message: "All required fields must be filled",
+      });
+    }
+
+    // Validate non-negative values
+    if (price < 0 || quantity < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Price and Quantity must be non-negative values",
       });
     }
     if (!sellerId) {
@@ -145,6 +153,19 @@ export const editProduct = async (req, res) => {
       success:false,
       message:"Product not found",
     });
+
+    if (price !== undefined && price < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Price must be a non-negative value",
+      });
+    }
+    if (quantity !== undefined && quantity < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Quantity must be a non-negative value",
+      });
+    }
 
     findProduct.title=title || findProduct.title;
 

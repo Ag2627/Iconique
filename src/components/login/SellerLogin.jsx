@@ -11,59 +11,66 @@ import { authenticateSellerGoogleLogin, authenticateSellerLogin, authenticateSel
 import { useNavigate } from "react-router-dom";
 import PrivacyPolicyDialog from "../AboutUs/PrivacyPolicyDialog";
 
-const Component=styled(Box)`
-  height:90vh;
-  max-height:90vh;
-  width:90vh;
-  display:flex;
-  overflow:hidden;
-`
-const Image=styled(Box)`
-  background:#F33A6A url(${LoginImage}) center 85% no-repeat;
-  background-size:cover;
-  
-  width:35%;
-  padding: 45px 35px;
-  box-sizing:border-box;
-`
-const Wrapper=styled(Box)`
-  display:flex;
-  flex-direction:column;
-  padding:25px 35px;
-  flex:1;
-  overflow-y:auto;
-  & > div,& >button,& > p{
-  margin-top:15px;
-  }
-`
-const LoginButton=styled(Button)`
-  text-transform:none;
-  background:#A52448;
-  color:#ffffff;
-  height:48px;
-  border-radius:2px;
-`;
 const Google=styled(Button)`
-text-transform:none;
-background:#F0FFFF;
-color:#000000;
-height:48px;
-border-radius:2px;
-box-shadow: 0 2px 4px 0 rgb(0 0 0 /20%);
+text-transform: none;
+  background: #F0FFFF;
+  color: #000000;
+  height: 48px;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
 `;
 
-const Text=styled(Typography)`
-  font-size:14px;
-  color:#878787
-`
-const CreateAccount=styled(Typography)`
-  font-size:14px;
-  text-align:center;
-  color:#F33A6A;
-  font-weight:600;
-  cursor:pointer;
-`
 
+const Component = styled(Box)`
+  height: 90vh;
+  max-height: 90vh;
+  width: 90vh;
+  display: flex;
+  overflow: hidden;
+`;
+
+const Image = styled(Box)`
+  background: #F33A6A url(${LoginImage}) center 85% no-repeat;
+  background-size: cover;
+  width: 35%;
+  padding: 45px 35px;
+  box-sizing: border-box;
+`;
+
+const Wrapper = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  padding: 25px 35px;
+  flex: 1;
+  overflow-y: auto;
+  & > div, & > button, & > p {
+    margin-top: 15px;
+  }
+`;
+
+// Styled Buttons
+const LoginButton = styled(Button)`
+  text-transform: none;
+  background: #A52448;
+  color: #ffffff;
+  height: 48px;
+  border-radius: 2px;
+`;
+
+
+// Typography
+const Text = styled(Typography)`
+  font-size: 14px;
+  color: #878787;
+`;
+
+const CreateAccount = styled(Typography)`
+  font-size: 14px;
+  text-align: center;
+  color: #F33A6A;
+  font-weight: 600;
+  cursor: pointer;
+`;
 const accountInitialValues={
   login:{
     view:'login',
@@ -99,10 +106,41 @@ const SellerLogin = ({open,setOpen}) => {
   const [signup,setSignup]=useState(signupInitialValues);
   const[login,setLogin]=useState(loginInitialValues);
   const [visible,setvisible]=useState(false);
-  const [error,setError]=useState(false);
+  const [error,setError]=useState("");
   const [isPrivacyPolicyOpen, setPrivacyPolicyOpen] = useState(false);
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
+  
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/; // At least 6 chars, 1 letter, 1 number
+    return passwordRegex.test(password);
+  };
+  
+  const validatePhone = (phone) => {
+    const phoneRegex = /^[0-9]{10}$/; // Assuming a 10-digit phone number
+    return phoneRegex.test(phone);
+  };
+  
 
+  const setLogoutTimer = (token) => {
+    if (!token || typeof token !== 'string') {
+      return;  
+    }
+    const { exp } = jwtDecode(token);
+    const timeout = exp * 1000 - Date.now(); // Time until token expires
+  
+    setTimeout(() => {
+      alert('Session expired. Please login again.');
+      localStorage.clear();
+      navigate('/'); // Navigate to the login page
+      window.location.reload();
+    }, timeout);
+  };
+  
+  setLogoutTimer(localStorage.getItem("token"));
   //form data setup
   const formData = new FormData();
   formData.append("name", signup.name);
@@ -117,13 +155,16 @@ const SellerLogin = ({open,setOpen}) => {
   formData.append("agree",signup.agree);
 
   //toast for errors 
-  const showToast = 
-  (message) => {
+  const showToast = (message) => {
     toast({
       title: message,
       duration: 3000,
-      position: 'top-center',
-      style: { backgroundColor: '#f33a6a', color: '#fff' ,zIndex: 1301}
+      position: "top-center",
+      style: {
+        backgroundColor: "#f33a6a",
+        color: "#fff",
+        zIndex: 1301,
+      },
     });
   };
 
@@ -146,9 +187,30 @@ const SellerLogin = ({open,setOpen}) => {
     setSignup({...signup,logo: e.target.files[0]})
   }
   const signupSeller=async ()=>{
+    if (!signup.name || !signup.email || !signup.password || !signup.phone || !signup.address || !signup.agree) {
+      setError("Please fill all required fields.");
+      return;
+    }
+  
+    if (!validateEmail(signup.email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+  
+    if (!validatePassword(signup.password)) {
+      setError("Password must be at least 6 characters long and contain at least one number.");
+      return;
+    }
+  
+    if (!validatePhone(signup.phone)) {
+      setError("Please enter a valid phone number.");
+      return;
+    }
+  
     try{
     let response=await authenticateSellerSignup(formData);
     //console.log(response);
+    
     if(!response) showToast("Signup failed.Please check your details.");
     else{
       const { token, seller } = response.data;
@@ -163,6 +225,7 @@ const SellerLogin = ({open,setOpen}) => {
     showToast("Seller Signup Successful");
 
       navigate('/seller');
+      
       handleClose();
     }
   }catch(error){

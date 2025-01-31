@@ -4,7 +4,6 @@ export const paymentServices = async (amount)=>{
         const options={
             productId: 1,
             amount: amount,
-            
             receipt: `receipt_${Date.now()}`,
         }
 
