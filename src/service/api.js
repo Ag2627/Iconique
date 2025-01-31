@@ -81,6 +81,23 @@ export const updateProfile = async (role, id, updatedData) => {
       });
     return data;
 };
+export const generateOTP = async(email) =>{
+    try{
+        const {data :[ code],status} = await axios.get(`${URL}/generateOTP`,{params :{email}})
+        //send mail with the otp
+        if(status==201){
+            let {data: {email}} =await fetchProfile({id});
+            let text = `Your Password Recovery OTP is ${code}.Verify and recover your password.`;
+            await axios.post('/registerMail',{id,userEmail:email,text,subject :"password Recovery OTP"});
+        }
+    }catch(error){
+        console.log("Error while getting otp ",error);
+        return error.response; 
+    }
+}
+
+
+
 
 // export const fetchProductById = (id) => axios.get(`/seller/products/${id}`);
 // export const addProduct = (product) => axios.post('/seller/products', product);

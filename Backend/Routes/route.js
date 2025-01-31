@@ -3,15 +3,15 @@ import { addProduct,fetchProducts, fetchProductById, fetchSellerProducts } from 
 import { userSignUp,userLogin,googleLogin,sellerSignup,googleSellerLogin, sellerLogin } from "../controller/user_controller.js";
 import upload from "../config/cloudinary.js";
 import { validateLogin, validateSignup } from "../Middleware/validateInput.js";
-import { authenticate } from "../Middleware/check-auth.js";
-import { deleteUserProfile, getSellerProfile, getUserProfile,updateSellerProfile, updateUserProfile, deleteSellerProfile } from "../controller/profile_controller.js";
+import { authenticate,localVariables } from "../Middleware/check-auth.js";
+import { deleteUserProfile, getSellerProfile, getUserProfile,updateSellerProfile, updateUserProfile, deleteSellerProfile, generateOTP ,verifyOTP,createResetSession, resetPassword} from "../controller/profile_controller.js";
 
 import { addProductReview,getProductReviews } from "../controller/product-review-controller.js";
 // import { addPaymentGateway } from "../controller/payment-controller.js";
 import { fetchCartItems,addToCart,deleteCartItem,updateCartItem } from "../controller/cart-controller.js"
 import { addToWishList, getWishList, RemoveFromWishList } from "../controller/wishlist-controller.js";
 import { sellerStats } from "../controller/dashboard-controller.js";
-
+import {registerMail} from '../controller/mailer.js'
 const router=express.Router();
 //login signup routes
 router.post('/signup',validateSignup ,userSignUp);
@@ -20,7 +20,11 @@ router.post('/seller-signup',upload.single('logo'),validateSignup,sellerSignup);
 router.post('/seller-login',validateLogin,sellerLogin);
 router.post('/google-login',googleLogin)
 router.post('/google-sellerlogin',googleSellerLogin)
-
+router.get('/generateOTP',validateLogin,localVariables,generateOTP)
+router.get('/verifyOTP',verifyOTP);
+router.get('/createResetSession',createResetSession);
+router.put('/resetPassword',validateLogin,resetPassword);
+router.post('/registerMail',registerMail)
 
 
 // router.post('/products', upload.single('image'), addProduct); // New route for adding product
