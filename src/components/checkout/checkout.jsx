@@ -8,6 +8,7 @@ import { fetchCartItems } from '@/redux/store/cart-slice';
 import { paymentServices } from '@/service/paymentServices';
 import {calculateCartTotals} from '../../utils/cart-utils'
 import {createNewOrder} from '../../redux/store/product-slice'
+import { useToast } from '@/hooks/use-toast';
 const Container = styled(Grid)(({ theme }) => ({
   padding: '20px 80px', // Reduced padding for better balance
   display: 'flex',
@@ -81,7 +82,7 @@ const Checkout = () => {
   console.log("user id: ",account.id);
   console.log("current address: ",currAddress);
   console.log("yelo cart items checkout me",cartItems);
-  
+  const {toast} = useToast();
   
 
   // useEffect(() => {
@@ -96,8 +97,27 @@ const Checkout = () => {
   
   const { totalPrice, totalDiscount } = calculateCartTotals(cartItems);
   const handleInitiatePayment=()=>{
+
+    if(cartItems.length ===0){
+      toast({
+        title: "Your cart feels empty. Time to add some glamour to it",
+        type: "success",
+      })
+      return;
+
+    }
+    if(currAddress===null){
+      toast({
+        title: "please select an address to proceed.",
+        type: "success",
+      })
+      return;
+
+    }
+
     const orderData={
       userId:account?.id,
+      cartId:cartItems?._id,
       cartItems:cartItems.map(singleCartItem=>({
           productId: singleCartItem.productId,
           title: singleCartItem.title,
@@ -116,13 +136,13 @@ const Checkout = () => {
       orderStatus:'pending',
       paymentMethod:'razorpay',
       paymentStatus:'pending',
-      amount:totalPrice,
+      totalAmount:totalPrice,
       orderDate:new Date(),
       orderUpdateDate: new Date(),
       paymentId:'',
       payerId:'',
   }
-  paymentServices(totalPrice);
+  paymentServices(orderData);
   console.log("Order Data: ",orderData);
   // dispatch(createNewOrder(orderData)).then((data)=>{
   //   console.log("ye lo order data: ",data);
