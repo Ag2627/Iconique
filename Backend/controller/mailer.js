@@ -46,3 +46,40 @@ export const registerMail = async(req,res)=>{
         })
         .catch(error => res.status(500).send({error}))
 }
+
+export const sendOrderEmail = async (username, userEmail, orderId) => {
+    try {
+        // Email body
+        let email = {
+            body: {
+                name: username,
+                intro: `Good news! Your order **${orderId}** has been successfully delivered.`,
+                table: {
+                    data: [
+                        {
+                            Order_ID: orderId,
+                            Status: "Delivered",
+                        },
+                    ],
+                },
+                outro: "Thank you for shopping with us! If you have any questions, feel free to reply to this email.",
+            },
+        };
+
+        let emailBody = MailGenerator.generate(email);
+
+        // Email message configuration
+        let message = {
+            from: process.env.EMAIL,
+            to: userEmail,
+            subject: "Your Order Has Been Delivered! 🎉",
+            html: emailBody,
+        };
+
+        // Send the email
+        await transporter.sendMail(message);
+        console.log(`Order delivery email sent to: ${userEmail}`);
+    } catch (error) {
+        console.error("Error sending order email:", error);
+    }
+};
