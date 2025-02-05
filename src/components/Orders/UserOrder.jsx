@@ -1,13 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
+import { Badge } from "../ui/badge";
 import { Button } from '../ui/button'
 import { Dialog } from '../ui/dialog'
 import UserOrderDetails from './UserOrderDetails'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllOrdersByUserId, getOrderDetails } from '../../redux/store/product-slice/index'
 
 
 const UserOrder = () => {
   const [openDetailsDialog,setOpenDetailsDialog]=useState(false);  
+  const dispatch =useDispatch();
+  const account =JSON.parse(localStorage.getItem('account'));
+  const {orderList,orderDetails}= useSelector(state=>state.shoppingOrder)
+  const userId=account.id
+
+  function handleFetchOrderDetails(getId) {
+    setOpenDetailsDialog(true);
+    dispatch(getOrderDetails(getId));
+  }
+
+  useEffect(()=>{
+    dispatch(getAllOrdersByUserId(userId))
+  },[dispatch])
+  console.log(account?.id);
+  
+  useEffect(() => {
+    if (orderDetails !== null) setOpenDetailsDialog(true);
+  }, [orderDetails]);
+  console.log(orderDetails,"orderDetails");
+  console.log(orderList,"list");
+  
+  
   return (
     <Card>
         <CardHeader>
@@ -25,17 +50,38 @@ const UserOrder = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow>
-                        <TableCell>123456</TableCell>
-                        <TableCell>24/12/2024</TableCell>
-                        <TableCell>In Process</TableCell>
-                        <TableCell>$150</TableCell>
+                    {
+                      orderList && orderList.length>0 ?
+                      orderList.map(orderItem=> <TableRow>
+                        <TableCell>{orderItem?._id}</TableCell>
+                        <TableCell>{orderItem?.orderDate.split('T')[0]}</TableCell>
                         <TableCell>
-                        <Dialog open={openDetailsDialog} onOpenChange={setOpenDetailsDialog}>
-                        <Button onClick={()=>setOpenDetailsDialog(true)}>View Details</Button>  
-                        <UserOrderDetails/></Dialog>   
+                        <Badge
+                        className={`py-1 px-3 ${
+                          orderItem?.orderStatus === "confirmed"
+                            ? "bg-green-500"
+                            : orderItem?.orderStatus === "rejected"
+                            ? "bg-red-600"
+                            : "bg-black"
+                        }`}
+                      >
+                        {orderItem?.orderStatus}
+                      </Badge>
                         </TableCell>
-                    </TableRow>
+                        <TableCell>₹{orderItem?.totalAmount}</TableCell>
+                        <TableCell>
+                        <Dialog open={openDetailsDialog} onOpenChange={() => {
+                          setOpenDetailsDialog(false);
+                          dispatch(resetOrderDetails());
+                        }}>
+                        <Button onClick={()=>handleFetchOrderDetails(orderItem?._id)}>View Details</Button>
+                        <UserOrderDetails orderDetails={orderDetails} />  
+                        </Dialog>   
+                        </TableCell>
+                    </TableRow>)
+                    :null
+                    }
+                    
                 </TableBody>
             </Table>
         </CardContent>
@@ -43,4 +89,4 @@ const UserOrder = () => {
   )
 }
 
-export default UserOrder
+export default UserOrder;

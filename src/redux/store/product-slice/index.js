@@ -24,29 +24,32 @@ export const createNewOrder = createAsyncThunk(
 );
 
 export const capturePayment = createAsyncThunk(
-  "payment/capturePayment",
-  async ({ paymentId, orderId }, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/payment/capture",
-        { paymentId, orderId }
-      );
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+  "/payment/capturePayment",
+  async ({paymentId, orderId}) => {
+    const response = await axios.post(
+      "http://localhost:5000/payment/capturePayment",
+      {paymentId, 
+      orderId}
+    );
+
+    return response.data;
   }
 );
 
 export const getAllOrdersByUserId = createAsyncThunk(
   "payment/getAllOrdersByUserId",
   async (userId, { rejectWithValue }) => {
+    console.log("id",userId);
+    
     try {
       const response = await axios.get(
         `http://localhost:5000/payment/list/${userId}`
       );
+      console.log("response ",response.data);
+      
       return response.data;
     } catch (error) {
+      
       return rejectWithValue(error.response.data);
     }
   }
@@ -82,7 +85,7 @@ const shoppingOrderSlice = createSlice({
       .addCase(createNewOrder.fulfilled, (state, action) => {
         state.isLoading = false;
         state.razorpayOrderId = action.payload.id;  // Assuming backend returns Razorpay order ID
-        sessionStorage.setItem("currentOrderId", action.payload.id);
+        sessionStorage.setItem("currentOrderId", JSON.stringify(action.payload.id));
       })
       .addCase(createNewOrder.rejected, (state) => {
         state.isLoading = false;

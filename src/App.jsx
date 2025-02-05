@@ -21,6 +21,7 @@ import SellerProfilePage from "./components/Seller/SellerProfilePage";
 import Checkout from "./components/Checkout/Checkout";
 import SellerData from "./components/Followers/SellerData";
 import OrderDetails from "./components/Orders/OrderDetails";
+import { PaymentSuccess } from "./components/Payment/PaymentSuccess";
 
 const router=createBrowserRouter([
   {path:'',element:<UserDashboard/>,children:[
@@ -34,7 +35,8 @@ const router=createBrowserRouter([
     {path:'profile/*',element:<ViewProfile/>},
     {path:'my-orders',element:<UserOrder/>},
     {path:'/checkout',element:<Checkout/>},
-    {path:'order-details',element:<OrderDetails/>}
+    {path:'/order-details',element:<OrderDetails/>},
+    {path:'/payment/success-page',element:<PaymentSuccess/>}
   ]},
   {path:'/seller',element:
   <SellerPrivateRoute>
