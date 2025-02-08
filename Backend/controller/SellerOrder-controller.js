@@ -1,6 +1,5 @@
 import User from "../Model/user_schema.js";
 import Order from "../Model/OrderSchema.js";
-import Order from "../Model/OrderSchema.js";
 
 const getOrderDetailsforSeller = async (req, res) => {
     try {
