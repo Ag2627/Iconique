@@ -10,7 +10,7 @@ import { createOrder } from "./controller/payment-controller.js"
 import paymentRouter from './Routes/Payment/payment-routes.js'
 import Seller from "./Model/seller_schema.js"
 import { authenticate } from "./Middleware/check-auth.js"
-
+import sellerOrderRouter from "./Routes/Seller/order-routes.js"
 const app = express()
 
 dotenv.config()
@@ -39,6 +39,7 @@ app.use('/',router);
 app.use('/seller/products',AdminProductRouter);
 app.use('/address',AddressRouter);
 app.use('/payment',paymentRouter);
+app.use('/seller/orders',sellerOrderRouter)
 
 const port =5000
 const USERNAME=process.env.DB_USERNAME;

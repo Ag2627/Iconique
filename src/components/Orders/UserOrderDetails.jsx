@@ -3,9 +3,12 @@ import { Badge } from "../ui/badge";
 import { DialogContent } from '../ui/dialog'
 import { Label } from '../ui/label'
 import { Separator } from '../ui/separator'
+import { useSelector } from 'react-redux';
 
 
 const UserOrderDetails = ({orderDetails}) => {
+    const account =JSON.parse(localStorage.getItem('account'));
+
     console.log("deatils ka detail",orderDetails);
     
   return (
@@ -56,13 +59,13 @@ const UserOrderDetails = ({orderDetails}) => {
                 <div className='font-medium'>Order Details</div>
                 <ul className="grid gap-3">
               {orderDetails?.cartItems && orderDetails?.cartItems.length > 0
-                ? orderDetails?.cartItems.map((item) => (
+                ? orderDetails?.cartItems.map(item=> 
                     <li className="flex items-center justify-between">
                       <span>Title: {item.title}</span>
                       <span>Quantity: {item.quantity}</span>
-                      <span>Price: ${item.price}</span>
+                      <span>Price: ₹{item.price}</span>
                     </li>
-                  ))
+                  )
                 : null}
             </ul>
                 
@@ -73,11 +76,11 @@ const UserOrderDetails = ({orderDetails}) => {
         <div className='grid gap-2'>
         <div className='font-medium'>Shipping Info</div>
             <div className='grid gap-0.5 text-muted-foreground'>
-                <span>John Doe</span>
-                <span>Address</span>
-                <span>City</span>
-                <span>Pincode</span>
-                <span>Phone</span>
+                <span>{account?.name}</span>
+                <span>{orderDetails?.addressInfo?.address}</span>
+                <span>{orderDetails?.addressInfo?.city}</span>
+                <span>{orderDetails?.addressInfo?.phone}</span>
+                <span>{orderDetails?.addressInfo?.pincode}</span>
                 <span>Notes</span>
             </div>
         </div>

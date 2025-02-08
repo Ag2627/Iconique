@@ -5,7 +5,7 @@ import UserDashboard from "./components/User/UserDashboard";
 import SellerDashboard from "./components/Seller/SellerDashboard";
 import { Toaster } from "./components/ui/toaster";
 import SellerProducts from "./components/Seller/SellerProducts";
-import Order from "./components/Seller/Order";
+import SellerOrder from "./components/Orders/SellerOrder"
 import Followers from "./components/Seller/Followers";
 import SellerOverview from "./components/Seller/SellerOverview";
 import ViewProfile from "./components/Profile/ViewProfile";
@@ -45,7 +45,7 @@ const router=createBrowserRouter([
   ,children:[
     {path:'products',element:<SellerProducts/>},
     {path:'overview',element:<SellerOverview/>},
-    {path:'orders',element:<Order/>},
+    {path:'orders',element:<SellerOrder/>},
     {path:'followers',element:<Followers/>},
     {path:'profile',element:<SellerProfilePage/>},
   ]},
