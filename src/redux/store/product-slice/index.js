@@ -62,6 +62,7 @@ export const getOrderDetails = createAsyncThunk(
       const response = await axios.get(
         `http://localhost:5000/payment/details/${id}`
       );
+      console.log("Order Details API Response:", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

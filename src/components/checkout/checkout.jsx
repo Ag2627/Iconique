@@ -171,10 +171,10 @@ const Checkout = () => {
           <CheckoutItems key={item.productId} item={item} />
         ))}
         <TotalView cartItems={cartItems} />
-        <Button style={{backgroundColor:'#F33A6A', color:'white',padding:'10px 3px',flexBasis:'90%'}} onClick={handleInitiatePayment}>Checkout</Button>
+        <Button style={{backgroundColor:'#F33A6A', color:'white',padding:'10px 3px',flexBasis:'90%'}} onClick={handleInitiatePayment}>{isPaymentStart?'Processing Payment...':'Checkout'}</Button>
       </LeftComponent>
       <StyledRightComponent item>
-        <ManageAddresses setCurrAddress={setCurrAddress}/>
+        <ManageAddresses selectedId={currAddress}setCurrAddress={setCurrAddress}/>
       </StyledRightComponent>
     </Container>
   );
