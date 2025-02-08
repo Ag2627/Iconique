@@ -21,7 +21,7 @@ export const paymentServices = async (orderData)=>{
                 console.log("ye lo payment id: ",response);
                 const pay_id=response.razorpay_payment_id;
                 console.log("payment id: ",pay_id);
-                // window.location.href = `/order-details?payment_id=${response.razorpay_payment_id}&order_id=${data.id}`;
+                window.location.href = `/payment/success-page`;
                 
                 const optn={
                     orderId:response.razorpay_order_id,
