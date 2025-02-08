@@ -4,6 +4,8 @@ import Countdown from 'react-countdown';
 import { useNavigate } from 'react-router-dom';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Badge } from '../ui/badge';
+
 
 const Component = styled(Box)`
     margin-top: 10px;
@@ -51,6 +53,7 @@ const Image = styled('img')({
     width: 'auto',
     height: 150,
 });
+
 
 const Text = styled(Typography)`
     font-size: 14px;
@@ -138,13 +141,31 @@ const Slide = ({ products, title, timer }) => {
                     <Box
                         key={product._id}
                         textAlign="center"
-                        style={{ padding: '25px 15px', cursor: 'pointer' }}
+                        style={{ padding: '25px 15px', cursor: 'pointer', position: 'relative',
+                            overflow:'visible'
+                         }}
                         onClick={(e) => {
                             e.stopPropagation();
                             navigate(`/product/${product._id}`);
                         }}
                     >
                         <Image src={product.image} alt="product" />
+                        {product?.quantity === 0 ? (
+            <Badge className="bg-red-500 text-white font-bold p-1 rounded-lg">
+              Out Of Stock
+            </Badge>
+
+          ) : product?.quantity < 10 ? (
+            <Badge                   className="font-bold p-1 rounded-lg"
+            style={{ backgroundColor: '#facc15', color: 'black' }} >
+              {`Only ${product?.quantity} items left`}
+            </Badge>
+          ) : product?.discount > 0 ? (
+            <Badge className="bg-red-500 text-white font-bold p-1 rounded-lg">
+              Sale
+            </Badge>
+          ) : null}
+
                         <Text style={{ fontWeight: 600, color: '#212121' }}>
                             {product.title.shortTitle || product.title}
                         </Text>

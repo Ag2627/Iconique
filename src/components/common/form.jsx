@@ -17,10 +17,12 @@ function CommonForm({
   onSubmit,
   buttonText,
   isBtnDisabled,
+  errors = {},
 }) {
   function renderInputsByComponentType(getControlItem) {
     let element = null;
     const value = formData[getControlItem.name] || "";
+    const error = errors[getControlItem.name];
 
     switch (getControlItem.componentType) {
       case "input":
@@ -104,8 +106,12 @@ function CommonForm({
         );
         break;
     }
-
-    return element;
+    return (
+      <div>
+        {element}
+        {error && <p className="text-red-500 text-sm mt-1">{error}</p>} {/* Show error */}
+      </div>
+    );
   }
 
   return (

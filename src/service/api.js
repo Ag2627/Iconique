@@ -102,3 +102,12 @@ export const generateOTP = async(email) =>{
 // export const fetchProductById = (id) => axios.get(`/seller/products/${id}`);
 // export const addProduct = (product) => axios.post('/seller/products', product);
 // export const updateProduct = (id, updatedProduct) => axios.put(`/seller/products/${id}`, updatedProduct);
+
+export const DeliverMail = async (orderId, newStatus) => {
+    try {
+        const response = await axios.put(`${URL}/update-status/${orderId}`, { status: newStatus });
+    } catch (error) {
+        console.error("Error updating order:", error);
+    }
+};
+

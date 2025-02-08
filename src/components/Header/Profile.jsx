@@ -3,7 +3,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HistoryIcon from '@mui/icons-material/History';
 import { useState } from "react"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Component=styled(Menu)`
   margin-top:5px;
@@ -14,6 +14,7 @@ const Text=styled(Typography)`
 `
 const Profile = ({account,setAccount}) => {
   const [open,setOpen]=useState(false);
+  const navigate=useNavigate();
 
   const handleClick=(event)=>{
     setOpen(event.currentTarget)
@@ -27,6 +28,7 @@ const Profile = ({account,setAccount}) => {
     localStorage.clear();
     alert('Logged out successfully!');
     setAccount({id:'',name:''});
+    navigate('/');
     window.location.reload();
   }
   return (
