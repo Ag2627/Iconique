@@ -3,9 +3,14 @@ import { Card, CardContent, CardFooter } from '../ui/card';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 
-const AddressCard = ({ addressInfo, handleDeleteAddress, handleEditAddress, setCurrAddress }) => {
+const AddressCard = ({ addressInfo, handleDeleteAddress, handleEditAddress, setCurrAddress,selectedId }) => {
   return (
-    <Card onClick={setCurrAddress? ()=>{setCurrAddress(addressInfo)}:null} className="flex flex-col h-full">
+    <Card onClick={setCurrAddress? ()=>{setCurrAddress(addressInfo)}:null} className={`cursor-pointer border-pink-700 ${
+      selectedId?._id === addressInfo?._id
+        ? "border-pink-900 border-[4px]"
+        : "border-black"
+    }`}
+>
       <CardContent className="grid gap-4 p-4 flex-grow">
         <Label>Address: {addressInfo?.address}</Label>
         <Label>City: {addressInfo?.city}</Label>

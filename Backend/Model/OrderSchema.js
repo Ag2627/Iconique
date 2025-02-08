@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const OrderSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  // cartId: String,
+  cartId: String,
   // sellerId: String,
   cartItems: [
     {
