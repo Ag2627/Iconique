@@ -20,10 +20,10 @@ router.post('/seller-signup',upload.single('logo'),validateSignup,sellerSignup);
 router.post('/seller-login',validateLogin,sellerLogin);
 router.post('/google-login',googleLogin)
 router.post('/google-sellerlogin',googleSellerLogin)
-router.get('/generateOTP',validateLogin,localVariables,generateOTP)
-router.get('/verifyOTP',verifyOTP);
-router.get('/createResetSession',createResetSession);
-router.put('/resetPassword',validateLogin,resetPassword);
+router.post('/generateOTP',generateOTP)
+router.post('/verifyOTP',verifyOTP);
+router.post('/createResetSession',createResetSession);
+router.put('/resetPassword',resetPassword);
 router.post('/registerMail',registerMail)
 
 

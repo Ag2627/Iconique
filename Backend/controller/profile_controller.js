@@ -3,8 +3,10 @@ import Seller from "../Model/seller_schema.js";
 import product from "../Model/product-schema.js";
 import otpGenerator from 'otp-generator';
 import bcrypt from 'bcrypt';
-//import { i } from "vite/dist/node/types.d-aGj9QkWt.js";
+import { registerMail } from "./mailer.js";
 
+//import { i } from "vite/dist/node/types.d-aGj9QkWt.js";
+const URL="http://localhost:5000"
 export const getUserProfile = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
@@ -171,47 +173,122 @@ export const getSellerProfile = async (req, res) => {
       res.status(500).json({ success: false, message: "Failed to delete seller profile." });
     }
   };
-  export const generateOTP=async (req,res) => {
-    console.log("aaya");
-    
-    req.app.locals.OTP = otpGenerator.generate(6,{lowerCaseAlphabets:false ,upperCaseAlphabets:false ,specialChars :false})
-    res.status(201).send({ code: req.app.locals.OTP})
-  }
-  export const verifyOTP=async (req,res) => {
-      const {code} =req.query;
-      if(parseInt(req.app.locals.OTP)=== parseInt(code)){
-        req.app.locals.OTP =null;//reset the otp value
-        req.app.locals.resetSession=true;//start session for reset password
-        return res.status(201).send({
-          msg:'verified Successfully',
-
-        })
-      }
-      return res.status(400).send({error : "Invalid OTP"});
-  }
-  //successfully redirect user when otp is valid
-  export const createResetSession = async (req,res) =>{
-        if(req.app.locals.resetSession){
-          req.app.locals.resetSession=false;//allow access to this route only once
-          return res.status(201).send({msg :"access granted !"})
-        }
-        return res.status(440).send({error : "session expired!"})
-  }
-  //update the password when we have a valid session
-  export const resetPassword = async (req, res) => {
+  export const generateOTP = async (req, res) => {
     try {
-      if(!req.app.locals.resetSession) return res.status(440).send({error : "Session expired!"});
-      const { email, password } = req.body;
+      const { email } = req.body;
+      if (!email) {
+        console.error("No email provided");  // Debugging
+        return res.status(400).json({ error: "Email is required" });
+      }
   
-      // Check if the email and password are provided
-      if (!email || !password) {
-        return res.status(400).send({ error: "Email and password are required" });
+      // Check if the email exists in the database
+      const user = await User.findOne({ email });
+      
+      if (!user) {
+        console.error("User not found:", email);
+        return res.status(404).json({ error: "User not found" });
+      }
+ 
+      const otp = otpGenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
+
+      // Store OTP in the database
+      user.otp = otp;
+      await user.save();
+  
+      console.log("Generated OTP:", otp);  // Debugging
+  
+     // Send OTP via email using mailer
+      const subject = "Password Recovery OTP";
+     const text = `Your password recovery OTP is ${otp}. Please verify within 5 minutes.`;
+
+     const simulatedReq = {
+      body: {
+        email: email,   // The email from the body
+        text: text,     // The OTP message
+        subject: subject // The subject of the email
+      }
+    };
+      await registerMail(simulatedReq,res);
+
+  
+      res.status(201).json({ success: true, message: "OTP sent successfully", code: otp });
+    } catch (error) {
+      console.error("Error while generating OTP:", error.message);
+      res.status(500).json({ error: error.message });
+    }
+  };
+  
+  export const verifyOTP = async (req, res) => {
+    try {
+      const { email, code } = req.body;
+      if (!email || !code) return res.status(400).json({ error: "Email and OTP are required" });
+  
+      const user = await User.findOne({ email });
+      if (!user || user.otp !== code) {
+        return res.status(400).json({ error: "Invalid OTP" });
+      }
+  
+      // Clear OTP after successful verification
+      await User.updateOne({ email }, { otp: null });
+  
+      res.status(200).json({ success: true, message: "OTP verified successfully" });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+  
+  //successfully redirect user when otp is valid
+  export const createResetSession = async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (!email) {
+        return res.status(400).json({ error: "Email is required" });
       }
   
       // Find the user by email
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(404).send({ error: "User not found" });
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      // Check if the reset session is already active
+      if (user.resetSession) {
+        return res.status(400).json({ error: "Session already active" });
+      }
+  
+      // Activate the reset session
+      user.resetSession = true;
+  
+      // Optionally, set a session expiration time (e.g., 30 minutes from now)
+      user.resetSessionExpiresAt = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
+  
+      // Save the session data to the database
+      await user.save();
+  
+      return res.status(201).json({ msg: "Access granted! Reset session started." });
+    } catch (error) {
+      return res.status(500).json({ error: "An error occurred", details: error.message });
+    }
+  };
+  
+  //update the password when we have a valid session
+  export const resetPassword = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      // console.log("Emial",email,"p",password)
+      if (!email || !password) {
+        return res.status(400).json({ error: "Email and password are required" });
+      }
+  
+      // Find the user by email
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      // Check if the reset session is valid and not expired
+      if (!user.resetSession || (user.resetSessionExpiresAt && new Date() > user.resetSessionExpiresAt)) {
+        return res.status(440).json({ error: "Session expired!" });
       }
   
       // Hash the new password
@@ -220,17 +297,16 @@ export const getSellerProfile = async (req, res) => {
       // Update the user's password
       const updatedUser = await User.updateOne(
         { email },
-        { password: hashedPassword }
+        { password: hashedPassword, resetSession: false, resetSessionExpiresAt: null } // Clear the reset session
       );
   
       if (updatedUser.modifiedCount > 0) {
-        return res.status(200).send({ msg: "Password updated successfully" });
+        return res.status(200).json({ msg: "Password updated successfully" });
       } else {
-        return res.status(500).send({ error: "Failed to update password" });
+        return res.status(500).json({ error: "Failed to update password" });
       }
     } catch (error) {
-      // Handle unexpected errors
-      return res.status(500).send({ error: "An error occurred", details: error.message });
+      return res.status(500).json({ error: "An error occurred", details: error.message });
     }
   };
   
