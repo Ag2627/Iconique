@@ -44,7 +44,7 @@ const router=createBrowserRouter([
     },{
       path:'/reset',
       element:<Reset/>
-    }
+    },
     {path:'/order-details',element:<OrderDetails/>},
     {path:'/payment/success-page',element:<PaymentSuccess/>}
   ]},
