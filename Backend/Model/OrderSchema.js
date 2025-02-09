@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const OrderSchema = new mongoose.Schema({
-  userId: String,
-  // cartId: String,
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  cartId: String,
   // sellerId: String,
   cartItems: [
     {

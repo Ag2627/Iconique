@@ -11,6 +11,7 @@ import { jwtDecode } from 'jwt-decode';
 import { toast } from "@/hooks/use-toast";
 import PrivacyPolicyDialog from "../AboutUs/PrivacyPolicyDialog";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const Component = styled(Box)`
@@ -89,99 +90,135 @@ const accountInitialValues = {
     heading: 'New here? Sign up to be part of the community!',
     subHeading: 'Create your account to unlock the full experience'
   }
-};
+}
 
-const signupInitialValues = {
-  name: '',
-  email: '',
-  password: '',
-  phone: '',
-  address: '',
-  agree: 'false'
-};
-
-const loginInitialValues = {
-  email: '',
-  password: ''
-};
-
-const LoginDialog = ({ open, setOpen }) => {
-  const [account, toggleAccount] = useState(accountInitialValues.login);
-  const [signup, setSignup] = useState(signupInitialValues);
-  const [login, setLogin] = useState(loginInitialValues);
-  const [visible, setVisible] = useState(false);
-  const [error, setError] = useState(false);
+const signupInitialValues={
+  name:'',
+  email:'',
+  password:'',
+  phone:'',
+  address:'',
+  agree:'false'
+}
+const loginInitialValues={
+  email:'',
+  password:''
+}
+const LoginDialog = ({open,setOpen}) => {
+  const [account,toggleAccount]=useState(accountInitialValues.login);
+  const [signup,setSignup]=useState(signupInitialValues);
+  const[login,setLogin]=useState(loginInitialValues);
+  const [visible,setvisible]=useState(false);
+  const [error,setError]=useState("");
   const [isPrivacyPolicyOpen, setPrivacyPolicyOpen] = useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-    toggleAccount(accountInitialValues.login);
-    setError(false);
+  const navigate=useNavigate();
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
   };
-
-  const toggleSignup = () => {
-    toggleAccount(accountInitialValues.signup);
+  
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/; // At least 6 chars, 1 letter, 1 number
+    return passwordRegex.test(password);
   };
-
-  const toggleLogin = () => {
-    toggleAccount(accountInitialValues.login);
+  
+  const validatePhone = (phone) => {
+    const phoneRegex = /^[0-9]{10}$/; // Assuming a 10-digit phone number
+    return phoneRegex.test(phone);
   };
-
-  const onInputChange = (e) => {
-    setSignup({ ...signup, [e.target.name]: e.target.value });
-  };
-
+  
   const signupUser = async () => {
+    if (!signup.name || !signup.email || !signup.password || !signup.phone || !signup.address || !signup.agree) {
+      setError("Please fill all required fields.");
+      return;
+    }
+  
+    if (!validateEmail(signup.email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+  
+    if (!validatePassword(signup.password)) {
+      setError("Password must be at least 6 characters long and contain at least one number.");
+      return;
+    }
+  
+    if (!validatePhone(signup.phone)) {
+      setError("Please enter a valid phone number.");
+      return;
+    }
+  
     try {
       let response = await authenticateSignup(signup);
-      if (!response) return;
-      const { token, user } = response.data;
-
-      localStorage.setItem('token', token);
-      localStorage.setItem('role', 'user');
-      localStorage.setItem("account", JSON.stringify({ id: user._id, name: user.name }));
-
-      toast({
-        title: "Signup Successful",
-        description: "Welcome to your dashboard!",
-        variant: "success",
-      });
-
-      window.location.reload();
-      handleClose();
+      console.log(response);
+      //if (!response) return;
+      if (response.status === 200) {
+        const { token, user } = response.data;
+  
+        // Save token and role
+        localStorage.setItem('token', token);
+        localStorage.setItem('role', 'user');
+        localStorage.setItem(
+          "account",
+          JSON.stringify({ id: user._id, name: user.name })
+        );
+        toast({
+          title: "Signup Successful",
+          description: "Welcome to your dashboard!",
+          variant: "success",
+        });
+        setError(""); // Clear error on success
+        window.location.reload();
+        handleClose();
+      } else if (response.status === 401 && response.data.message === 'User already exists') {
+        // Handle case where user already exists
+        setError("User already exists. Please login.");
+      }else {
+        setError("Signup failed. Please try again.");
+      }
     } catch (error) {
       toast({
         title: "Signup Failed",
         description: error.response?.data?.message || "An error occurred. Please try again.",
         variant: "destructive",
       });
+      setError("An error occurred. Please try again.");
     }
   };
-
-  const onValueChange = (e) => {
-    setLogin({ ...login, [e.target.name]: e.target.value });
-  };
-
+  
   const loginUser = async () => {
+    if (!login.email || !login.password) {
+      setError("Please enter both email and password.");
+      return;
+    }
+  
+    if (!validateEmail(login.email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+  
     try {
       let response = await authenticateLogin(login);
       if (response.status === 200) {
         const { token, user } = response.data;
-
+  
+        // Save token and role
         localStorage.setItem('token', token);
         localStorage.setItem('role', 'user');
-        localStorage.setItem("account", JSON.stringify({ id: user._id, name: user.name }));
-
+        localStorage.setItem(
+          "account",
+          JSON.stringify({ id: user._id, name: user.name })
+        );
         toast({
           title: "Login Successful",
           description: "Welcome to your dashboard!",
           variant: "success",
         });
-
+        setError(""); // Clear error on success
         window.location.reload();
         handleClose();
       } else {
-        setError(true);
+        setError("Invalid credentials. Please try again.");
       }
     } catch (error) {
       toast({
@@ -189,44 +226,157 @@ const LoginDialog = ({ open, setOpen }) => {
         description: error.response?.data?.message || "An error occurred. Please try again.",
         variant: "destructive",
       });
+      setError("An error occurred. Please try again.");
     }
   };
+ 
+  const setLogoutTimer = (token) => {
+    if (!token || typeof token !== 'string') {
+      return;  
+    }
+    const { exp } = jwtDecode(token);
+    const timeout = exp * 1000 - Date.now(); // Time until token expires
+  
+    setTimeout(() => {
+      alert('Session expired. Please login again.');
+      localStorage.clear();
+      navigate('/'); // Navigate to the login page
+      window.location.reload();
+    }, timeout);
+  };
+  
+  setLogoutTimer(localStorage.getItem("token"));
+  
+  const handleClose=()=>{
+    setOpen(false);
+    toggleAccount(accountInitialValues.login)
+    setError(false);
+  }
+  const toggleSignup=()=>{
+    toggleAccount(accountInitialValues.signup);
+  }
+  const toggleLogin=()=>{
+    toggleAccount(accountInitialValues.login);
+  }
+  const onInputChange=(e)=>{
+    setError("");
+    setSignup({...signup,[e.target.name]:e.target.value})
+    console.log(signup);
+  }
+//   const signupUser=async ()=>{
+//     try{
+//     let response=await authenticateSignup(signup);
+//     //console.log(response);
+//     if(!response) return;
+//     if(response.status===201){
+//     const { token, user } = response.data;
 
+//     // Save token and role
+//     localStorage.setItem('token', token);
+//     localStorage.setItem('role', 'user');
+//     localStorage.setItem(
+//       "account",
+//       JSON.stringify({ id: user._id, name: user.name })
+//     );
+//     toast({
+//       title: "Signup Successful",
+//       description: "Welcome to your dashboard!",
+//       variant: "success",
+//     });
+    
+//     window.location.reload();
+//     handleClose();
+//   }else{
+//     setError(true);
+//   }
+//   } catch(error){
+//     toast({
+//       title: "Signup Failed",
+//       description: error.response?.data?.message || "An error occurred. Please try again.",
+//       variant: "destructive",
+//     });
+//   }
+// }
+
+  const onValueChange=(e)=>{
+    setLogin({...login,[e.target.name]:e.target.value});
+  }
+//   const loginUser=async ()=>{
+//     try{
+//     let response=await authenticateLogin(login);
+//     console.log(response);
+//     if(response.status===200){
+//       const { token, user } = response.data;
+
+//     // Save token and role
+//     localStorage.setItem('token', token);
+//     localStorage.setItem('role', 'user');
+//     localStorage.setItem(
+//       "account",
+//       JSON.stringify({ id: user._id, name: user.name })
+//     );
+//     toast({
+//       title: "Login Successful",
+//       description: "Welcome to your dashboard!",
+//       variant: "success",
+//     });
+//     window.location.reload();
+//       handleClose();
+//     }else{
+//       setError(true);
+//     }
+//   }catch(error){
+//     toast({
+//       title: "Login Failed",
+//       description: error.response?.data?.message || "An error occurred. Please try again.",
+//       variant: "destructive",
+//     });
+//   }
+// }
   const handleGoogleLogin = async (googleUser) => {
     try {
-      const decoded = jwtDecode(googleUser.credential);
-      const response = await authenticateGoogleLogin(decoded);
+        const decoded = jwtDecode(googleUser.credential); 
+        const response = await authenticateGoogleLogin(decoded);
 
-      if (response.status === 200) {
-        const { token, user } = response.data;
+        if (response.status === 200) {
+            console.log(response);
+            const { token, user } = response.data;
 
-        localStorage.setItem('token', token);
-        localStorage.setItem('role', 'user');
-        localStorage.setItem("account", JSON.stringify({ id: user._id, name: user.name }));
+    // Save token and role
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', 'user');
+    localStorage.setItem(
+      "account",
+      JSON.stringify({ id: user._id, name: user.name })
+    );
 
-        toast({
-          title: "Login Successful",
-          description: "Welcome to your dashboard!",
-          variant: "success",
-        });
-
-        window.location.reload();
-        handleClose();
-      } else {
-        toast({
-          title: "Login Failed",
-          description: "Google login failed: Account not found. Please sign up first.",
-          variant: "destructive",
-        });
+    toast({
+      title: "Login Successful",
+      description: "Welcome to your dashboard!",
+      variant: "success",
+    });
+    window.location.reload();
+            handleClose();
+        }
+        else {
+          
+          setError(true);
+          toast({
+            title: "Login Failed",
+            description: "Google login failed: Account not found. Please sign up first.",
+            variant: "destructive",
+          });
       }
     } catch (error) {
-      toast({
-        title: "Login Failed",
-        description: error.response?.data?.message || "An error occurred. Please try again.",
-        variant: "destructive",
-      });
+        
+        toast({
+          title: "Login Failed",
+          description: error.response?.data?.message || "An error occurred. Please try again.",
+          variant: "destructive",
+        });
     }
-  };
+};
+
 
   return (
     <Dialog open={open} onClose={handleClose} PaperProps={{ style: { maxWidth: 'unset', maxHeight: '90vh', overflow: 'hidden' } }}>

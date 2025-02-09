@@ -12,6 +12,7 @@ import { fetchCartItems,addToCart,deleteCartItem,updateCartItem } from "../contr
 import { addToWishList, getWishList, RemoveFromWishList } from "../controller/wishlist-controller.js";
 import { sellerStats } from "../controller/dashboard-controller.js";
 import {registerMail} from '../controller/mailer.js'
+import { deliverMail } from "../controller/SellerOrder-controller.js";
 const router=express.Router();
 //login signup routes
 router.post('/signup',validateSignup ,userSignUp);
@@ -60,8 +61,7 @@ router.put('/seller/edit/:id',authenticate,updateSellerProfile);
 router.delete('/seller/delete/:sellerId',authenticate,deleteSellerProfile);
 // router.delete('/seller/delete/:sellerId',authenticate,deleteProductsBySellerId);
 
-
-
+router.put("/update-status/:orderId",deliverMail);
 
 // router.post('/payment',addPaymentGateway);
 export default router

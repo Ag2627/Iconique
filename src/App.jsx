@@ -5,7 +5,7 @@ import UserDashboard from "./components/User/UserDashboard";
 import SellerDashboard from "./components/Seller/SellerDashboard";
 import { Toaster } from "./components/ui/toaster";
 import SellerProducts from "./components/Seller/SellerProducts";
-import Order from "./components/Seller/Order";
+import SellerOrder from "./components/Orders/SellerOrder"
 import Followers from "./components/Seller/Followers";
 import SellerOverview from "./components/Seller/SellerOverview";
 import ViewProfile from "./components/Profile/ViewProfile";
@@ -21,8 +21,12 @@ import SellerProfilePage from "./components/Seller/SellerProfilePage";
 import Checkout from "./components/Checkout/Checkout";
 import SellerData from "./components/Followers/SellerData";
 import OrderDetails from "./components/Orders/OrderDetails";
+<<<<<<< HEAD
 import Recovery from "./components/login/recovery";
 import Reset from "./components/login/reset";
+=======
+import { PaymentSuccess } from "./components/Payment/PaymentSuccess";
+>>>>>>> f2a6527a351521e8994948e83fbbff6122afb0c3
 
 const router=createBrowserRouter([
   {path:'',element:<UserDashboard/>,children:[
@@ -36,6 +40,7 @@ const router=createBrowserRouter([
     {path:'profile/*',element:<ViewProfile/>},
     {path:'my-orders',element:<UserOrder/>},
     {path:'/checkout',element:<Checkout/>},
+<<<<<<< HEAD
     {path:'order-details',element:<OrderDetails/>}
     ,{
       path:'/recovery',
@@ -44,6 +49,10 @@ const router=createBrowserRouter([
       path:'/reset',
       element:<Reset/>
     }
+=======
+    {path:'/order-details',element:<OrderDetails/>},
+    {path:'/payment/success-page',element:<PaymentSuccess/>}
+>>>>>>> f2a6527a351521e8994948e83fbbff6122afb0c3
   ]},
   {path:'/seller',element:
   <SellerPrivateRoute>
@@ -52,7 +61,7 @@ const router=createBrowserRouter([
   ,children:[
     {path:'products',element:<SellerProducts/>},
     {path:'overview',element:<SellerOverview/>},
-    {path:'orders',element:<Order/>},
+    {path:'orders',element:<SellerOrder/>},
     {path:'followers',element:<Followers/>},
     {path:'profile',element:<SellerProfilePage/>},
   ]},

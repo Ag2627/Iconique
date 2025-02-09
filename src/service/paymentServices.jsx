@@ -1,14 +1,9 @@
 import axios from "axios";
-export const paymentServices = async (amount)=>{
+export const paymentServices = async (orderData)=>{
     try{
-        const options={
-            productId: 1,
-            amount: amount,
-            
-            receipt: `receipt_${Date.now()}`,
-        }
+        
 
-        const res=await axios.post('http://localhost:5000/payment/createOrder',options);
+        const res=await axios.post('http://localhost:5000/payment/createOrder',orderData);
         // console.log("response: ",res);
         //response generate ho rha hai
 
@@ -26,14 +21,14 @@ export const paymentServices = async (amount)=>{
                 console.log("ye lo payment id: ",response);
                 const pay_id=response.razorpay_payment_id;
                 console.log("payment id: ",pay_id);
-                window.location.href = `/order-details?payment_id=${response.razorpay_payment_id}&order_id=${data.id}`;
+                window.location.href = `/payment/success-page`;
                 
                 const optn={
                     orderId:response.razorpay_order_id,
                     paymentId:response.razorpay_payment_id,
                     sign:response.razorpay_signature,
                 }
-                axios.post('https://localhost:5000/verifyPayment',optn).then((res)=>{
+                axios.post('https://localhost:5000/payment/capturePayment',optn).then((res)=>{
                     console.log(res.data);
                     if(res.data.status==="success"){
                         console.log("payment ho gya");
