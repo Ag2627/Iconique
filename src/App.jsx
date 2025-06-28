@@ -21,6 +21,8 @@ import SellerProfilePage from "./components/Seller/SellerProfilePage";
 import Checkout from "./components/Checkout/Checkout";
 import SellerData from "./components/Followers/SellerData";
 import OrderDetails from "./components/Orders/OrderDetails";
+import Recovery from "./components/login/recovery";
+import Reset from "./components/login/reset";
 import { PaymentSuccess } from "./components/Payment/PaymentSuccess";
 
 const router=createBrowserRouter([
@@ -35,6 +37,14 @@ const router=createBrowserRouter([
     {path:'profile/*',element:<ViewProfile/>},
     {path:'my-orders',element:<UserOrder/>},
     {path:'/checkout',element:<Checkout/>},
+    {path:'order-details',element:<OrderDetails/>}
+    ,{
+      path:'/recovery',
+      element:<Recovery/>
+    },{
+      path:'/reset',
+      element:<Reset/>
+    },
     {path:'/order-details',element:<OrderDetails/>},
     {path:'/payment/success-page',element:<PaymentSuccess/>}
   ]},

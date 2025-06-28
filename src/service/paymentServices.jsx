@@ -25,7 +25,7 @@ export const paymentServices = async (orderData, navigate, dispatch) => {
             toast({ title: "Payment successful!" });
             dispatch(clearCartInDB(account?.id));
             dispatch(clearCartItems()); // ✅ Redux cart now clears
-            navigate("/my-orders");     // ✅ Redirect happens
+            navigate("/payment/success-page");     // ✅ Redirect happens
           } else {
             toast({ title: "Payment failed", variant: "destructive" });
           }

@@ -8,9 +8,9 @@ const initialState = {
 
 export const getAllOrdersForSeller = createAsyncThunk(
   "/orders/getAllOrdersForSeller",
-  async () => {
+  async (id) => {
     const response = await axios.get(
-      `http://localhost:5000/seller/orders/get`
+      `http://localhost:5000/seller/orders/get/${id}`
     );
     return response.data;
   }

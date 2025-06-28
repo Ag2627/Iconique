@@ -62,9 +62,7 @@ export const fetchSellerProducts = async (req, res) => {
 
      const {sellerId}=req.params; 
     // Fetch products that belong to the seller
-    console.log("Seller id",sellerId)
     const products = await product.find({ sellerId:new mongoose.Types.ObjectId(sellerId) });
-    console.log("pro",products);
     
     res.status(200).json({
       success: true,

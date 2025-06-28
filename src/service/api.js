@@ -81,21 +81,42 @@ export const updateProfile = async (role, id, updatedData) => {
       });
     return data;
 };
-export const generateOTP = async(email) =>{
-    try{
-        const {data :[ code],status} = await axios.get(`${URL}/generateOTP`,{params :{email}})
-        //send mail with the otp
-        if(status==201){
-            let {data: {email}} =await fetchProfile({id});
-            let text = `Your Password Recovery OTP is ${code}.Verify and recover your password.`;
-            await axios.post('/registerMail',{id,userEmail:email,text,subject :"password Recovery OTP"});
-        }
-    }catch(error){
-        console.log("Error while getting otp ",error);
-        return error.response; 
-    }
-}
+export const generateOTP = async (email) => {
+    try {
+        const { data, status } = await axios.post(`${URL}/generateOTP`, { email: email });
 
+        if (status === 201) {
+            console.log("OTP sent successfully:", data);
+            return data.code;
+        } else {
+            console.error("Failed to generate OTP. Status:", status);
+            return null;
+        }
+    } catch (error) {
+        console.error("Error while generating OTP:", error.response?.data || error.message);
+        return null;
+    }
+};
+
+export const verifyOTP = async (email, code) => {
+    try {
+        const { data } = await axios.post(`${URL}/verifyOTP`, { email, code });
+        return data;
+    } catch (error) {
+        console.error("Error verifying OTP:", error.response?.data || error.message);
+        return error.response?.data;
+    }
+};
+
+export const resetPassword = async (email, password) => {
+    try {
+        const { data } = await axios.put(`${URL}/resetPassword`, { email, password });
+        return data;
+    } catch (error) {
+        console.error("Error resetting password:", error.response?.data || error.message);
+        return error.response?.data;
+    }
+};
 
 
 

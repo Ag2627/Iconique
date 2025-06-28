@@ -16,6 +16,16 @@ const userSchema=new mongoose.Schema({
         unique:true,
         lowercase:true,
     },
+    otp:{
+        type:String,
+    },
+    resetSession: {
+        type: Boolean,  // Boolean flag to check session validity
+        default: false
+      },
+    resetSessionExpiresAt: {  // Optional: To set an expiry time for reset session
+        type: Date,
+      },
     password:{
         type:String,
         required:true

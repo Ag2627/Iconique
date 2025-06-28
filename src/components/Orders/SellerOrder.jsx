@@ -19,11 +19,10 @@ const SellerOrder = () => {
 
     useEffect(() => {
   if (account?.id) {
-    dispatch(getOrderDetailsForSeller(account.id));
+    dispatch(getAllOrdersForSeller(account.id));
   }
 }, [dispatch, account]);
 
-    console.log("orderlist ",orderList);
     useEffect(() => {
         if (orderDetails !== null) setOpenDetailsDialog(true);
       }, [orderDetails]);
