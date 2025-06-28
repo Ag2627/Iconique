@@ -11,7 +11,7 @@ const ViewProfile = () => {
         <h2 className="text-lg font-bold mb-4">Account Settings</h2>
         <nav className="space-y-2">
           <NavLink
-            to="personal-info"
+            to=""
             className={({ isActive }) =>
               isActive
                 ? 'block px-4 py-2 text-white bg-blue-500 rounded'
@@ -44,7 +44,7 @@ const ViewProfile = () => {
       </div>
       <div className="flex-1 p-6">
         <Routes>
-          <Route path="personal-info" element={<PersonalInfo />} />
+          <Route path="" element={<PersonalInfo />} />
           <Route path="manage-addresses" element={<ManageAddresses />} />
           <Route path="manage-orders" element={<UserOrder />} />
         </Routes>

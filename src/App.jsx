@@ -44,7 +44,7 @@ const router=createBrowserRouter([
   </SellerPrivateRoute>
   ,children:[
     {path:'products',element:<SellerProducts/>},
-    {path:'overview',element:<SellerOverview/>},
+    {path:'',element:<SellerOverview/>},
     {path:'orders',element:<SellerOrder/>},
     {path:'followers',element:<Followers/>},
     {path:'profile',element:<SellerProfilePage/>},

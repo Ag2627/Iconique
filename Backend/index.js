@@ -51,20 +51,6 @@ app.listen(port, () =>{
 
 
 
-//payment section 
-// app.post('/payment/orders',createOrder)
 
-
-// app.get("/payment/:paymentId", async (req, res) => {
-//   const { paymentId } = req.params;
-
-//   try {
-//       const paymentDetails = await fetchPaymentDetails(paymentId);
-
-//       res.json(paymentDetails);
-//   } catch (error) {
-//       res.status(500).json({ error: error.message });
-//   }
-// });
   
 

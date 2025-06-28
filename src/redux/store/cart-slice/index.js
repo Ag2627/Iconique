@@ -24,9 +24,7 @@ export const fetchCartItems = createAsyncThunk('cart/fetchCartItems',async(userI
 });
 export const deleteCartItem = createAsyncThunk('cart/deleteCartItem',async({userId,productId})=> {
     const response = await axios.delete(`http://localhost:5000/cart/${userId}/${productId}`,
-    );
-    console.log("api",response);
-    
+    );    
     return  response.data
 });
 export const updateCartItem = createAsyncThunk('cart/updateCartItem',async({userId,productId,quantity})=> {
@@ -39,10 +37,22 @@ export const updateCartItem = createAsyncThunk('cart/updateCartItem',async({user
     );
     return  response.data
 });
+export const clearCartInDB = createAsyncThunk(
+  'cart/clearCartInDB',
+  async (userId) => {
+    const res = await axios.delete(`http://localhost:5000/cart/clear/${userId}`);
+    return res.data;
+  }
+);
+
 const shopCartSlice =createSlice({
     name : 'shopCart',
     initialState,
-    reducers :{},
+    reducers: {
+    clearCartItems: (state) => {
+      state.cartItems = [];
+    }
+  },
     extraReducers : (builder) => {
         builder.addCase(addToCart.pending,(state) => {
             state.isLoading =true
@@ -76,9 +86,14 @@ const shopCartSlice =createSlice({
         }).addCase(deleteCartItem.rejected,(state) => {
             state.isLoading =false;
             state.cartItems =[]
-        });
+        }).addCase(clearCartInDB.fulfilled, (state, action) => {
+  state.isLoading = false;
+  state.cartItems = action.payload.data.items || [];
+});
+
     },
 
 });
 
+export const { clearCartItems } = shopCartSlice.actions;
 export default shopCartSlice.reducer;

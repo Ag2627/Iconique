@@ -36,6 +36,7 @@ const SellerProducts = () => {
   const [currentEditedId,setCurrentEditedId]=useState(null);
   const {toast}=useToast();
   const [errors, setErrors] = useState({}); 
+  const account = JSON.parse(localStorage.getItem("account"));
 
   function validateForm() {
     const { title, price, size, sustainable, quantity, category } = formData;
@@ -57,7 +58,7 @@ const SellerProducts = () => {
     currentEditedId!==null?
     dispatch(editProduct({id:currentEditedId,formData})).then((data)=>{
       if(data?.payload?.success){
-        dispatch(fetchProducts());
+        dispatch(fetchProducts(account?.id));
         setOpenCreateProductsDialog(false);
         setCurrentEditedId(null);
         setFormData(initialFormData);
@@ -72,7 +73,7 @@ const SellerProducts = () => {
     })).then((data)=>{
       console.log(data);
       if(data?.payload?.success){
-        dispatch(fetchProducts());
+        dispatch(fetchProducts(account?.id));
         setOpenCreateProductsDialog(false);
         setImageFile(null);
         setFormData(initialFormData);
@@ -86,7 +87,7 @@ const SellerProducts = () => {
   function handleDelete(getCurrentProductId){
     dispatch(deleteProduct(getCurrentProductId)).then(data=>{
       if(data?.payload?.success){
-        dispatch(fetchProducts());
+        dispatch(fetchProducts(account?.id));
       }
     })
     
@@ -94,7 +95,7 @@ const SellerProducts = () => {
   
   
   useEffect(()=>{
-    dispatch(fetchProducts());
+    dispatch(fetchProducts(account?.id));
   },[dispatch]);
 
   

@@ -1,5 +1,5 @@
 export const PaymentSuccess = ()=>{
     return (
-        <div>payent successfull</div>
+        <div>payment successfull</div>
     )
 }

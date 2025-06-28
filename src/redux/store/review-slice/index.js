@@ -8,13 +8,14 @@ const initialState = {
 
 export const addReview = createAsyncThunk(
     'order/addReview',
-    async (data)=>{
-
-        const response = await axios.post('http://localhost:5000/review/add',  data)
-          
-        
-        return response.data;
+     async (reviewData, { rejectWithValue }) => {
+    try {
+      const res = await axios.post("http://localhost:5000/review/add", reviewData);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Something went wrong");
     }
+  }
 )
 
 export const getReviews = createAsyncThunk(

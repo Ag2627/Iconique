@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addReview, getReviews } from "@/redux/store/review-slice";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { useNavigate } from "react-router-dom";
@@ -24,10 +24,11 @@ const ProductDetail=({product})=>{
     const [reviewMsg,setReviewMsg]=useState('');
     const [rating,setRating]=useState(0);
     const dispatch=useDispatch();
-    const account=localStorage.getItem('account')
+    const account=JSON.parse(localStorage.getItem('account'))
     const navigate = useNavigate();
 
     const {reviewList}=useSelector((state)=>state.review);
+    
     function handleRatingChange(getRating){
         setRating(getRating);
     }
@@ -47,9 +48,15 @@ const ProductDetail=({product})=>{
         })).then(data=>{
             setRating(0);
             setReviewMsg('')
-            if(data?.payload?.success){
-                dispatch(getReviews(product._id));
-                //add toast
+            console.log("data",data)
+            if (data?.payload?.success) {
+              toast({ title: "Review added successfully ✅" });
+              dispatch(getReviews(product._id));
+            } else {
+              toast({
+                title: data?.payload || "Failed to add review",
+                variant: "destructive",
+              });
             }
             
         })
@@ -63,7 +70,7 @@ const ProductDetail=({product})=>{
         <>
         <Typography>{product.title}</Typography>
         
-        <Typography component="span" style={{marginTop:5, color:'#878787',fontSize:14 }}>yaha par no of reviews aur rating hogi aur side me sus tag
+        <Typography component="span" style={{marginTop:5, color:'#878787',fontSize:14 }}>
             <SustainabilityTag isSus={product.sustainable}/>
         </Typography>
         <Typography>

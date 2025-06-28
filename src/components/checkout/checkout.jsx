@@ -9,6 +9,7 @@ import { paymentServices } from '@/service/paymentServices';
 import {calculateCartTotals} from '../../utils/cart-utils'
 import {createNewOrder} from '../../redux/store/product-slice'
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 const Container = styled(Grid)(({ theme }) => ({
   padding: '20px 80px', // Reduced padding for better balance
   display: 'flex',
@@ -76,12 +77,13 @@ const Checkout = () => {
   const cartItems = useSelector((state) => state.shopCart.cartItems);
   const [currAddress,setCurrAddress]=useState(null);
   const dispatch = useDispatch();
+  const navigate=useNavigate();
   const [isPaymentStart,setIsPaymentStart]=useState(false);
   const isLoading = useSelector((state) => state.shopCart.isLoading);
   const account = JSON.parse(localStorage.getItem('account'));
-  console.log("user id: ",account.id);
-  console.log("current address: ",currAddress);
-  console.log("yelo cart items checkout me",cartItems);
+  // console.log("user id: ",account.id);
+  // console.log("current address: ",currAddress);
+  // console.log("yelo cart items checkout me",cartItems);
   const {toast} = useToast();
   
 
@@ -142,20 +144,8 @@ const Checkout = () => {
       paymentId:'',
       payerId:'',
   }
-  paymentServices(orderData);
+  paymentServices(orderData,navigate,dispatch);
   console.log("Order Data: ",orderData);
-  // dispatch(createNewOrder(orderData)).then((data)=>{
-  //   console.log("ye lo order data: ",data);
-  //   // if(data?.payload.success){
-  //   //   setIsPaymentStart(true);
-
-  //   // }
-  //   // else{
-  //   //   setIsPaymentStart(false)
-  //   // }
-    
-  // })
-  
   
   }
 // const buyNow=()=>{

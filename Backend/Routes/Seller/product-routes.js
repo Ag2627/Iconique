@@ -13,7 +13,7 @@ AdminProductRouter.post(`/add`,authenticateSeller,addProduct);
 
 AdminProductRouter.put(`/edit/:id`,authenticateSeller,editProduct);
 AdminProductRouter.delete(`/delete/:id`,authenticateSeller,deleteProduct);
-AdminProductRouter.get(`/get`,authenticateSeller,fetchSellerProducts);
+AdminProductRouter.get(`/get/:sellerId`,authenticateSeller,fetchSellerProducts);
 
 
 export default AdminProductRouter;

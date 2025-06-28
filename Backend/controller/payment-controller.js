@@ -23,8 +23,8 @@ export const createOrder=async(req,res)=>{
             paymentId,
             } = orderData;
             
-        console.log("Backend le cartitems",cartItems);
-        console.log(totalAmount);
+        // console.log("Backend le cartitems",cartItems);
+        // console.log(totalAmount);
         
         
         
@@ -130,7 +130,7 @@ export const capturePayment = async (req, res) => {
       order.paymentId = paymentId;
       const getCartId = order.cartId;
       await Cart.findByIdAndDelete(getCartId)
-
+      
       await order.save();
       await res.status(200).json({
         success: true,

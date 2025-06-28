@@ -8,7 +8,7 @@ import { deleteUserProfile, getSellerProfile, getUserProfile,updateSellerProfile
 
 import { addProductReview,getProductReviews } from "../controller/product-review-controller.js";
 // import { addPaymentGateway } from "../controller/payment-controller.js";
-import { fetchCartItems,addToCart,deleteCartItem,updateCartItem } from "../controller/cart-controller.js"
+import { fetchCartItems,addToCart,deleteCartItem,updateCartItem, deleteCartItemById } from "../controller/cart-controller.js"
 import { addToWishList, getWishList, RemoveFromWishList } from "../controller/wishlist-controller.js";
 import { sellerStats } from "../controller/dashboard-controller.js";
 import {registerMail} from '../controller/mailer.js'
@@ -36,11 +36,12 @@ router.get('/product/:id',fetchProductById);
 router.get('/products/:sellerId',fetchSellerProducts)
 //review routes
 router.post('/review/add',addProductReview);
-router.get('/review/:id',getProductReviews);
+router.get('/review/:productId',getProductReviews);
 //cart routes
 router.post('/cart/add',addToCart);
 router.get('/cart/get/:userId',fetchCartItems)
 router.put('/cart/update-cart',updateCartItem)
+router.delete('/cart/clear/:userId',deleteCartItemById)
 router.delete('/cart/:userId/:productId',deleteCartItem)
 
 //wishlist routes 

@@ -1,12 +1,14 @@
+import mongoose from "mongoose";
 import Order from "../Model/OrderSchema.js";
 import product from "../Model/product-schema.js";
 import review from "../Model/ReviewSchema.js";
 export const addProductReview = async (req, res) => {
      try{
         const {productId, userId, userName, reviewMessage, rating} = req.body;
-        const order= await Order.findOne({userId,"cartItems.productId":productId,
-            orderStatus:"Confirmed"
+        const order= await Order.findOne({userId: new mongoose.Types.ObjectId(userId),"cartItems.productId":productId,
+          orderStatus:"delivered"
         })
+    
         if(!order){
             return res.status(403).json({
                 success:false,

@@ -1,8 +1,5 @@
 import { Box,styled,Typography,Button } from "@mui/material";
-//import { addEllipsis } from "@/utils/common-utils";
-//import { removeFromCart } from "@/redux/actions/cartActions";
 import { useDispatch, useSelector } from "react-redux";
-//import GroupedButton from "./ButtonGroup";
 import { useNavigate } from "react-router-dom";
 import { deleteCartItem, updateCartItem } from "@/redux/store/cart-slice";
 import { toast } from "@/hooks/use-toast";

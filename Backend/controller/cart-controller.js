@@ -207,3 +207,36 @@ export const deleteCartItem = async (req,res) => {
         })
     }
 }
+
+export const deleteCartItemById = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const cart = await Cart.findOne({ userId });
+
+    if (!cart) {
+      return res.status(404).json({
+        success: false,
+        message: "Cart not found",
+      });
+    }
+
+    cart.items = [];
+    await cart.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Cart cleared successfully",
+      data: {
+        ...cart._doc,
+        items: []  // explicitly return empty items
+      }
+    });
+  } catch (error) {
+    console.error("Error clearing cart:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error clearing cart",
+    });
+  }
+};
+

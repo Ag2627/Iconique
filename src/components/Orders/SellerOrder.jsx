@@ -10,15 +10,19 @@ import { Badge } from "../ui/badge";
 const SellerOrder = () => {
     const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
     const {orderList, orderDetails}=useSelector(state=>state.sellerOrder)
+    const account = JSON.parse(localStorage.getItem("account"));
     const dispatch=useDispatch()
 
     function handleFetchOrderDetails(getId) {
         dispatch(getOrderDetailsForSeller(getId));
       }
 
-    useEffect(()=>{
-        dispatch(getAllOrdersForSeller())
-    },[dispatch])
+    useEffect(() => {
+  if (account?.id) {
+    dispatch(getOrderDetailsForSeller(account.id));
+  }
+}, [dispatch, account]);
+
     console.log("orderlist ",orderList);
     useEffect(() => {
         if (orderDetails !== null) setOpenDetailsDialog(true);

@@ -22,8 +22,8 @@ export const addNewProduct=createAsyncThunk('/products/addnewproduct',async (for
     return result?.data;
 });
 
-export const fetchProducts=createAsyncThunk('/products/fetchProducts',async ()=>{
-    const result=await axios.get("http://localhost:5000/seller/products/get", {
+export const fetchProducts=createAsyncThunk('/products/fetchProducts',async (sellerId)=>{
+    const result=await axios.get(`http://localhost:5000/seller/products/get/${sellerId}`, {
         headers: {
             "Content-Type": "application/json", 
           authorization: `Bearer ${localStorage.getItem('token')}`  // Ensure token is sent as "Bearer <token>"

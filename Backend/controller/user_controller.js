@@ -41,7 +41,6 @@ export const userSignUp=async (request,response)=>{
 
 export const sellerSignup=async(request,response)=>{
     try{
-        console.log('File:', request.file);
         const exist= await Seller.findOne({email:request.body.email});
         if(exist){
             return response.status(401).json({message:"Seller already exists"});

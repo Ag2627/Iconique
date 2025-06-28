@@ -1,67 +1,69 @@
 import axios from "axios";
-export const paymentServices = async (orderData)=>{
-    try{
-        
+import { toast } from "@/hooks/use-toast"; 
+import { clearCartInDB, clearCartItems, fetchCartItems } from "@/redux/store/cart-slice";
+const account = JSON.parse(localStorage.getItem("account"));
 
-        const res=await axios.post('http://localhost:5000/payment/createOrder',orderData);
-        // console.log("response: ",res);
-        //response generate ho rha hai
+export const paymentServices = async (orderData, navigate, dispatch) => {
+  try {
+    const res = await axios.post("http://localhost:5000/payment/createOrder", orderData);
+    const data = res.data;
 
-        
-        const data=res.data;
-        if(data && data.success){
-            console.log("data: "+data);
+    if (data && data.success) {
+      const backendOrderId = data.orderId;
 
-        const paymentObject= new window.Razorpay({
-            key:"rzp_test_pIRmD0pCH6Ut3K",
-            orderId: data.id,
-            amount: data.amount, // Amount from backend
-            currency: data.currency,
-            handler:function(response){
-                console.log("ye lo payment id: ",response);
-                const pay_id=response.razorpay_payment_id;
-                console.log("payment id: ",pay_id);
-                // window.location.href = `/order-details?payment_id=${response.razorpay_payment_id}&order_id=${data.id}`;
-                
-                const optn={
-                    orderId:response.razorpay_order_id,
-                    paymentId:response.razorpay_payment_id,
-                    sign:response.razorpay_signature,
-                }
-                axios.post('https://localhost:5000/payment/capturePayment',optn).then((res)=>{
-                    console.log(res.data);
-                    if(res.data.status==="success"){
-                        console.log("payment ho gya");
-                        
-                        alert("payment successful");
-                    }else{
-                        alert("payment failed");
-                    }
-                    
-                }).catch((err)=>{
-                    console.log("Error verifying payment: ",err);
-                    
-                })
-                
-            },
-            prefill: {
-                name: "Customer Name", // Customize with user data
-                email: "customer@example.com", // Use actual user email
-                contact: "9999999999", // Use actual contact
-              },
-              theme: {
-                color: "#3399cc", // Customize color
-              },
-        });
-        paymentObject.open();
+      // ✅ Define handler function here so it has access to dispatch/navigate
+      const handleRazorpayResponse = async (response) => {
+        const optn = {
+          orderId: backendOrderId,
+          paymentId: response.razorpay_payment_id,
+          sign: response.razorpay_signature,
+        };
+
+        try {
+          const res = await axios.post("http://localhost:5000/payment/capturePayment", optn);
+          if (res.data.success) {
+            toast({ title: "Payment successful!" });
+            dispatch(clearCartInDB(account?.id));
+            dispatch(clearCartItems()); // ✅ Redux cart now clears
+            navigate("/my-orders");     // ✅ Redirect happens
+          } else {
+            toast({ title: "Payment failed", variant: "destructive" });
+          }
+        } catch (err) {
+          console.log("Payment verification failed:", err);
+          toast({ title: "Error verifying payment", variant: "destructive" });
+        }
+      };
+
+      const paymentObject = new window.Razorpay({
+        key: "rzp_test_pIRmD0pCH6Ut3K",
+        order_id: data.id,
+        amount: data.amount,
+        currency: data.currency,
+
+        handler: handleRazorpayResponse, // ✅ Now uses correct closure
+
+        prefill: {
+          name: "Customer Name",
+          email: "customer@example.com",
+          contact: "9999999999",
+        },
+        theme: {
+          color: "#3399cc",
+        },
+        modal: {
+          ondismiss: function () {
+            toast({ title: "Payment popup closed" });
+          },
+        },
+      });
+
+      paymentObject.open();
+    } else {
+      toast({ title: "Failed to initiate payment", variant: "destructive" });
     }
-    else{
-        console.log("pay services m err");
-        
-    }
-        
-    } catch(error){
-        console.error("Error in payment services: ",error);
-        
-    }
+  } catch (error) {
+    console.error("Error in paymentServices:", error);
+    toast({ title: "Payment service error", variant: "destructive" });
+  }
 };

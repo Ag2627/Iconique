@@ -27,9 +27,6 @@ const RightContainer=styled(Grid)`
     margin-top: 50px;
 `
 
-// const product=products[0];
-// console.log(product._id);
-
 const DetailView=()=>{
     const dispatch=useDispatch();
     const {id}=useParams();

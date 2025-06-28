@@ -251,40 +251,6 @@ const LoginDialog = ({open,setOpen}) => {
     setSignup({...signup,[e.target.name]:e.target.value})
     console.log(signup);
   }
-//   const signupUser=async ()=>{
-//     try{
-//     let response=await authenticateSignup(signup);
-//     //console.log(response);
-//     if(!response) return;
-//     if(response.status===201){
-//     const { token, user } = response.data;
-
-//     // Save token and role
-//     localStorage.setItem('token', token);
-//     localStorage.setItem('role', 'user');
-//     localStorage.setItem(
-//       "account",
-//       JSON.stringify({ id: user._id, name: user.name })
-//     );
-//     toast({
-//       title: "Signup Successful",
-//       description: "Welcome to your dashboard!",
-//       variant: "success",
-//     });
-    
-//     window.location.reload();
-//     handleClose();
-//   }else{
-//     setError(true);
-//   }
-//   } catch(error){
-//     toast({
-//       title: "Signup Failed",
-//       description: error.response?.data?.message || "An error occurred. Please try again.",
-//       variant: "destructive",
-//     });
-//   }
-// }
 
   const onValueChange=(e)=>{
     setLogin({...login,[e.target.name]:e.target.value});
